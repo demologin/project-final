@@ -11,6 +11,7 @@ spring:
 
   liquibase:
     change-log: db/changelog-test.sql
+    enabled: true
 
   security:
     oauth2:
