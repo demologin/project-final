@@ -4,12 +4,13 @@ app:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/jira
-    username: jira
-    password: JiraRush
+    url: jdbc:tc:postgresql:15.2:///test
+    username: test
+    password: test
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
 
   liquibase:
-    change-log: db/test.sql
+    change-log: db/changelog-test.sql
 
   security:
     oauth2:
