@@ -214,7 +214,7 @@ values ('task', 'Task', 2),
 -- PROJECT
        ('scrum', 'Scrum', 1),
        ('task tracker', 'Task tracker', 1),
--- TODO: Task 2. Deleted social media.
+-- TODO: Task 2. Deleted social networks.
 -- CONTACT
        ('skype', 'Skype', 0),
        ('tg', 'Telegram', 0),
@@ -243,7 +243,7 @@ insert into PROFILE (ID, LAST_FAILED_LOGIN, LAST_LOGIN, MAIL_NOTIFICATIONS)
 values (1, null, null, 49),
        (2, null, null, 14);
 
--- TODO: Task 2. Deleted social media.
+-- TODO: Task 2. Deleted social networks.
 insert into CONTACT (ID, CODE, VALUE)
 values (1, 'skype', 'userSkype'),
        (1, 'mobile', '+01234567890'),
