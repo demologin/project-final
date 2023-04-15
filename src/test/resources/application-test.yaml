@@ -1,4 +1,4 @@
-# TODO Переделать на H2 или TestContainers
+# TODO Убрать крэды
 app:
   test-mail: jira4jr@gmail.com
 
