@@ -6,3 +6,4 @@ logs
 *.patch
 
 
+/src/main/resources/secret-eviroment-with-data.properties
