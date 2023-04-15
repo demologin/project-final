@@ -214,13 +214,13 @@ values ('task', 'Task', 2),
 -- PROJECT
        ('scrum', 'Scrum', 1),
        ('task tracker', 'Task tracker', 1),
+-- TODO: Task 2. Deleted social media.
 -- CONTACT
        ('skype', 'Skype', 0),
        ('tg', 'Telegram', 0),
        ('mobile', 'Mobile', 0),
        ('phone', 'Phone', 0),
        ('website', 'Website', 0),
-       ('vk', 'VK', 0),
        ('linkedin', 'LinkedIn', 0),
        ('github', 'GitHub', 0),
 -- PRIORITY
@@ -243,13 +243,13 @@ insert into PROFILE (ID, LAST_FAILED_LOGIN, LAST_LOGIN, MAIL_NOTIFICATIONS)
 values (1, null, null, 49),
        (2, null, null, 14);
 
+-- TODO: Task 2. Deleted social media.
 insert into CONTACT (ID, CODE, VALUE)
 values (1, 'skype', 'userSkype'),
        (1, 'mobile', '+01234567890'),
        (1, 'website', 'user.com'),
        (2, 'github', 'adminGitHub'),
-       (2, 'tg', 'adminTg'),
-       (2, 'vk', 'adminVk');
+       (2, 'tg', 'adminTg');
 
 --changeset kriffer:add_dashboard
 
