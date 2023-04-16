@@ -1,0 +1,114 @@
+#file: noinspection SpringBootApplicationYaml
+#  https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+app:
+  host-url: http://localhost:8080
+  test-mail: jira4jr@gmail.com
+  templates-update-cache: 5s
+  mail-sending-props:
+    core-pool-size: 8
+    max-pool-size: 100
+
+spring:
+  jpa:
+    show-sql: true
+    open-in-view: false
+
+# validate db by model
+    hibernate:
+      ddl-auto: validate
+
+    properties:
+      #  http://docs.jboss.org/hibernate/orm/5.3/userguide/html_single/Hibernate_User_Guide.html#configurations
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 20
+        # https://stackoverflow.com/questions/21257819/what-is-the-difference-between-hibernate-jdbc-fetch-size-and-hibernate-jdbc-batc
+        jdbc.batch_size: 20
+  datasource:
+    url: jdbc:postgresql://localhost:5432/jira
+    #TODO: Task 3. Moved sensitive information to this file which takes info from environment variables.
+    username: ${SERVER_DB_USERNAME}
+    password: ${SERVER_DB_PASSWORD}
+
+  liquibase:
+    changeLog: "classpath:db/changelog.sql"
+
+  # Jackson Fields Serialization
+  jackson:
+    visibility:
+      field: any
+      getter: none
+      setter: none
+      is-getter: none
+
+  # https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html#common-application-properties-cache
+  cache:
+    cache-names: users
+    caffeine.spec: maximumSize=10000,expireAfterAccess=5m
+
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            #TODO: Task 3. Moved sensitive information to this file which takes info from environment variables.
+            client-id: ${SERVER_OAUTH_GITHUB_ID}
+            client-secret: ${SERVER_OAUTH_GITHUB_SECRET}
+            scope:
+              - email
+          google:
+            #TODO: Task 3. Moved sensitive information to this file which takes info from environment variables.
+            client-id: ${SERVER_OAUTH_GOOGLE_ID}
+            client-secret: ${SERVER_OAUTH_GOOGLE_SECRET}
+            scope:
+              - email
+              - profile
+          gitlab:
+            #TODO: Task 3. Moved sensitive information to this file which takes info from environment variables.
+            client-id: ${SERVER_OAUTH_GITLAB_ID}
+            client-secret: ${SERVER_OAUTH_GITLAB_SECRET}
+            client-name: GitLab
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            authorization-grant-type: authorization_code
+            scope: read_user
+        provider:
+          gitlab:
+            authorization-uri: https://gitlab.com/oauth/authorize
+            token-uri: https://gitlab.com/oauth/token
+            user-info-uri: https://gitlab.com/api/v4/user
+            user-name-attribute: email
+
+  sql:
+    init:
+      mode: always
+
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+    host: smtp.gmail.com
+    #TODO: Task 3. Moved sensitive information to this file which takes info from environment variables.
+    username: ${SERVER_MAIL_USERNAME}
+    password: ${SERVER_MAIL_PASSWORD}
+    port: 587
+  thymeleaf.check-template-location: false
+
+logging:
+  level:
+    root: WARN
+    com.javarush.jira: DEBUG
+    com.javarush.jira.common.config.MvcConfig: WARN
+    org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
+
+server:
+#  https://springdoc.org/index.html#how-can-i-deploy-springdoc-openapi-ui-behind-a-reverse-proxy
+  forward-headers-strategy: framework
+  servlet:
+    encoding:
+      charset: UTF-8 # Charset of HTTP requests and responses. Added to the "Content-Type" header if not set explicitly
+      enabled: true # Enable http encoding support
+      force: true
+springdoc.swagger-ui.path: /doc
