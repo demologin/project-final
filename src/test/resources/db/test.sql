@@ -79,7 +79,7 @@ values (1, 'skype', 'userSkype'),
        (1, 'mobile', '+01234567890'),
        (1, 'website', 'user.com'),
        (2, 'github', 'adminGitHub'),
-       (2, 'tg', 'adminTg')
+       (2, 'tg', 'adminTg');
 
 -- bugtracking
 INSERT INTO project (id, code, title, description, type_code, startpoint, endpoint, parent_id) VALUES (2, 'task tracker', 'PROJECT-1', 'test project', 'task tracker', null, null, null);

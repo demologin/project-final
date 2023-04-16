@@ -34,6 +34,7 @@ class RegisterControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @WithUserDetails(USER_MAIL)
     void register() throws Exception {
         UserTo newTo = new UserTo(null, "newemail@gmail.com", "newPassword", "newName", "newLastName", "newDisplayName");
 

@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 @SpringBootTest
 @Sql(scripts = "classpath:db/test.sql", config = @SqlConfig(encoding = "UTF-8"))
 @AutoConfigureMockMvc
-@ActiveProfiles("test")
+@ActiveProfiles("test-postgres")
 //https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-testing-spring-boot-applications-testing-with-mock-environment
 public abstract class AbstractControllerTest {
 
