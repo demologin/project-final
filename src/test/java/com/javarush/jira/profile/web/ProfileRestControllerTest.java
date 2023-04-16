@@ -1,6 +1,5 @@
 package com.javarush.jira.profile.web;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,10 +27,6 @@ class ProfileRestControllerTest {
 
     private ResultActions perform(MockHttpServletRequestBuilder builder) throws Exception {
         return mockMvc.perform(builder);
-    }
-
-    @BeforeEach
-    void setUp() {
     }
 
     @Test

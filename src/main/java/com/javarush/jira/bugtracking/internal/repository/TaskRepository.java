@@ -11,4 +11,8 @@ import java.util.List;
 public interface TaskRepository extends BaseRepository<Task> {
     @Query("SELECT t FROM Task t LEFT JOIN FETCH t.project LEFT JOIN FETCH t.sprint LEFT JOIN FETCH t.activities")
     List<Task> getAll();
+
+    @Query("SELECT t FROM Task t WHERE t.id=:id")
+    Task getTaskById(Long id);
+
 }
