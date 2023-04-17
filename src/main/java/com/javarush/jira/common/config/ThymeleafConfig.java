@@ -29,7 +29,6 @@ public class ThymeleafConfig {
         FileTemplateResolver mailResolver = createTemplateResolver("./resources/mails/");
         mailResolver.setOrder(2);
         engine.setTemplateResolvers(Set.of(viewResolver, mailResolver));
-//        engine.setMessageSource(massageSource());
         return engine;
     }
 
@@ -77,12 +76,4 @@ public class ThymeleafConfig {
         lci.setParamName("lang");
         return lci;
     }
-
-//    @Bean
-//    public ReloadableResourceBundleMessageSource massageSource() {
-//        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-//        messageSource.setBasename("classpath:language/messages");
-//        messageSource.setDefaultEncoding(StandardCharsets.UTF_8.name());
-//        return messageSource;
-//    }
 }
