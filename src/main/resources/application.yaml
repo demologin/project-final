@@ -7,7 +7,7 @@ app:
 
 spring:
   jpa:
-    show-sql: true
+    show-sql: false
     open-in-view: false
 
     # validate db by model
@@ -52,6 +52,8 @@ spring:
       mode: always
 
   thymeleaf.check-template-location: false
+  messages:
+    basename: language/messages
 
 logging:
   level:
