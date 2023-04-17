@@ -31,5 +31,5 @@
 1. Изучена структура проекта
 2. Удалены классы VkOAuth2UserDataHandler и YandexOAuth2UserDataHandler, удалены поля в файле login.html, register.html,
    удалены конфигурации vk и yandex из yaml файла. в файл changelog.sql добавлен sql-код для удаления vk данных
-3. Чувствительная информация вынесена в файл application.properties. Названия переменных окружения соответствует
-   проперти переменной (при желании можно изменить в файле application.properties)
+3. Чувствительная информация вынесена в файл application.properties. При наличии переменных окружения они имеют высший
+   приоритет, чем значения в файле properties
