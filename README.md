@@ -22,4 +22,6 @@
 - https://habr.com/ru/articles/259055/
 
 Список выполненных задач:
-...
+TODO: Task 2. Deleted social networks.
+TODO: Task 3. Moved sensitive information to application-server.yaml file which takes info from environment variables
+(should be used on prod server, change name to application-prod.yaml when deploy, use environment variables from the file).
