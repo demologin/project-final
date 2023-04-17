@@ -28,3 +28,4 @@
 4.Добавил профиль для использования базы H2 в тестах, но без заполнения ее Liquibase.
 5.Написал тесты для класса ProfileRestController.
 6.Добавил dockerfile.
+7.Добавил docker-compose.
