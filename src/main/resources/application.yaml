@@ -27,6 +27,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/jira
     username: jira
     password: JiraRush
+    driver-class-name: org.postgresql.Driver
 
   liquibase:
     changeLog: "classpath:db/changelog.sql"
@@ -89,6 +90,8 @@ spring:
     password: zdfzsrqvgimldzyj
     port: 587
   thymeleaf.check-template-location: false
+  profiles:
+#    active: prod
 
 logging:
   level:
