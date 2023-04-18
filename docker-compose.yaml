@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  postgres:
+    image: 'postgres:latest'
+    container_name: 'postgres-db'
+    ports:
+      - 5432:5432
+    environment:
+      - 'POSTGRES_USER=jira'
+      - 'POSTGRES_PASSWORD=jiraRush'
+      - 'POSTGRES_DB=jira'
