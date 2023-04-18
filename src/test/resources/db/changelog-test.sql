@@ -251,7 +251,6 @@ values (1, 'skype', 'userSkype'),
        (2, 'tg', 'adminTg'),
        (2, 'vk', 'adminVk');
 
-
 --changeset kriffer:add_dashboard
 
 INSERT INTO project (id, code, title, description, type_code, startpoint, endpoint, parent_id) VALUES (2, 'task tracker', 'PROJECT-1', 'test project', 'task tracker', null, null, null);
@@ -262,6 +261,12 @@ INSERT INTO task (id, title, description, type_code, status_code, priority_code,
 INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (3, 'Task-2', 'test 2 task', 'bug', 'ready', 'normal', null, null, 2, 1, null, null, null);
 INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (5, 'Task-4', 'test 4', 'bug', 'in progress', 'normal', null, null, 2, 1, null, null, null);
 INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (4, 'Task-3', 'test 3 descr', 'task', 'done', 'low', null, null, 2, 1, null, null, null);
+INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (6, 'Task-6', 'test backlog 1 descr', 'task', 'done', 'low', null, null, 2, null, null, null, null);
+INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (7, 'Task-7', 'test backlog 2 descr', 'task', 'done', 'low', null, null, 2, null, null, null, null);
+INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (8, 'Task-8', 'test backlog 3 descr', 'task', 'done', 'low', null, null, 2, null, null, null, null);
+INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (9, 'Task-9', 'test backlog 4 descr', 'task', 'done', 'low', null, null, 2, null, null, null, null);
+INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (10, 'Task-10', 'test backlog 5 descr', 'task', 'done', 'low', null, null, 2, null, null, null, null);
+INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (11, 'Task-11', 'test backlog 6 descr', 'task', 'done', 'low', null, null, 2, null, null, null, null);
 
 insert into TASK_TAG (TASK_ID, TAG) values (2,'OneTag'), (2,'TwoTag');
 

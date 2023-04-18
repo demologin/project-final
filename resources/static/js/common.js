@@ -9,10 +9,11 @@ function makeEditable(datatableOpts) {
                     "url": ctx.ajaxUrl,
                     "dataSrc": ""
                 },
-                "paging": false,
+                "paging": true,
                 "info": true,
                 "language": {
-                    "search": "Search"
+                    "search": "Search",
+                    "ru": "Поиск"
                 }
             }
         ));

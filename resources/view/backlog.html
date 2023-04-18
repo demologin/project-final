@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<script th:src="@{/static/js/common.js}" defer></script>
+<script th:src="@{/static/js/backlog.js}" defer></script>
+
+<th:block th:replace="~{layout/main::page(title=#{backlog.title},appMain=~{::appMain})}">
+    <appMain>
+        <div class="jumbotron pt-4">
+            <div class="container">
+                <h3 class="text-center" th:text="#{backlog.title}"></h3>
+                <button th:onclick="add()" class="btn btn-primary" th:text="#{btn-add}"></button>
+                <table class="table table-striped" id="datatable">
+                    <thead>
+                    <tr>
+                        <th th:text="#{backlog.task.id}"></th>
+                        <th th:text="#{backlog.task.status}"></th>
+                        <th th:text="#{backlog.task.title}"></th>
+                        <th th:text="#{backlog.task.description}"></th>
+                        <th th:text="#{backlog.task.type-code}"></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+        <div class="modal fade" tabindex="-1" id="editRow">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalTitle"></h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" onclick="closeNoty()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="detailsForm">
+                            <input type="hidden" id="id" name="id">
+
+                            <div class="form-group">
+                                <label for="statusCode" class="col-form-label" th:text="#{backlog.task.status}"></label>
+                                <input type="text" class="form-control" id="statusCode" name="statusCode"
+                                       th:placeholder="#{backlog.task.status}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="title" class="col-form-label" th:text="#{backlog.title}"></label>
+                                <input type="text" class="form-control" id="title" name="title"
+                                       th:placeholder="#{backlog.task.title}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description" class="col-fo  rm-label" th:text="#{backlog.task.description}"></label>
+                                <input type="text" class="form-control" id="description" name="description"
+                                       th:placeholder="#{backlog.task.description}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="typeCode" class="col-form-label" th:text="#{backlog.task.type-code}"></label>
+                                <input type="typeCode" class="form-control" id="typeCode" name="typeCode"
+                                       th:placeholder="#{backlog.task.type-code}">
+                            </div>
+                            <div class="form-group">
+                                <label for="priorityCode" class="col-form-label" th:text="#{backlog.task.priority-code}"></label>
+                                <input type="priorityCode" class="form-control" id="priorityCode" name="priorityCode"
+                                       th:placeholder="#{backlog.task.priority-code}">
+                            </div>
+                            <div class="form-group">
+                                <label for="enabled" class="col-form-label" th:text="#{backlog.task.enabled}"></label>
+                                <input type="enabled" class="form-control" id="enabled" name="enabled"
+                                       th:placeholder="#{backlog.task.enabled}">
+                            </div>
+                            <div class="form-group">
+                                <label for="estimate" class="col-form-label" th:text="#{backlog.task.estimate}"></label>
+                                <input type="estimate" class="form-control" id="estimate" name="estimate"
+                                       th:placeholder="#{backlog.task.estimate}">
+                            </div>
+                            <div class="form-group">
+                                <label for="storyPoints" class="col-form-label" th:text="#{backlog.task.storyPoints}"></label>
+                                <input type="storyPoints" class="form-control" id="storyPoints" name="storyPoints"
+                                       th:placeholder="#{backlog.task.storyPoints}">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeNoty()" th:text="#{btn-cancel}">
+                            <span class="fa fa-close"></span>
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="save()" th:text="#{btn-save}">
+                            <span class="fa fa-check"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </appMain>
+</th:block>
