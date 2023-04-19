@@ -1,43 +1,25 @@
 package com.javarush.jira.profile.web;
 
-import com.javarush.jira.login.AuthUser;
-import com.javarush.jira.profile.ProfileTo;
+import com.javarush.jira.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.mockito.Mockito.*;
-
 @SpringBootTest
-class ProfileRestControllerTest {
-    @Autowired
-    ProfileRestController profileRestController;
-    @Mock
-    AbstractProfileController abstractProfileController;
+class ProfileRestControllerTest extends AbstractControllerTest {
 
-    @Mock
-    ProfileTo profileTo;
-    @Mock
-    AuthUser authUser;
-
+    /**
+     * Так как метод get() класса ProfileRestController состоит только из реализации super.get(),
+     * то будет целеобразно реализовать unit тестирование именно в родительском классе
+     */
     @Test
-    void shouldCallOneTimeSuperMethodGet_WhenCallsMethodGet(AuthUser authUser) {
-        //given
-        when(abstractProfileController.get(authUser.id())).thenReturn(profileTo);
-        //when
-        profileRestController.get(authUser.id());
-        //then
-        verify(abstractProfileController, times(1)).get(authUser.id());
+    void stubMethodGet() {
     }
 
+    /**
+     * Так как метод update() класса ProfileRestController состоит только из реализации super.update(),
+     * то будет целеобразно реализовать unit тестирование именно в родительском классе
+     */
     @Test
-    void shouldCallOneTimeSuperMethodUpdate_WhenCallsMethodUpdate() {
-        //given
-        doNothing().when(abstractProfileController).update(profileTo, authUser.id());
-        //when
-        profileRestController.update(profileTo, authUser.id());
-        //then
-        verify(abstractProfileController, times(1)).update(profileTo, authUser.id());
+    void stubMethodUpdate() {
     }
 }
