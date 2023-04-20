@@ -1,4 +1,4 @@
-#TODO sensitive info with default values
+#TODO sensitive info with default values, default values can be overwrite by env variables
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/jira
