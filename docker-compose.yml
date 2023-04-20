@@ -4,28 +4,25 @@ volumes:
   pgdata:
     name: pgdata
 services:
-#  nginx:
-#    container_name: nginx
-#    image: nginx:1.13
-#    restart: always
-#    ports:
-#      - 80:80
-#    volumes:
-#      - ./config/nginx.conf:/etc/nginx/nginx.conf
-#      - web-root:/var/www/html
+  nginx:
+    container_name: nginx
+    image: nginx:1.13
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/conf.d/nginx.conf
   jira:
-    profiles: ["dev", "prod"]
+    image: jira-app
     container_name: jira
     ports:
       - "8080:8080"
     build:
-#      context: ./
+      context: .
       dockerfile: Dockerfile
     depends_on:
-#      - nginx
+      - nginx
       - db
-#    networks:
-#      - app-network
     environment:
       - app.host-url=http://localhost:8080
       - app.test-mail=jira4jr@gmail.com
@@ -50,7 +47,6 @@ services:
       - spring.security.oauth2.client.registration.gitlab.redirect-uri={baseUrl}/login/oauth2/code/{registrationId}
       - spring.security.oauth2.client.registration.gitlab.authorization-grant-type=authorization_code
       - spring.security.oauth2.client.registration.gitlab.scope=read_user
-#    restart: always
   db:
     image: postgres:15.2
     container_name: db
@@ -64,7 +60,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U jira -d jira"]
+      test: [ "CMD-SHELL", "pg_isready -U jira -d jira" ]
       interval: 10s
       timeout: 5s
       retries: 5
