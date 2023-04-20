@@ -9,10 +9,10 @@ import java.util.List;
 
 @Transactional(readOnly = true)
 public interface TaskRepository extends BaseRepository<Task> {
-    @Query("SELECT t FROM Task t LEFT JOIN FETCH t.project LEFT JOIN FETCH t.sprint LEFT JOIN FETCH t.activities")
-    List<Task> getAll();
+    @Query("SELECT t FROM Task t LEFT JOIN FETCH t.project LEFT JOIN FETCH t.sprint LEFT JOIN FETCH t.activities WHERE t.sprint IS NOT NULL")
+    List<Task> findAllSprintIdIsNotNull();
 
-    @Query("SELECT t FROM Task t WHERE t.id=:id")
-    Task getTaskById(Long id);
+    @Query("select t from Task t where t.sprint.id is null")
+    List<Task> findBySprintIdByNull();
 
 }

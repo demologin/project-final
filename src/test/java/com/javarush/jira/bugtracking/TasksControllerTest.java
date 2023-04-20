@@ -21,19 +21,20 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import static com.javarush.jira.login.internal.web.UserTestData.ADMIN_MAIL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Testcontainers
 @ActiveProfiles("test")
-class DashboardUIControllerTest {
+class TasksControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private TaskService taskService;
+
+    private final Long TEST_TASK_ID = 2L;
 
     @Container
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15.2");
@@ -52,36 +53,34 @@ class DashboardUIControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
-    void updateTaskTagsWithDuplicate() throws Exception {
-        TaskTo taskBeforeAdd = taskService.getTaskById(2L);
-
-        perform(MockMvcRequestBuilders.patch( "/2")
-                .content("""
-                        {
-                            "id":2,
-                            "tags": ["OneTag", "TwoTag"]
-                        }
-                        """).contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().is3xxRedirection());
-        TaskTo taskAfterAdd = taskService.getTaskById(2L);
-        assertEquals(taskBeforeAdd.getTags().size(), taskAfterAdd.getTags().size());
-    }
-
-    @Test
-    @WithUserDetails(value = ADMIN_MAIL)
     void updateTaskTags() throws Exception {
-        perform(MockMvcRequestBuilders.patch( "/2")
+        perform(MockMvcRequestBuilders.put(TaskController.TASK_URL + "/" + TEST_TASK_ID + "/tags")
                 .content("""
                         {
                             "id":2,
                             "tags": ["ThreeTags", "FourTag", "FiveTags"]
                         }
                         """).contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().is3xxRedirection());
-        TaskTo taskById = taskService.getTaskById(2L);
+                .andDo(print());
+        TaskTo taskById = taskService.getTaskById(TEST_TASK_ID);
         assertEquals(5, taskById.getTags().size());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void updateTaskTagsWithDuplicate() throws Exception {
+        TaskTo taskBeforeAdd = taskService.getTaskById(2L);
+
+        perform(MockMvcRequestBuilders.put(TaskController.TASK_URL + "/" + TEST_TASK_ID + "/tags")
+                .content("""
+                                {
+                                    "id":2,
+                                    "tags": ["OneTag", "TwoTag"]
+                                }
+                                """).contentType(MediaType.APPLICATION_JSON))
+                .andDo(print());
+        TaskTo taskAfterAdd = taskService.getTaskById(TEST_TASK_ID);
+        assertEquals(taskBeforeAdd.getTags().size(), taskAfterAdd.getTags().size());
     }
 
 }
