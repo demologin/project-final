@@ -22,6 +22,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 //https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-testing-spring-boot-applications-testing-with-mock-environment
 public abstract class AbstractControllerTest {
 
+
     @Autowired
     private MockMvc mockMvc;
 //TODO added testcontainers for all controllers tests
