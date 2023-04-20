@@ -1,5 +1,7 @@
 #  https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 app:
+  host-url: ${{HOST_URL}}
+  test-mail: ${TEST_MAIL}
   templates-update-cache: 5s
   mail-sending-props:
     core-pool-size: 8
@@ -37,10 +39,40 @@ spring:
   cache:
     cache-names: users
     caffeine.spec: maximumSize=10000,expireAfterAccess=5m
-
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  mail:
+    properties:
+      mail:
+        smtp:
+          auth: ${SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH}
+          starttls:
+            enable: ${SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE}
+    host: ${SPRING_MAIL_HOST}
+    username: ${SPRING_MAIL_USERNAME}
+    password: ${SPRING_MAIL_PASSWORD}
+    port: ${SPRING_MAIL_PORT}
   security:
     oauth2:
       client:
+        registration:
+          github:
+            client-id: ${GITHUB_CLIENT_ID}}
+            client-secret: ${GITHUB_CLIENT_SECRET}
+            scope: ${GITHUB_SCOPE}
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_SECRET}
+            scope: ${GOOGLE_SCOPE}
+          gitlab:
+            client-id: ${GITLAB_CLIENT_ID}
+            client-secret: ${GITLAB_SECRET}
+            client-name: ${GITLAB_NAME}
+            redirect-uri: ${GITLAB_REDIRECT_URI}
+            authorization-grant-type: ${GITLAB_AUTHORIZATION_GRANT_TYPE}
+            scope: ${GITLAB_SCOPE}
         provider:
           gitlab:
             authorization-uri: https://gitlab.com/oauth/authorize
