@@ -25,7 +25,8 @@ import org.springframework.web.servlet.mvc.UrlFilenameViewController;
 import java.time.Duration;
 import java.util.Properties;
 
-//@EnableWebMvc : http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc-auto-configuration
+//@EnableWebMvc
+// : http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc-auto-configuration
 @EnableAutoConfiguration
 @Configuration
 @AllArgsConstructor
@@ -86,7 +87,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**").addResourceLocations("file:./resources/static/");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
         registry.setOrder(Integer.MAX_VALUE);
     }
 

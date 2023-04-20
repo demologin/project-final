@@ -1,0 +1,74 @@
+version: "3.9"
+
+volumes:
+  pgdata:
+    name: pgdata
+services:
+#  nginx:
+#    container_name: nginx
+#    image: nginx:1.13
+#    restart: always
+#    ports:
+#      - 80:80
+#    volumes:
+#      - ./config/nginx.conf:/etc/nginx/nginx.conf
+#      - web-root:/var/www/html
+
+  jira:
+    profiles: ["dev", "prod"]
+    container_name: jira
+    ports:
+      - "8080:8080"
+    build:
+#      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+#      - nginx
+      - db
+#    networks:
+#      - app-network
+    environment:
+      - app.host-url=http://localhost:8080
+      - app.test-mail=jira4jr@gmail.com
+      - spring.datasource.url=jdbc:postgresql://db:5432/jira
+      - spring.datasource.username=jira
+      - spring.datasource.password=JiraRush
+      - spring.mail.properties.mail.smtp.starttls.enable=true
+      - spring.mail.properties.mail.smtp.auth=true
+      - spring.mail.host=smtp.gmail.com
+      - spring.mail.username=jira4jr@gmail.com
+      - spring.mail.password=zdfzsrqvgimldzyj
+      - spring.mail.port=587
+      - spring.security.oauth2.client.registration.github.client-id=3d0d8738e65881fff266
+      - spring.security.oauth2.client.registration.github.client-secret=0f97031ce6178b7dfb67a6af587f37e222a16120
+      - spring.security.oauth2.client.registration.github.scope=email
+      - spring.security.oauth2.client.registration.google.client-id=329113642700-f8if6pu68j2repq3ef6umd5jgiliup60.apps.googleusercontent.com
+      - spring.security.oauth2.client.registration.google.client-secret=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
+      - spring.security.oauth2.client.registration.google.scope=email,profile
+      - spring.security.oauth2.client.registration.gitlab.client-secret=e72c65320cf9d6495984a37b0f9cc03ec46be0bb6f071feaebbfe75168117004
+      - spring.security.oauth2.client.registration.gitlab.client-id=b8520a3266089063c0d8261cce36971defa513f5ffd9f9b7a3d16728fc83a494
+      - spring.security.oauth2.client.registration.gitlab.client-name=GitLab
+      - spring.security.oauth2.client.registration.gitlab.redirect-uri={baseUrl}/login/oauth2/code/{registrationId}
+      - spring.security.oauth2.client.registration.gitlab.authorization-grant-type=authorization_code
+      - spring.security.oauth2.client.registration.gitlab.scope=read_user
+#    restart: always
+
+  db:
+    image: postgres:15.2
+    container_name: db
+    environment:
+      POSTGRES_DB: jira
+      POSTGRES_USER: jira
+      POSTGRES_PASSWORD: JiraRush
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jira -d jira"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
