@@ -15,7 +15,6 @@ import java.util.Locale;
 public class ThymeleafConfig {
     private final AppProperties appProperties;
 
-
     /**
      * Bean with RU locale.
      *
@@ -30,7 +29,7 @@ public class ThymeleafConfig {
      * @return Bean LocaleResolver with default locale.
      */
     @Bean
-    public LocaleResolver localeResolverRu() {
+    public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
         slr.setDefaultLocale(getDefaultLocale());
         return slr;

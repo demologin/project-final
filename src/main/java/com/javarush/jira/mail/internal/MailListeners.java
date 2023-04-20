@@ -23,12 +23,12 @@ public class MailListeners {
     public void confirmRegistration(RegistrationConfirmEvent event) {
         String confirmationUrl = appProperties.getHostUrl() + "/ui/register/confirm?token=" + event.token();
         User user = userMapper.toEntity(event.userto());
-        mailService.sendToUserAsync("email-confirmation.html", user, Map.of("confirmationUrl", confirmationUrl));
+        mailService.sendToUserAsync("mails/email-confirmation", user, Map.of("confirmationUrl", confirmationUrl));
     }
 
     @EventListener
     public void resetPassword(PasswordResetEvent event) {
         String resetUrl = appProperties.getHostUrl() + "/ui/password/change?token=" + event.token();
-        mailService.sendToUserAsync("password-reset.html", event.user(), Map.of("resetUrl", resetUrl));
+        mailService.sendToUserAsync("mails/password-reset", event.user(), Map.of("resetUrl", resetUrl));
     }
 }

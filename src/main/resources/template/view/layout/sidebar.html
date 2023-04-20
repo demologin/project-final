@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" th:lang="#{lang}">
 <!--/*@thymesVar id="authUser" type="com.javarush.jira.login.AuthUser"*/-->
 
 <div th:fragment="sidebar">
@@ -60,6 +60,15 @@
                         </a>
                     </li>
                 </div>
+                <hr/>
+                    <li class="nav-item menu-item mt-3 mt-lg-0 mb-0 mb-lg-3" id="backlog">
+                        <a class="nav-link sidebar-nav-link" th:href="@{''(lang=#{lang.next})}">
+                            <span class="ms-4">
+                            <i class="fa-solid fa-language fa-fw me-2"></i>
+                                [[#{lang.name}]]
+                            </span>
+                        </a>
+                    </li>
             </ul>
         </div>
     </nav>
