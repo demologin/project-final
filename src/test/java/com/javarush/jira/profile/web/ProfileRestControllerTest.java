@@ -1,9 +1,15 @@
 package com.javarush.jira.profile.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.javarush.jira.AbstractControllerTest;
 import com.javarush.jira.common.config.PGContainer;
+import com.javarush.jira.profile.ProfileTo;
+import com.javarush.jira.profile.internal.ProfileMapper;
+import com.javarush.jira.profile.internal.ProfileRepository;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
@@ -12,13 +18,17 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-import static com.javarush.jira.login.internal.web.UserTestData.ADMIN_MAIL;
+import static com.javarush.jira.login.internal.web.UserTestData.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 class ProfileRestControllerTest extends AbstractControllerTest {
+    @Autowired
+    ProfileMapper mapper;
+    @Autowired
+    ProfileRepository repository;
     @ClassRule
     public static PostgreSQLContainer postgreSQLContainer;
 
@@ -34,17 +44,33 @@ class ProfileRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = "/api/profile";
 
     @Test
-    @WithUserDetails(ADMIN_MAIL)
+    @WithUserDetails(GUEST_MAIL)
     void stubMethodGet() throws Exception {
+        //given
+
+        //when
         perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isOk())
+        //then
                 .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
     @Test
-    @WithUserDetails(ADMIN_MAIL)
-    void stubMethodUpdate(){
+    @WithUserDetails(GUEST_MAIL)
+    void stubMethodUpdate() throws Exception {
+        //given
+        ProfileTo profileTo = mapper.toTo(repository.getOrCreate(guest.id()));
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(profileTo);
+        //when
+        perform(MockMvcRequestBuilders.put(REST_URL)
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON))
+        //then
+                .andDo(print())
+                .andExpect(status().isNoContent());
 
     }
 }
