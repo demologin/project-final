@@ -9,7 +9,7 @@ services:
       dockerfile: dockerfile
     image: jira-app
     ports:
-      - 8080:8080
+      - "8080:8080"
     depends_on:
       - db
       - nginx
