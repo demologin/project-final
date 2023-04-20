@@ -16,7 +16,7 @@ import static com.javarush.jira.profile.web.ProfileTestData.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+//TODO class for testing ProfileRestController
 class ProfileRestControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = ProfileRestController.REST_URL;
@@ -27,7 +27,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
     @Autowired
     private ProfileMapper profileMapper;
 
-
+//    TODO testing get() method
     @Test
     @WithUserDetails(value = USER_MAIL)
     void get() throws Exception {
@@ -39,6 +39,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .andExpect(PROFILE_TO_MATCHER.contentJson(to));
     }
 
+    //    TODO testing update() method
     @Test
     @WithUserDetails(value = USER_MAIL)
     void update() throws Exception {

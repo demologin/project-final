@@ -10,7 +10,7 @@ import org.springframework.cache.annotation.EnableCaching;
 @EnableConfigurationProperties(AppProperties.class)
 @EnableCaching
 public class JiraRushApplication {
-
+//TODO  vk and yandex deleted everywhere
     public static void main(String[] args) {
         SpringApplication.run(JiraRushApplication.class, args);
     }

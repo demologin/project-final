@@ -24,9 +24,9 @@ public abstract class AbstractControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
+//TODO added testcontainers for all controllers tests
     @Container
-    private static PostgreSQLContainer container = new PostgreSQLContainer("postgres:15.2");
+    private static final PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:15.2");
 
     protected ResultActions perform(MockHttpServletRequestBuilder builder) throws Exception {
         return mockMvc.perform(builder);

@@ -1,3 +1,4 @@
+#TODO sensitive info with default values
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/jira

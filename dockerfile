@@ -1,3 +1,4 @@
+#TODO added dockerfile
 FROM openjdk:17-buster
 
 ARG JAR_FILE=target/*.jar

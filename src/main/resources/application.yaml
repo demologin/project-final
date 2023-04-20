@@ -1,4 +1,5 @@
 #  https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+#TODO take out sensitive info from this property
 app:
   host-url: http://localhost:8080
   test-mail: jira4jr@gmail.com

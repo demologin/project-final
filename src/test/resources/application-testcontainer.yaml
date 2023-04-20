@@ -1,3 +1,4 @@
+#TODO properties for testcontainers
 spring.cache.type: none
 spring:
   sql:

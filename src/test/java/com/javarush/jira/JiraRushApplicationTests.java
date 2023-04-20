@@ -17,9 +17,11 @@ class JiraRushApplicationTests {
 	void contextLoads() {
 	}
 
+//    TODO added testcontainers
 	@Container
-	private static PostgreSQLContainer container = new PostgreSQLContainer("postgres:15.2");
+	private static final PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:15.2");
 
+    //    TODO added dynamic source for testcontainers
 	@DynamicPropertySource
     public static void overrideProperties(DynamicPropertyRegistry dynamicPropertyRegistry) {
         dynamicPropertyRegistry.add("spring.datasource.url", container::getJdbcUrl);
