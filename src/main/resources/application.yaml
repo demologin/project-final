@@ -15,6 +15,8 @@ spring:
 # validate db by model
     hibernate:
       ddl-auto: validate
+      #dialect: org.hibernate.dialect.H2Dialect
+
 
     properties:
       #  http://docs.jboss.org/hibernate/orm/5.3/userguide/html_single/Hibernate_User_Guide.html#configurations
@@ -25,6 +27,10 @@ spring:
         jdbc.batch_size: 20
   datasource:
     url: jdbc:postgresql://localhost:5432/jira
+
+    #url: jdbc:h2:mem:jira;NON_KEYWORDS=KEY,VALUE
+
+
   security:
     oauth2:
       client:
@@ -61,7 +67,9 @@ spring:
   config:
     import: classpath:securityprop.yaml
   liquibase:
-    changeLog: "classpath:db/changelog.sql"
+    #TODO TODO replace SQL changelog to XML
+    #changeLog: "classpath:db/changelog.sql"
+    changeLog: "classpath:db/changelog.xml"
 
   # Jackson Fields Serialization
   jackson:

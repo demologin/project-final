@@ -1,0 +1,895 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TODO replace SQL changelog to XML -->
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+    <changeSet id="1" author="agribanov">
+        <preConditions onFail="MARK_RAN"><tableExists tableName="USER_ROLE"/></preConditions>
+        <dropTable tableName="USER_ROLE"/>
+    </changeSet>
+    <changeSet id="2" author="agribanov">
+        <preConditions onFail="MARK_RAN"><tableExists tableName="CONTACT"/></preConditions>
+        <dropTable tableName="CONTACT"/>
+    </changeSet>
+    <changeSet id="3" author="agribanov">
+        <preConditions onFail="MARK_RAN"><tableExists tableName="MAIL_CASE"/></preConditions>
+        <dropTable tableName="MAIL_CASE"/>
+    </changeSet>
+    <changeSet id="4" author="agribanov">
+        <preConditions onFail="MARK_RAN"><tableExists tableName="PROFILE"/></preConditions>
+        <dropTable tableName="PROFILE"/>
+    </changeSet>
+    <changeSet id="5" author="agribanov">
+        <preConditions onFail="MARK_RAN"><tableExists tableName="TASK_TAG"/></preConditions>
+        <dropTable tableName="TASK_TAG"/>
+    </changeSet>
+    <changeSet id="6" author="agribanov">
+        <preConditions onFail="MARK_RAN"><tableExists tableName="TASK_TAGS"/></preConditions>
+        <dropTable tableName="TASK_TAGS"/>
+    </changeSet>
+    <changeSet id="7" author="agribanov">
+        <preConditions onFail="MARK_RAN"><tableExists tableName="USER_BELONG"/></preConditions>
+        <dropTable tableName="USER_BELONG"/>
+    </changeSet>
+    <changeSet id="8" author="agribanov">
+        <preConditions onFail="MARK_RAN"><tableExists tableName="ACTIVITY"/></preConditions>
+        <dropTable tableName="ACTIVITY"/>
+    </changeSet>
+    <changeSet id="9" author="agribanov">
+        <preConditions onFail="MARK_RAN"><tableExists tableName="TASK"/></preConditions>
+        <dropTable tableName="TASK"/>
+    </changeSet>
+    <changeSet id="10" author="agribanov">
+        <preConditions onFail="MARK_RAN"><tableExists tableName="SPRINT"/></preConditions>
+        <dropTable tableName="SPRINT"/>
+    </changeSet>
+    <changeSet id="11" author="agribanov">
+        <preConditions onFail="MARK_RAN"><tableExists tableName="PROJECT"/></preConditions>
+        <dropTable tableName="PROJECT"/>
+    </changeSet>
+    <changeSet id="12" author="agribanov">
+        <preConditions onFail="MARK_RAN"><tableExists tableName="REFERENCE"/></preConditions>
+        <dropTable tableName="REFERENCE"/>
+    </changeSet>
+    <changeSet id="13" author="agribanov">
+        <preConditions onFail="MARK_RAN"><tableExists tableName="ATTACHMENT"/></preConditions>
+        <dropTable tableName="ATTACHMENT"/>
+    </changeSet>
+    <changeSet id="14" author="agribanov">
+        <preConditions onFail="MARK_RAN"><tableExists tableName="USERS"/></preConditions>
+        <dropTable tableName="USERS"/>
+    </changeSet>
+
+    <changeSet id="15" author="agribanov">
+        <createTable tableName="PROJECT">
+            <column name="ID" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="CODE" type="varchar(32)">
+                <constraints nullable="false"
+                             uniqueConstraintName="UK_PROJECT_CODE"
+                             unique="true"/>
+            </column>
+            <column name="TITLE" type="varchar(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCRIPTION" type="varchar(4096)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TYPE_CODE" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STARTPOINT" type="timestamp"/>
+            <column name="ENDPOINT" type="timestamp"/>
+            <column name="PARENT_ID" type="bigint">
+                <constraints foreignKeyName="FK_PROJECT_PARENT"
+                             references="PROJECT (ID)"
+                             deleteCascade="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="16" author="agribanov">
+        <createTable tableName="MAIL_CASE">
+            <column name="ID" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="EMAIL" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DATE_TIME" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RESULT" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TEMPLATE" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="17" author="agribanov">
+        <createTable tableName="SPRINT">
+            <column name="ID" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="STATUS_CODE" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STARTPOINT" type="timestamp"/>
+            <column name="ENDPOINT" type="timestamp"/>
+            <column name="TITLE" type="varchar(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PROJECT_ID" type="bigint">
+                <constraints foreignKeyName="FK_SPRINT_PROJECT"
+                             references="PROJECT (ID)"
+                             deleteCascade="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="18" author="agribanov">
+        <createTable tableName="REFERENCE">
+            <column name="ID" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="CODE" type="varchar(32)">
+                <constraints nullable="false"
+                             uniqueConstraintName="UK_REFERENCE_REF_TYPE_CODE"
+                             unique="true"/>
+            </column>
+            <column name="REF_TYPE" type="smallint">
+                <constraints nullable="false"
+                             uniqueConstraintName="UK_REFERENCE_REF_TYPE_CODE"
+                             unique="true"/>
+            </column>
+            <column name="ENDPOINT" type="timestamp"/>
+            <column name="STARTPOINT" type="timestamp"/>
+            <column name="TITLE" type="varchar(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AUX" type="varchar"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="19" author="agribanov">
+        <createTable tableName="USERS">
+            <column name="ID" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="DISPLAY_NAME" type="varchar(32)">
+                <constraints nullable="false"
+                             uniqueConstraintName="UK_USERS_DISPLAY_NAME"
+                             unique="true"/>
+            </column>
+            <column name="EMAIL" type="varchar(128)">
+                <constraints nullable="false"
+                             uniqueConstraintName="UK_USERS_EMAIL"
+                             unique="true"/>
+            </column>
+            <column name="FIRST_NAME" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LAST_NAME" type="varchar(32)"/>
+            <column name="PASSWORD" type="varchar(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ENDPOINT" type="timestamp"/>
+            <column name="STARTPOINT" type="timestamp"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="20" author="agribanov">
+        <createTable tableName="PROFILE">
+            <column name="ID" type="bigint">
+                <constraints primaryKey="true"
+                             foreignKeyName="FK_PROFILE_USERS"
+                             references="USERS (ID)"
+                             deleteCascade="true"/>
+            </column>
+            <column name="LAST_LOGIN" type="timestamp"/>
+            <column name="LAST_FAILED_LOGIN" type="timestamp"/>
+            <column name="MAIL_NOTIFICATIONS" type="bigint"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="21" author="agribanov">
+        <createTable tableName="CONTACT">
+            <column name="ID" type="bigint">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             foreignKeyName="FK_CONTACT_PROFILE"
+                             references="PROFILE (ID)"
+                             deleteCascade="true"/>
+            </column>
+            <column name="CODE" type="varchar(32)">
+                <constraints nullable="false"
+                             primaryKey="true"/>
+            </column>
+            <column name="VALUE" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="22" author="agribanov">
+        <createTable tableName="TASK">
+            <column name="ID" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="TITLE" type="varchar(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCRIPTION" type="varchar(4096)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TYPE_CODE" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STATUS_CODE" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRIORITY_CODE" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ESTIMATE" type="integer"/>
+            <column name="UPDATED" type="timestamp"/>
+            <column name="PROJECT_ID" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="FK_TASK_PROJECT"
+                             references="PROJECT (ID)"
+                             deleteCascade="true"/>
+            </column>
+            <column name="SPRINT_ID" type="bigint"/>
+            <column name="PARENT_ID" type="bigint">
+                <constraints foreignKeyName="FK_TASK_PARENT_TASK"
+                             references="TASK (ID)"
+                             deleteCascade="true"/>
+            </column>
+            <column name="STARTPOINT" type="timestamp"/>
+            <column name="ENDPOINT" type="timestamp"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="TASK"
+                baseColumnNames="SPRINT_ID"
+                constraintName="FK_TASK_SPRINT"
+                referencedTableName="SPRINT"
+                referencedColumnNames="ID"
+                onDelete="SET NULL"/>
+    </changeSet>
+    <changeSet id="23" author="agribanov">
+        <createTable tableName="ACTIVITY">
+            <column name="ID" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="AUTHOR_ID" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="FK_ACTIVITY_USERS"
+                             references="USERS (ID)"/>
+            </column>
+            <column name="TASK_ID" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="FK_ACTIVITY_TASK"
+                             references="TASK (ID)"
+                             deleteCascade="true"/>
+            </column>
+            <column name="UPDATED" type="timestamp"/>
+            <column name="COMMENT" type="varchar(4096)"/>
+            <!-- history of task field change -->
+            <column name="TITLE" type="varchar(1024)"/>
+            <column name="DESCRIPTION" type="varchar(4096)"/>
+            <column name="ESTIMATE" type="integer"/>
+            <column name="TYPE_CODE" type="varchar(32)"/>
+            <column name="STATUS_CODE" type="varchar(32)"/>
+            <column name="PRIORITY_CODE" type="varchar(32)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="24" author="agribanov">
+        <createTable tableName="TASK_TAG">
+            <column name="TASK_ID" type="bigint">
+                <constraints nullable="false"
+                             uniqueConstraintName="UK_TASK_TAG"
+                             unique="true"
+                             foreignKeyName="FK_TASK_TAG"
+                             references="TASK (ID)"
+                             deleteCascade="true"/>
+            </column>
+            <column name="TAG" type="varchar(32)">
+                <constraints nullable="false"
+                             uniqueConstraintName="UK_TASK_TAG"
+                             unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="25" author="agribanov">
+        <createTable tableName="USER_BELONG">
+            <column name="ID" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="OBJECT_ID" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OBJECT_TYPE" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USER_ID" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="FK_USER_BELONG"
+                             references="USERS (ID)"/>
+            </column>
+            <column name="USER_TYPE_CODE" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STARTPOINT" type="timestamp"/>
+            <column name="ENDPOINT" type="timestamp"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="26" author="agribanov">
+        <createIndex tableName="USER_BELONG" indexName="UK_USER_BELONG" unique="true">
+            <column name="OBJECT_ID"/>
+            <column name="OBJECT_TYPE"/>
+            <column name="USER_ID"/>
+            <column name="USER_TYPE_CODE"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="27" author="agribanov">
+        <createIndex tableName="USER_BELONG" indexName="IX_USER_BELONG_USER_ID">
+            <column name="USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="28" author="agribanov">
+        <createTable tableName="ATTACHMENT">
+            <column name="ID" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="NAME" type="varchar(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FILE_LINK" type="varchar(2048)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OBJECT_ID" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OBJECT_TYPE" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USER_ID" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="FK_ATTACHMENT"
+                             references="USERS (ID)"/>
+            </column>
+            <column name="DATE_TIME" type="timestamp"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="29" author="agribanov">
+        <createTable tableName="USER_ROLE">
+            <column name="USER_ID" type="bigint">
+                <constraints nullable="false"
+                             uniqueConstraintName="UK_USER_ROLE"
+                             unique="true"
+                             foreignKeyName="FK_USER_ROLE"
+                             references="USERS (ID)"
+                             deleteCascade="true"/>
+            </column>
+            <column name="ROLE" type="smallint">
+                <constraints nullable="false"
+                             uniqueConstraintName="UK_USER_ROLE"
+                             unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <!-- populate_data -->
+    <changeSet id="30" author="agribanov">
+        <insert tableName="USERS">
+            <column name="EMAIL">user@gmail.com</column>
+            <column name="PASSWORD">{noop}password</column>
+            <column name="FIRST_NAME">userFirstName</column>
+            <column name="LAST_NAME">userLastName</column>
+            <column name="DISPLAY_NAME">userDisplayName</column>
+        </insert>
+    </changeSet>
+    <changeSet id="31" author="agribanov">
+        <insert tableName="USERS">
+            <column name="EMAIL">admin@gmail.com</column>
+            <column name="PASSWORD">{noop}admin</column>
+            <column name="FIRST_NAME">adminFirstName</column>
+            <column name="LAST_NAME">adminLastName</column>
+            <column name="DISPLAY_NAME">adminDisplayName</column>
+        </insert>
+    </changeSet>
+    <changeSet id="32" author="agribanov">
+        <insert tableName="USERS">
+            <column name="EMAIL">guest@gmail.com</column>
+            <column name="PASSWORD">{noop}guest</column>
+            <column name="FIRST_NAME">guestFirstName</column>
+            <column name="LAST_NAME">guestLastName</column>
+            <column name="DISPLAY_NAME">guestDisplayName</column>
+        </insert>
+    </changeSet>
+    <!-- 0 DEV -->
+    <!-- 1 ADMIN -->
+    <changeSet id="33" author="agribanov">
+        <insert tableName="USER_ROLE">
+            <column name="ROLE">0</column>
+            <column name="USER_ID">1</column>
+        </insert>
+    </changeSet>
+    <changeSet id="34" author="agribanov">
+        <insert tableName="USER_ROLE">
+            <column name="ROLE">1</column>
+            <column name="USER_ID">2</column>
+        </insert>
+    </changeSet>
+    <changeSet id="35" author="agribanov">
+        <insert tableName="USER_ROLE">
+            <column name="ROLE">0</column>
+            <column name="USER_ID">2</column>
+        </insert>
+    </changeSet>
+    <!-- ====References==== -->
+    <!-- TASK -->
+    <changeSet id="36" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">task</column>
+            <column name="TITLE">Task</column>
+            <column name="REF_TYPE">2</column>
+        </insert>
+    </changeSet>
+    <changeSet id="37" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">story</column>
+            <column name="TITLE">Story</column>
+            <column name="REF_TYPE">2</column>
+        </insert>
+    </changeSet>
+    <changeSet id="38" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">bug</column>
+            <column name="TITLE">Bug</column>
+            <column name="REF_TYPE">2</column>
+        </insert>
+    </changeSet>
+    <changeSet id="39" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">epic</column>
+            <column name="TITLE">Epic</column>
+            <column name="REF_TYPE">2</column>
+        </insert>
+    </changeSet>
+    <!-- TASK_STATUS -->
+    <changeSet id="40" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">icebox</column>
+            <column name="TITLE">Icebox</column>
+            <column name="REF_TYPE">3</column>
+        </insert>
+    </changeSet>
+    <changeSet id="41" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">backlog</column>
+            <column name="TITLE">Backlog</column>
+            <column name="REF_TYPE">3</column>
+        </insert>
+    </changeSet>
+    <changeSet id="42" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">ready</column>
+            <column name="TITLE">Ready</column>
+            <column name="REF_TYPE">3</column>
+        </insert>
+    </changeSet>
+    <changeSet id="43" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">in progress</column>
+            <column name="TITLE">In progress</column>
+            <column name="REF_TYPE">3</column>
+        </insert>
+    </changeSet>
+    <changeSet id="44" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">done</column>
+            <column name="TITLE">Done</column>
+            <column name="REF_TYPE">3</column>
+        </insert>
+    </changeSet>
+    <!-- SPRINT_STATUS -->
+    <changeSet id="45" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">planning</column>
+            <column name="TITLE">Planning</column>
+            <column name="REF_TYPE">4</column>
+        </insert>
+    </changeSet>
+    <changeSet id="46" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">implementation</column>
+            <column name="TITLE">Implementation</column>
+            <column name="REF_TYPE">4</column>
+        </insert>
+    </changeSet>
+    <changeSet id="47" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">review</column>
+            <column name="TITLE">Review</column>
+            <column name="REF_TYPE">4</column>
+        </insert>
+    </changeSet>
+    <changeSet id="48" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">retrospective</column>
+            <column name="TITLE">Retrospective</column>
+            <column name="REF_TYPE">4</column>
+        </insert>
+    </changeSet>
+    <!-- USER_TYPE -->
+    <changeSet id="49" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">admin</column>
+            <column name="TITLE">Admin</column>
+            <column name="REF_TYPE">5</column>
+        </insert>
+    </changeSet>
+    <changeSet id="50" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">user</column>
+            <column name="TITLE">User</column>
+            <column name="REF_TYPE">5</column>
+        </insert>
+    </changeSet>
+    <!-- PROJECT -->
+    <changeSet id="51" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">scrum</column>
+            <column name="TITLE">Scrum</column>
+            <column name="REF_TYPE">1</column>
+        </insert>
+    </changeSet>
+    <changeSet id="52" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">task tracker</column>
+            <column name="TITLE">Task tracker</column>
+            <column name="REF_TYPE">1</column>
+        </insert>
+    </changeSet>
+    <!-- CONTACT -->
+    <changeSet id="53" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">skype</column>
+            <column name="TITLE">Skype</column>
+            <column name="REF_TYPE">0</column>
+        </insert>
+    </changeSet>
+    <changeSet id="54" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">tg</column>
+            <column name="TITLE">Telegram</column>
+            <column name="REF_TYPE">0</column>
+        </insert>
+    </changeSet>
+    <changeSet id="55" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">mobile</column>
+            <column name="TITLE">Mobile</column>
+            <column name="REF_TYPE">0</column>
+        </insert>
+    </changeSet>
+    <changeSet id="56" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">phone</column>
+            <column name="TITLE">Phone</column>
+            <column name="REF_TYPE">0</column>
+        </insert>
+    </changeSet>
+    <changeSet id="57" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">website</column>
+            <column name="TITLE">Website</column>
+            <column name="REF_TYPE">0</column>
+        </insert>
+    </changeSet>
+    <changeSet id="58" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">vk</column>
+            <column name="TITLE">VK</column>
+            <column name="REF_TYPE">0</column>
+        </insert>
+    </changeSet>
+    <changeSet id="59" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">linkedin</column>
+            <column name="TITLE">LinkedIn</column>
+            <column name="REF_TYPE">0</column>
+        </insert>
+    </changeSet>
+    <changeSet id="60" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">github</column>
+            <column name="TITLE">GitHub</column>
+            <column name="REF_TYPE">0</column>
+        </insert>
+    </changeSet>
+    <!-- PRIORITY -->
+    <changeSet id="61" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">critical</column>
+            <column name="TITLE">Critical</column>
+            <column name="REF_TYPE">7</column>
+        </insert>
+    </changeSet>
+    <changeSet id="62" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">high</column>
+            <column name="TITLE">High</column>
+            <column name="REF_TYPE">7</column>
+        </insert>
+    </changeSet>
+    <changeSet id="63" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">normal</column>
+            <column name="TITLE">Normal</column>
+            <column name="REF_TYPE">7</column>
+        </insert>
+    </changeSet>
+    <changeSet id="64" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">low</column>
+            <column name="TITLE">Low</column>
+            <column name="REF_TYPE">7</column>
+        </insert>
+    </changeSet>
+    <changeSet id="65" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">neutral</column>
+            <column name="TITLE">Neutral</column>
+            <column name="REF_TYPE">7</column>
+        </insert>
+    </changeSet>
+    <!-- MAIL_NOTIFICATION -->
+    <changeSet id="66" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">assigned</column>
+            <column name="TITLE">Assigned</column>
+            <column name="REF_TYPE">6</column>
+            <column name="AUX">1</column>
+        </insert>
+    </changeSet>
+    <changeSet id="67" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">three_days_before_deadline</column>
+            <column name="TITLE">Three days before deadline</column>
+            <column name="REF_TYPE">6</column>
+            <column name="AUX">2</column>
+        </insert>
+    </changeSet>
+    <changeSet id="68" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">two_days_before_deadline</column>
+            <column name="TITLE">Two days before deadline</column>
+            <column name="REF_TYPE">6</column>
+            <column name="AUX">4</column>
+        </insert>
+    </changeSet>
+    <changeSet id="69" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">one_day_before_deadline</column>
+            <column name="TITLE">One day before deadline</column>
+            <column name="REF_TYPE">6</column>
+            <column name="AUX">8</column>
+        </insert>
+    </changeSet>
+    <changeSet id="70" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">deadline</column>
+            <column name="TITLE">Deadline</column>
+            <column name="REF_TYPE">6</column>
+            <column name="AUX">16</column>
+        </insert>
+    </changeSet>
+    <changeSet id="71" author="agribanov">
+        <insert tableName="REFERENCE">
+            <column name="CODE">overdue</column>
+            <column name="TITLE">Overdue</column>
+            <column name="REF_TYPE">6</column>
+            <column name="AUX">32</column>
+        </insert>
+    </changeSet>
+    <!-- ====References End==== -->
+    <changeSet id="72" author="agribanov">
+        <insert tableName="PROFILE">
+            <column name="ID" value="1"/>
+            <column name="LAST_FAILED_LOGIN"/>
+            <column name="LAST_LOGIN"/>
+            <column name="MAIL_NOTIFICATIONS" value="49"/>
+        </insert>
+    </changeSet>
+    <changeSet id="73" author="agribanov">
+        <insert tableName="PROFILE">
+            <column name="ID" value="2"/>
+            <column name="LAST_FAILED_LOGIN"/>
+            <column name="LAST_LOGIN"/>
+            <column name="MAIL_NOTIFICATIONS" value="14"/>
+        </insert>
+    </changeSet>
+    <changeSet id="74" author="agribanov">
+        <insert tableName="CONTACT">
+            <column name="ID" value="1"/>
+            <column name="CODE" value="skype"/>
+            <column name="VALUE" value="userSkype"/>
+        </insert>
+    </changeSet>
+    <changeSet id="75" author="agribanov">
+        <insert tableName="CONTACT">
+            <column name="ID" value="1"/>
+            <column name="CODE" value="mobile"/>
+            <column name="VALUE" value="+01234567890"/>
+        </insert>
+    </changeSet>
+    <changeSet id="76" author="agribanov">
+        <insert tableName="CONTACT">
+            <column name="ID" value="1"/>
+            <column name="CODE" value="website"/>
+            <column name="VALUE" value="user.com"/>
+        </insert>
+    </changeSet>
+    <changeSet id="77" author="agribanov">
+        <insert tableName="CONTACT">
+            <column name="ID" value="2"/>
+            <column name="CODE" value="github"/>
+            <column name="VALUE" value="adminGitHub"/>
+        </insert>
+    </changeSet>
+    <changeSet id="78" author="agribanov">
+        <insert tableName="CONTACT">
+            <column name="ID" value="2"/>
+            <column name="CODE" value="tg"/>
+            <column name="VALUE" value="adminTg"/>
+        </insert>
+    </changeSet>
+    <changeSet id="79" author="agribanov">
+        <insert tableName="CONTACT">
+            <column name="ID" value="2"/>
+            <column name="CODE" value="vk"/>
+            <column name="VALUE" value="adminVk"/>
+        </insert>
+    </changeSet>
+    <!-- ====add_dashboard==== -->
+    <changeSet id="80" author="agribanov">
+        <insert tableName="PROJECT">
+            <column name="ID" value="2"/>
+            <column name="CODE" value="task tracker"/>
+            <column name="TITLE" value="PROJECT-1"/>
+            <column name="DESCRIPTION" value="test project"/>
+            <column name="TYPE_CODE" value="task tracker"/>
+            <column name="STARTPOINT"/>
+            <column name="ENDPOINT"/>
+            <column name="PARENT_ID"/>
+        </insert>
+    </changeSet>
+    <changeSet id="81" author="agribanov">
+        <insert tableName="SPRINT">
+            <column name="ID" value="1"/>
+            <column name="STATUS_CODE" value="planning"/>
+            <column name="STARTPOINT" value="2023-04-09 23:05:05.000000"/>
+            <column name="ENDPOINT" value="2023-04-12 23:05:12.000000"/>
+            <column name="TITLE" value="Sprint-1"/>
+            <column name="PROJECT_ID" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="82" author="agribanov">
+        <insert tableName="TASK">
+            <column name="ID" value="2"/>
+            <column name="TITLE" value="Task-1"/>
+            <column name="DESCRIPTION" value="short test task"/>
+            <column name="TYPE_CODE" value="task"/>
+            <column name="STATUS_CODE" value="in progress"/>
+            <column name="PRIORITY_CODE" value="high"/>
+            <column name="ESTIMATE"/>
+            <column name="UPDATED"/>
+            <column name="PROJECT_ID" value="2"/>
+            <column name="SPRINT_ID" value="1"/>
+            <column name="PARENT_ID"/>
+            <column name="STARTPOINT"/>
+            <column name="ENDPOINT"/>
+        </insert>
+    </changeSet>
+    <changeSet id="83" author="agribanov">
+        <insert tableName="TASK">
+            <column name="ID" value="3"/>
+            <column name="TITLE" value="Task-2"/>
+            <column name="DESCRIPTION" value="test 2 task"/>
+            <column name="TYPE_CODE" value="bug"/>
+            <column name="STATUS_CODE" value="ready"/>
+            <column name="PRIORITY_CODE" value="normal"/>
+            <column name="ESTIMATE"/>
+            <column name="UPDATED"/>
+            <column name="PROJECT_ID" value="2"/>
+            <column name="SPRINT_ID" value="1"/>
+            <column name="PARENT_ID"/>
+            <column name="STARTPOINT"/>
+            <column name="ENDPOINT"/>
+        </insert>
+    </changeSet>
+    <changeSet id="84" author="agribanov">
+        <insert tableName="TASK">
+            <column name="ID" value="5"/>
+            <column name="TITLE" value="Task-4"/>
+            <column name="DESCRIPTION" value="test 4"/>
+            <column name="TYPE_CODE" value="bug"/>
+            <column name="STATUS_CODE" value="in progress"/>
+            <column name="PRIORITY_CODE" value="normal"/>
+            <column name="ESTIMATE"/>
+            <column name="UPDATED"/>
+            <column name="PROJECT_ID" value="2"/>
+            <column name="SPRINT_ID" value="1"/>
+            <column name="PARENT_ID"/>
+            <column name="STARTPOINT"/>
+            <column name="ENDPOINT"/>
+        </insert>
+    </changeSet>
+    <changeSet id="85" author="agribanov">
+        <insert tableName="TASK">
+            <column name="ID" value="4"/>
+            <column name="TITLE" value="Task-3"/>
+            <column name="DESCRIPTION" value="test 3 descr"/>
+            <column name="TYPE_CODE" value="task"/>
+            <column name="STATUS_CODE" value="done"/>
+            <column name="PRIORITY_CODE" value="low"/>
+            <column name="ESTIMATE"/>
+            <column name="UPDATED"/>
+            <column name="PROJECT_ID" value="2"/>
+            <column name="SPRINT_ID" value="1"/>
+            <column name="PARENT_ID"/>
+            <column name="STARTPOINT"/>
+            <column name="ENDPOINT"/>
+        </insert>
+    </changeSet>
+    <changeSet id="86" author="agribanov">
+        <insert tableName="USER_BELONG">
+            <column name="ID" value="3"/>
+            <column name="OBJECT_ID" value="2"/>
+            <column name="OBJECT_TYPE" value="2"/>
+            <column name="USER_ID" value="2"/>
+            <column name="USER_TYPE_CODE" value="admin"/>
+            <column name="STARTPOINT"/>
+            <column name="ENDPOINT"/>
+        </insert>
+    </changeSet>
+    <changeSet id="87" author="agribanov">
+        <insert tableName="USER_BELONG">
+            <column name="ID" value="4"/>
+            <column name="OBJECT_ID" value="3"/>
+            <column name="OBJECT_TYPE" value="2"/>
+            <column name="USER_ID" value="2"/>
+            <column name="USER_TYPE_CODE" value="admin"/>
+            <column name="STARTPOINT"/>
+            <column name="ENDPOINT"/>
+        </insert>
+    </changeSet>
+    <changeSet id="88" author="agribanov">
+        <insert tableName="USER_BELONG">
+            <column name="ID" value="5"/>
+            <column name="OBJECT_ID" value="4"/>
+            <column name="OBJECT_TYPE" value="2"/>
+            <column name="USER_ID" value="2"/>
+            <column name="USER_TYPE_CODE" value="admin"/>
+            <column name="STARTPOINT"/>
+            <column name="ENDPOINT"/>
+        </insert>
+    </changeSet>
+    <changeSet id="89" author="agribanov">
+        <insert tableName="USER_BELONG">
+            <column name="ID" value="6"/>
+            <column name="OBJECT_ID" value="5"/>
+            <column name="OBJECT_TYPE" value="2"/>
+            <column name="USER_ID" value="2"/>
+            <column name="USER_TYPE_CODE" value="admin"/>
+            <column name="STARTPOINT"/>
+            <column name="ENDPOINT"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
