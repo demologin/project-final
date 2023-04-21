@@ -1,5 +1,5 @@
 let form;
-
+// TODO add paging for users
 function makeEditable(datatableOpts) {
     ctx.datatableApi = $("#datatable").DataTable(
         // https://api.jquery.com/jquery.extend/#jQuery-extend-deep-target-object1-objectN
@@ -9,7 +9,7 @@ function makeEditable(datatableOpts) {
                     "url": ctx.ajaxUrl,
                     "dataSrc": ""
                 },
-                "paging": false,
+                "paging": true,
                 "info": true,
                 "language": {
                     "search": "Search"
