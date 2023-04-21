@@ -4,6 +4,19 @@ volumes:
   pgdata:
     name: pgdata
 services:
+  jira:
+    image: jira-app
+    container_name: jira
+    ports:
+      - "8080:8080"
+    build:
+      context: .
+      dockerfile: Dockerfile-local-build
+    depends_on:
+      - nginx
+      - db
+    env_file:
+      - config/jira-app-prod.env
   nginx:
     container_name: nginx
     image: nginx:1.13
@@ -12,19 +25,6 @@ services:
       - "80:80"
     volumes:
       - ./config/nginx.conf:/etc/nginx/conf.d/nginx.conf
-  jira:
-    image: jira-app
-    container_name: jira
-    ports:
-      - "8080:8080"
-    build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      - nginx
-      - db
-    env_file:
-      - config/jira-app-prod.env
   db:
     image: postgres:15.2
     container_name: db
