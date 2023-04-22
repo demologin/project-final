@@ -1,5 +1,5 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
-<!-- TODO: Task 4. Made xml changelog for h2 db for tests. -->
+<!-- TODO: Task 4. Made xml changelog for h2 db for tests. Not finished. -->
 <!--suppress ALL -->
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
     <changeSet id="drop_user_role" author="drege">
@@ -102,18 +102,6 @@
             <column name="parent_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="drege (generated)" id="1681771408795-2">
-        <insert tableName="project">
-            <column name="id" valueNumeric="2"/>
-            <column name="code" value="task tracker"/>
-            <column name="title" value="PROJECT-1"/>
-            <column name="description" value="test project"/>
-            <column name="type_code" value="task tracker"/>
-            <column name="startpoint"/>
-            <column name="endpoint"/>
-            <column name="parent_id"/>
-        </insert>
-    </changeSet>
     <changeSet author="drege (generated)" id="1681771408795-3">
         <createTable tableName="mail_case">
             <column name="id" type="BIGINT">
@@ -154,19 +142,9 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="drege (generated)" id="1681771408795-5">
-        <insert tableName="sprint">
-            <column name="id" valueNumeric="1"/>
-            <column name="status_code" value="planning"/>
-            <column name="startpoint" valueDate="2023-04-09T23:05:05"/>
-            <column name="endpoint" valueDate="2023-04-12T23:05:12"/>
-            <column name="title" value="Sprint-1"/>
-            <column name="project_id" valueNumeric="2"/>
-        </insert>
-    </changeSet>
     <changeSet author="drege (generated)" id="1681771408795-6">
         <createTable tableName="reference">
-            <column autoIncrement="true" name="id" type="BIGINT">
+            <column autoIncrement="true" name="id" startWith="1" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="reference_pkey"/>
             </column>
             <column name="code" type="VARCHAR(32)">
@@ -182,296 +160,6 @@
             </column>
             <column name="aux" type="VARCHAR"/>
         </createTable>
-    </changeSet>
-    <changeSet author="drege (generated)" id="1681771408795-7">
-        <insert tableName="reference">
-            <column name="code" value="ready"/>
-            <column name="ref_type" valueNumeric="3"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Ready"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="task"/>
-            <column name="ref_type" valueNumeric="2"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Task"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="story"/>
-            <column name="ref_type" valueNumeric="2"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Story"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="bug"/>
-            <column name="ref_type" valueNumeric="2"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Bug"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="epic"/>
-            <column name="ref_type" valueNumeric="2"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Epic"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="icebox"/>
-            <column name="ref_type" valueNumeric="3"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Icebox"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="backlog"/>
-            <column name="ref_type" valueNumeric="3"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Backlog"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="in progress"/>
-            <column name="ref_type" valueNumeric="3"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="In progress"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="done"/>
-            <column name="ref_type" valueNumeric="3"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Done"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="planning"/>
-            <column name="ref_type" valueNumeric="4"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Planning"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="implementation"/>
-            <column name="ref_type" valueNumeric="4"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Implementation"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="review"/>
-            <column name="ref_type" valueNumeric="4"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Review"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="retrospective"/>
-            <column name="ref_type" valueNumeric="4"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Retrospective"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="admin"/>
-            <column name="ref_type" valueNumeric="5"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Admin"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="user"/>
-            <column name="ref_type" valueNumeric="5"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="User"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="scrum"/>
-            <column name="ref_type" valueNumeric="1"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Scrum"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="task tracker"/>
-            <column name="ref_type" valueNumeric="1"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Task tracker"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="skype"/>
-            <column name="ref_type" valueNumeric="0"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Skype"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="tg"/>
-            <column name="ref_type" valueNumeric="0"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Telegram"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="mobile"/>
-            <column name="ref_type" valueNumeric="0"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Mobile"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="phone"/>
-            <column name="ref_type" valueNumeric="0"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Phone"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="website"/>
-            <column name="ref_type" valueNumeric="0"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Website"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="vk"/>
-            <column name="ref_type" valueNumeric="0"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="VK"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="linkedin"/>
-            <column name="ref_type" valueNumeric="0"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="LinkedIn"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="github"/>
-            <column name="ref_type" valueNumeric="0"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="GitHub"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="critical"/>
-            <column name="ref_type" valueNumeric="7"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Critical"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="high"/>
-            <column name="ref_type" valueNumeric="7"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="High"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="normal"/>
-            <column name="ref_type" valueNumeric="7"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Normal"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="low"/>
-            <column name="ref_type" valueNumeric="7"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Low"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="neutral"/>
-            <column name="ref_type" valueNumeric="7"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Neutral"/>
-            <column name="aux"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="assigned"/>
-            <column name="ref_type" valueNumeric="6"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Assigned"/>
-            <column name="aux" value="1"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="three_days_before_deadline"/>
-            <column name="ref_type" valueNumeric="6"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Three days before deadline"/>
-            <column name="aux" value="2"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="two_days_before_deadline"/>
-            <column name="ref_type" valueNumeric="6"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Two days before deadline"/>
-            <column name="aux" value="4"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="one_day_before_deadline"/>
-            <column name="ref_type" valueNumeric="6"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="One day before deadline"/>
-            <column name="aux" value="8"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="deadline"/>
-            <column name="ref_type" valueNumeric="6"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Deadline"/>
-            <column name="aux" value="16"/>
-        </insert>
-        <insert tableName="reference">
-            <column name="code" value="overdue"/>
-            <column name="ref_type" valueNumeric="6"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="Overdue"/>
-            <column name="aux" value="32"/>
-        </insert>
     </changeSet>
     <changeSet author="drege (generated)" id="1681771408795-8">
         <createTable tableName="users">
@@ -494,35 +182,6 @@
             <column name="endpoint" type="TIMESTAMP WITHOUT TIME ZONE"/>
             <column name="startpoint" type="TIMESTAMP WITHOUT TIME ZONE"/>
         </createTable>
-    </changeSet>
-    <changeSet author="drege (generated)" id="1681771408795-9">
-        <insert tableName="users">
-            <column name="display_name" value="userDisplayName"/>
-            <column name="email" value="user@gmail.com"/>
-            <column name="first_name" value="userFirstName"/>
-            <column name="last_name" value="userLastName"/>
-            <column name="password" value="{noop}password"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-        </insert>
-        <insert tableName="users">
-            <column name="display_name" value="adminDisplayName"/>
-            <column name="email" value="admin@gmail.com"/>
-            <column name="first_name" value="adminFirstName"/>
-            <column name="last_name" value="adminLastName"/>
-            <column name="password" value="{noop}admin"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-        </insert>
-        <insert tableName="users">
-            <column name="display_name" value="guestDisplayName"/>
-            <column name="email" value="guest@gmail.com"/>
-            <column name="first_name" value="guestFirstName"/>
-            <column name="last_name" value="guestLastName"/>
-            <column name="password" value="{noop}guest"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-        </insert>
     </changeSet>
     <changeSet author="drege (generated)" id="1681771408795-10">
         <createTable tableName="task">
@@ -555,71 +214,9 @@
             <column name="endpoint" type="TIMESTAMP WITHOUT TIME ZONE"/>
         </createTable>
     </changeSet>
-    <changeSet author="drege (generated)" id="1681771408795-11">
-        <insert tableName="task">
-            <column name="id" valueNumeric="2"/>
-            <column name="title" value="Task-1"/>
-            <column name="description" value="short test task"/>
-            <column name="type_code" value="task"/>
-            <column name="status_code" value="in progress"/>
-            <column name="priority_code" value="high"/>
-            <column name="estimate"/>
-            <column name="updated"/>
-            <column name="project_id" valueNumeric="2"/>
-            <column name="sprint_id" valueNumeric="1"/>
-            <column name="parent_id"/>
-            <column name="startpoint"/>
-            <column name="endpoint"/>
-        </insert>
-        <insert tableName="task">
-            <column name="id" valueNumeric="3"/>
-            <column name="title" value="Task-2"/>
-            <column name="description" value="test 2 task"/>
-            <column name="type_code" value="bug"/>
-            <column name="status_code" value="ready"/>
-            <column name="priority_code" value="normal"/>
-            <column name="estimate"/>
-            <column name="updated"/>
-            <column name="project_id" valueNumeric="2"/>
-            <column name="sprint_id" valueNumeric="1"/>
-            <column name="parent_id"/>
-            <column name="startpoint"/>
-            <column name="endpoint"/>
-        </insert>
-        <insert tableName="task">
-            <column name="id" valueNumeric="5"/>
-            <column name="title" value="Task-4"/>
-            <column name="description" value="test 4"/>
-            <column name="type_code" value="bug"/>
-            <column name="status_code" value="in progress"/>
-            <column name="priority_code" value="normal"/>
-            <column name="estimate"/>
-            <column name="updated"/>
-            <column name="project_id" valueNumeric="2"/>
-            <column name="sprint_id" valueNumeric="1"/>
-            <column name="parent_id"/>
-            <column name="startpoint"/>
-            <column name="endpoint"/>
-        </insert>
-        <insert tableName="task">
-            <column name="id" valueNumeric="4"/>
-            <column name="title" value="Task-3"/>
-            <column name="description" value="test 3 descr"/>
-            <column name="type_code" value="task"/>
-            <column name="status_code" value="done"/>
-            <column name="priority_code" value="low"/>
-            <column name="estimate"/>
-            <column name="updated"/>
-            <column name="project_id" valueNumeric="2"/>
-            <column name="sprint_id" valueNumeric="1"/>
-            <column name="parent_id"/>
-            <column name="startpoint"/>
-            <column name="endpoint"/>
-        </insert>
-    </changeSet>
     <changeSet author="drege (generated)" id="1681771408795-12">
         <createTable tableName="activity">
-            <column autoIncrement="true" name="id" type="BIGINT">
+            <column autoIncrement="true" name="id" startWith="1" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="activity_pkey"/>
             </column>
             <column name="author_id" type="BIGINT">
@@ -659,47 +256,9 @@
             <column name="endpoint" type="TIMESTAMP WITHOUT TIME ZONE"/>
         </createTable>
     </changeSet>
-    <changeSet author="drege (generated)" id="1681771408795-14">
-        <insert tableName="user_belong">
-            <column name="id" valueNumeric="3"/>
-            <column name="object_id" valueNumeric="2"/>
-            <column name="object_type" valueNumeric="2"/>
-            <column name="user_id" valueNumeric="2"/>
-            <column name="user_type_code" value="admin"/>
-            <column name="startpoint"/>
-            <column name="endpoint"/>
-        </insert>
-        <insert tableName="user_belong">
-            <column name="id" valueNumeric="4"/>
-            <column name="object_id" valueNumeric="3"/>
-            <column name="object_type" valueNumeric="2"/>
-            <column name="user_id" valueNumeric="2"/>
-            <column name="user_type_code" value="admin"/>
-            <column name="startpoint"/>
-            <column name="endpoint"/>
-        </insert>
-        <insert tableName="user_belong">
-            <column name="id" valueNumeric="5"/>
-            <column name="object_id" valueNumeric="4"/>
-            <column name="object_type" valueNumeric="2"/>
-            <column name="user_id" valueNumeric="2"/>
-            <column name="user_type_code" value="admin"/>
-            <column name="startpoint"/>
-            <column name="endpoint"/>
-        </insert>
-        <insert tableName="user_belong">
-            <column name="id" valueNumeric="6"/>
-            <column name="object_id" valueNumeric="5"/>
-            <column name="object_type" valueNumeric="2"/>
-            <column name="user_id" valueNumeric="2"/>
-            <column name="user_type_code" value="admin"/>
-            <column name="startpoint"/>
-            <column name="endpoint"/>
-        </insert>
-    </changeSet>
     <changeSet author="drege (generated)" id="1681771408795-15">
         <createTable tableName="attachment">
-            <column autoIncrement="true" name="id" type="BIGINT">
+            <column autoIncrement="true" name="id" startWith="1" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="attachment_pkey"/>
             </column>
             <column name="name" type="VARCHAR(128)">
@@ -739,20 +298,6 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-    </changeSet>
-    <changeSet author="drege (generated)" id="1681771408795-18">
-        <insert tableName="user_role">
-            <column name="user_id" valueNumeric="1"/>
-            <column name="role" valueNumeric="0"/>
-        </insert>
-        <insert tableName="user_role">
-            <column name="user_id" valueNumeric="2"/>
-            <column name="role" valueNumeric="1"/>
-        </insert>
-        <insert tableName="user_role">
-            <column name="user_id" valueNumeric="2"/>
-            <column name="role" valueNumeric="0"/>
-        </insert>
     </changeSet>
     <changeSet author="drege (generated)" id="1681771408795-19">
         <addUniqueConstraint columnNames="code" constraintName="uk_project_code" tableName="project"/>
@@ -807,52 +352,6 @@
             <column name="last_failed_login" type="TIMESTAMP WITHOUT TIME ZONE"/>
             <column name="mail_notifications" type="BIGINT"/>
         </createTable>
-    </changeSet>
-    <changeSet author="drege (generated)" id="1681771408795-29">
-        <insert tableName="contact">
-            <column name="id" valueNumeric="1"/>
-            <column name="code" value="skype"/>
-            <column name="value" value="userSkype"/>
-        </insert>
-        <insert tableName="contact">
-            <column name="id" valueNumeric="1"/>
-            <column name="code" value="mobile"/>
-            <column name="value" value="+01234567890"/>
-        </insert>
-        <insert tableName="contact">
-            <column name="id" valueNumeric="1"/>
-            <column name="code" value="website"/>
-            <column name="value" value="user.com"/>
-        </insert>
-        <insert tableName="contact">
-            <column name="id" valueNumeric="2"/>
-            <column name="code" value="github"/>
-            <column name="value" value="adminGitHub"/>
-        </insert>
-        <insert tableName="contact">
-            <column name="id" valueNumeric="2"/>
-            <column name="code" value="tg"/>
-            <column name="value" value="adminTg"/>
-        </insert>
-        <insert tableName="contact">
-            <column name="id" valueNumeric="2"/>
-            <column name="code" value="vk"/>
-            <column name="value" value="adminVk"/>
-        </insert>
-    </changeSet>
-    <changeSet author="drege (generated)" id="1681771408795-30">
-        <insert tableName="profile">
-            <column name="id" valueNumeric="1"/>
-            <column name="last_login"/>
-            <column name="last_failed_login"/>
-            <column name="mail_notifications" valueNumeric="49"/>
-        </insert>
-        <insert tableName="profile">
-            <column name="id" valueNumeric="2"/>
-            <column name="last_login"/>
-            <column name="last_failed_login"/>
-            <column name="mail_notifications" valueNumeric="14"/>
-        </insert>
     </changeSet>
     <changeSet author="drege (generated)" id="1681771408795-31">
         <addForeignKeyConstraint baseColumnNames="task_id" baseTableName="activity" constraintName="fk_activity_task" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="task" validate="true"/>
