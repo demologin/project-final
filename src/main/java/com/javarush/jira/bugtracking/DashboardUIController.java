@@ -6,9 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,5 +28,13 @@ public class DashboardUIController {
                 .collect(Collectors.groupingBy(TaskTo::getSprint));
         model.addAttribute("taskMap", taskMap);
         return "index";
+    }
+
+
+    //todo throw non-valid id parameter
+    @PostMapping("/")
+    public String addTag(@RequestParam("task_id_number") Long id, @RequestParam("tag") String tag){
+        taskService.addTag(id, tag);
+        return "redirect:/";
     }
 }
