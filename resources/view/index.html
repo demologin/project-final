@@ -27,40 +27,6 @@
                                             th:text="${task.priorityCode}"></h6>
                                         <h6 class="card-subtitle mb-2 text-muted" style="text-align: left; "
                                             th:text="'Tags:' + ${task.tags}"></h6>
-
-                                        <button type="button" id="create_tag" class="btn btn-primary"
-                                                data-bs-toggle="modal" data-bs-target="#modalRef">+ Add tag
-                                        </button>
-
-                                        <div class="modal fade" id="modalRef"
-                                             aria-labelledby="modalRefLabel" style="display: none;" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="modalRefLabel">Create new tag</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
-                                                    </div>
-                                                    <form enctype="multipart/form-data" action="/" method="post"
-                                                          autocomplete="on">
-                                                        <div class="modal-body text-start">
-                                                            <input type="hidden" name="task_id_number"
-                                                                   th:value="${task.id}">
-                                                            <p class="mb-3">
-                                                                <label for="tag" class="sr-only">Логин</label>
-                                                                <input type="text" id="tag" name="tag"
-                                                                       class="form-control" placeholder="Логин"
-                                                                       required=""
-                                                                       autofocus="">
-                                                            </p>
-                                                        </div>
-                                                        <div>
-                                                            <input class="btn btn-lg btn-primary btn-block"
-                                                                   type="submit" value="Save"/>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

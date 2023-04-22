@@ -30,8 +30,7 @@ public class DashboardUIController {
         return "index";
     }
 
-
-    //todo throw non-valid id parameter
+    //todo added method for adding tags for Task
     @PostMapping("/")
     public String addTag(@RequestParam("task_id_number") Long id, @RequestParam("tag") String tag){
         taskService.addTag(id, tag);

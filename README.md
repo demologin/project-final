@@ -35,3 +35,4 @@
    приоритет, чем значения в файле properties
 4. Тесты переведены в testcontainers на базе postgresql
 5. Написаны тесты для всех публичных методов контроллера ProfileRestController.
+6. Добавлены методы в DashBoardUIController, TaskService и TaskRepository
