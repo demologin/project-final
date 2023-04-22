@@ -2,14 +2,12 @@ package com.javarush.jira.bugtracking;
 
 import com.javarush.jira.bugtracking.to.SprintTo;
 import com.javarush.jira.bugtracking.to.TaskTo;
+import com.javarush.jira.common.error.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -33,9 +31,12 @@ public class DashboardUIController {
     }
 
     //    TODO added method at controller for adding tags for task, but without front realization
-    @GetMapping("/addTag")
-    public String addingTags(@ModelAttribute TaskTo task, @RequestParam String tag) {
-        taskService.addTag(tag, task);
+    @GetMapping("/{id}")
+    public String addingTags(@PathVariable long id, @RequestParam String tag) {
+        if (!taskService.checkExistence(id)) {
+            throw new NotFoundException("Task not found");
+        }
+        taskService.addTag(id, tag);
         return "index";
     }
 }

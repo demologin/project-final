@@ -19,11 +19,16 @@ public class TaskService extends BugtrackingService<Task, TaskTo, TaskRepository
         return mapper.toToList(repository.getAll());
     }
 
-//    TODO added method for adding tags
-    public void addTag(String tag, TaskTo task) {
+    //    TODO added method for adding tags
+    public void addTag(long id, String tag) {
+        Task task = repository.findById(id).get();
         Set<String> tags = task.getTags();
         tags.add(tag);
-        Task entity = mapper.toEntity(task);
-        repository.saveAndFlush(entity);
+        task.setTags(tags);
+        repository.saveAndFlush(task);
+    }
+//TODO method for check task existing
+    public boolean checkExistence(long id) {
+        return repository.findById(id).isPresent();
     }
 }
