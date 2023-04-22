@@ -360,14 +360,7 @@
             <column name="title" value="Website"/>
             <column name="aux"/>
         </insert>
-        <insert tableName="reference">
-            <column name="code" value="vk"/>
-            <column name="ref_type" valueNumeric="0"/>
-            <column name="endpoint"/>
-            <column name="startpoint"/>
-            <column name="title" value="VK"/>
-            <column name="aux"/>
-        </insert>
+        <!-- TODO: Task 2. Deleted social networks. -->
         <insert tableName="reference">
             <column name="code" value="linkedin"/>
             <column name="ref_type" valueNumeric="0"/>
@@ -829,15 +822,11 @@
             <column name="code" value="github"/>
             <column name="value" value="adminGitHub"/>
         </insert>
+        <!-- TODO: Task 2. Deleted social networks. -->
         <insert tableName="contact">
             <column name="id" valueNumeric="2"/>
             <column name="code" value="tg"/>
             <column name="value" value="adminTg"/>
-        </insert>
-        <insert tableName="contact">
-            <column name="id" valueNumeric="2"/>
-            <column name="code" value="vk"/>
-            <column name="value" value="adminVk"/>
         </insert>
     </changeSet>
     <changeSet author="drege (generated)" id="1681771408795-30">
