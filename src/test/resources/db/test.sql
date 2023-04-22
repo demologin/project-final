@@ -5,7 +5,7 @@ DELETE FROM users;
 DELETE FROM task;
 DELETE FROM sprint;
 DELETE FROM project;
-ALTER SEQUENCE users_id_seq RESTART WITH 1;
+-- ALTER SEQUENCE users_id_seq RESTART WITH 1;
 
 insert into users (EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, DISPLAY_NAME)
 values ('user@gmail.com', '{noop}password', 'userFirstName', 'userLastName', 'userDisplayName'),
@@ -20,7 +20,7 @@ values (0, 1),
        (0, 2);
 
 DELETE FROM reference;
-ALTER SEQUENCE reference_id_seq RESTART WITH 1;
+-- ALTER SEQUENCE reference_id_seq RESTART WITH 1;
 --============ References =================
 insert into reference (CODE, TITLE, REF_TYPE)
 -- TASK
@@ -97,4 +97,3 @@ INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, st
 INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, startpoint, endpoint) VALUES (4, 3, 2, 2, 'admin', null, null);
 INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, startpoint, endpoint) VALUES (5, 4, 2, 2, 'admin', null, null);
 INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, startpoint, endpoint) VALUES (6, 5, 2, 2, 'admin', null, null);
-
