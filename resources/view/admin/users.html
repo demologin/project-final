@@ -8,8 +8,8 @@
     <appMain>
         <div class="jumbotron pt-4">
             <div class="container">
-                <h3 class="text-center">Users</h3>
-                <button th:onclick="add()" class="btn btn-primary">Add</button>
+                <h3 class="text-center" th:text="#{layout.sidebar.users}"></h3>
+                <button th:onclick="add()" class="btn btn-primary" th:text="#{admin.users.add}"></button>
                 <table class="table table-striped" id="datatable">
                     <thead>
                     <tr>
@@ -18,7 +18,7 @@
                         <th th:text="#{admin.users.displayName}"></th>
                         <th th:text="#{admin.users.email}"></th>
                         <th th:text="#{admin.users.roles}"></th>
-                        <th th:text="#{admin.users.registered}">Registered</th>
+                        <th th:text="#{admin.users.registered}"></th>
                         <th th:text="#{admin.users.active}"></th>
                         <th></th>
                         <th></th>
@@ -71,13 +71,11 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeNoty()">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeNoty()" th:text="#{profile.cancel}">
                             <span class="fa fa-close"></span>
-                            Cancel
                         </button>
-                        <button type="button" class="btn btn-primary" onclick="save()">
+                        <button type="button" class="btn btn-primary" onclick="save()" th:text="#{profile.save}">
                             <span class="fa fa-check"></span>
-                            Save
                         </button>
                     </div>
                 </div>
