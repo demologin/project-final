@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.javarush.jira.AbstractControllerTest;
 import com.javarush.jira.common.config.PGContainer;
+import com.javarush.jira.common.util.JsonUtil;
 import com.javarush.jira.profile.ProfileTo;
 import com.javarush.jira.profile.internal.ProfileMapper;
 import com.javarush.jira.profile.internal.ProfileRepository;
@@ -62,8 +63,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
     void stubMethodUpdate() throws Exception {
         //given
         ProfileTo profileTo = mapper.toTo(repository.getOrCreate(guest.id()));
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(profileTo);
+        String json = JsonUtil.writeValue(profileTo);
         //when
         perform(MockMvcRequestBuilders.put(REST_URL)
                 .content(json)
