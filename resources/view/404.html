@@ -1,4 +1,5 @@
-<html lang="ru">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,30 +22,35 @@
 <div class="app">
 
 
-    <div>
+    <div th:fragment="header">
         <header class="fixed-top d-none d-md-block header-nav">
             <nav class="navbar navbar-expand-lg navbar-dark" id="header">
                 <div class="container">
                     <div class="collapse navbar-collapse mt-2 mb-2">
                         <ul class="navbar-nav m-auto">
                             <form class="d-flex" role="search">
-                                <input class="form-control" type="search" placeholder="Search" aria-label="Search" id="header-search">
+                                <input class="form-control" type="search" th:placeholder="#{layout.header.search}" aria-label="Search" id="header-search">
                             </form>
                             <li class="nav-item menu-item me-3 ms-4">
-                                <a href="/doc" type="button" class="btn btn-yellow" target="_blank">Swagger API</a>
+                                <a href="/doc" type="button" class="btn btn-yellow" target="_blank" th:text="#{layout.header.swagger}"></a>
                             </li>
                         </ul>
-
-                        <div>
-                            <a href="/ui/profile" type="button" class="btn btn-orange"><i class="fa-solid fa-address-card"></i> Profile</a>
+                        <div th:if="${authUser} == null">
+                            <a href="/view/login" type="button" class="btn btn-orange" th:text="#{layout.header.login}">Login/Register</a>
                         </div>
+                        <th:block th:if="${authUser} != null">
+                            <a href="/ui/profile" type="button" class="btn btn-orange" th:text="#{layout.header.profile}"><i class="fa-solid fa-address-card" ></i> Profile</a>
+                            <form action="/ui/logout" method="post" class="mx-2">
+                                <button class="btn btn-yellow btn-orange" type="submit" th:text="#{layout.header.logout}"><i class="fa-solid fa-sign-out"></i> Logout</button>
+                            </form>
+                        </th:block>
                     </div>
                 </div>
             </nav>
         </header>
     </div>
 
-    <div>
+    <div th:fragment="sidebar">
         <nav class="navbar navbar-expand-lg navbar-dark fixed-left sidebar-nav">
             <button class="navbar-toggler ms-3 ms-md-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,24 +61,57 @@
                 <img src="/static/images/logo/jr-text.svg" alt="JavaRush" class="d-inline-block d-lg-none align-text-top ms-3 ms-lg-4 mt-0 mt-lg-2">
                 <hr class="text-white d-none d-lg-block" style="width: 232px">
             </a>
+            <div th:if="${authUser} == null">
+                <a href="/view/login" type="button" class="d-lg-none btn btn-orange px-2 px-md-4 me-3 me-md-4 mx-2 mt-2">
+                <span class="d-md-none">
+                    <label th:text="#{layout.sidebar.loginShort}"></label>
+                </span>
+                    <span class="d-none d-md-block" >
+                    <label th:text="#{layout.sidebar.loginFull}"></label>
+                </span>
+                </a>
+            </div>
+            <div th:if="${authUser} != null">
+                <a href="/ui/profile" type="button" class="d-lg-none btn btn-orange px-2 px-md-4 me-3 me-md-4 mx-2 mt-2">
+                    <i class="fa-solid fa-address-card"></i>
+                    <label th:text="#{layout.sidebar.profile}"></label>
+                </a>
+            </div>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mb-2 mb-lg-0">
-
-
+                    <div th:if="${authUser != null && authUser.isAdmin()}">
+                        <li class="nav-item menu-item mt-3 mt-lg-0 mb-0 mb-lg-3" id="users">
+                            <a class="nav-link sidebar-nav-link" href="/view/admin/users">
+                            <span class="ms-4">
+                                <i class="fa-regular fa-folder-open fa-fw me-2"></i>
+                                <label th:text="#{layout.sidebar.users}"></label></span></a>
+                        </li>
+                    </div>
+                    <div th:if="${authUser != null && authUser.isAdmin()}">
+                        <li class="nav-item menu-item mt-3 mt-lg-0 mb-0 mb-lg-3" id="references">
+                            <a class="nav-link sidebar-nav-link" href="/ui/admin/references">
+                            <span class="ms-4" >
+                                <i class="fa-regular fa-folder-open fa-fw me-2"></i>
+                                <label th:text="#{layout.sidebar.ref}"></label>
+                            </span>
+                            </a>
+                        </li>
+                    </div>
                     <li class="nav-item menu-item mt-3 mt-lg-0 mb-0 mb-lg-3" id="test1">
-                        <a class="nav-link sidebar-nav-link" href="#test1"><span class="ms-4"><i class="fa-regular fa-folder-open fa-fw me-2"></i>Link_1</span></a>
+                        <a class="nav-link sidebar-nav-link" href="#test1">
+                        <span class="ms-4" >
+                            <i class="fa-regular fa-folder-open fa-fw me-2"></i>
+                            <label th:text="#{layout.sidebar.link1}"></label>
+                        </span>
+                        </a>
                     </li>
                     <li class="nav-item menu-item mb-0 mb-lg-3" id="test2">
-                        <a class="nav-link sidebar-nav-link" href="#test2"><span class="ms-4"><i class="fa-solid fa-list-check fa-fw me-2"></i>Link_2</span></a>
-                    </li>
-                    <li class="nav-item menu-item mb-0 mb-lg-3" id="test3">
-                        <a class="nav-link sidebar-nav-link" href="#test3"><span class="ms-4"><i class="fa-solid fa-bug fa-fw me-2"></i>Link_3</span></a>
-                    </li>
-                    <li class="nav-item menu-item mb-0 mb-lg-3" id="test4">
-                        <a class="nav-link sidebar-nav-link" href="#test4"><span class="ms-4"><i class="fa-solid fa-book-skull fa-fw me-2"></i>Link_4</span></a>
-                    </li>
-                    <li class="nav-item menu-item" id="test5">
-                        <a class="nav-link sidebar-nav-link" href="#test5"><span class="ms-4"><i class="fa-solid fa-comments fa-fw me-2"></i>Link_5</span></a>
+                        <a class="nav-link sidebar-nav-link" href="#test2">
+                        <span class="ms-4">
+                            <i class="fa-solid fa-list-check fa-fw me-2"></i>
+                            <label th:text="#{layout.sidebar.link2}"></label>
+                        </span>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -84,86 +123,82 @@
             <appMain>
                 <div class="text-center">
                     <br>
-                    <h3 class="my-5">404 NOT_FOUND</h3>
-                    <h1 class="my-3">No page here</h1>
+                    <h3 class="my-5" th:text="#{not_found_page.notFound}"></h3>
+                    <h1 class="my-3" th:text="#{not_found_page.noPageHere}"></h1>
                 </div>
             </appMain>
         </div>
     </main>
 
-    <div>
+    <div th:fragment="footer">
         <footer class="text-center text-lg-start text-white footer">
             <section>
                 <div class="container text-center text-md-start">
                     <div class="row ms-0 ms-md-5">
                         <div class="col-md-4 col-xl-2 mb-4 mt-4">
-                            <h6 class="fw-bold mt-2 mt-md-0 mb-4">
-                                LEARN
+                            <h6 class="fw-bold mt-2 mt-md-0 mb-4" th:text="#{layout.footer.learn}">
+
                             </h6>
                             <p>
-                                <a href="#" class="footer-href">Programming Courses</a>
+                                <a href="#" class="footer-href" th:text="#{layout.footer.programmingCourses}"></a>
                             </p>
                             <p>
-                                <a href="#" class="footer-href">Java Course</a>
+                                <a href="#" class="footer-href" th:text="#{layout.footer.javaCourse}"></a>
                             </p>
                             <p>
-                                <a href="#" class="footer-href">Help with Tasks</a>
+                                <a href="#" class="footer-href " th:text="#{layout.footer.helpWithTasks}"></a>
                             </p>
                             <p>
-                                <a href="#" class="footer-href">Pricing</a>
+                                <a href="#" class="footer-href" th:text="#{layout.footer.pricing}"></a>
                             </p>
                             <p>
-                                <a href="#" class="footer-href">Game Projects</a>
+                                <a href="#" class="footer-href" th:text="#{layout.footer.gameProjects}"></a>
                             </p>
                         </div>
                         <div class="col-md-4 col-xl-2 mb-4 mt-0 mt-md-4">
-                            <h6 class="fw-bold mb-4">
-                                COMMUNITY
+                            <h6 class="fw-bold mb-4" th:text="#{layout.footer.community}">
+
                             </h6>
                             <p>
-                                <a href="#" class="footer-href">Users</a>
+                                <a href="#" class="footer-href" th:text="#{layout.footer.users}"></a>
                             </p>
                             <p>
-                                <a href="#" class="footer-href">Articles</a>
+                                <a href="#" class="footer-href" th:text="#{layout.footer.articles}"></a>
                             </p>
                             <p>
-                                <a href="#" class="footer-href">Forum</a>
+                                <a href="#" class="footer-href" th:text="#{layout.footer.forum}"></a>
                             </p>
                             <p>
-                                <a href="#" class="footer-href">Chat</a>
+                                <a href="#" class="footer-href" th:text="#{layout.footer.chat}"></a>
                             </p>
                             <p>
-                                <a href="#" class="footer-href">Success Stories</a>
+                                <a href="#" class="footer-href" th:text="#{layout.footer.successStories}"></a>
                             </p>
                         </div>
                         <div class="col-md-4 col-xl-2 mb-4 mt-0 mt-md-4">
-                            <h6 class="fw-bold mb-4">COMPANY</h6>
+                            <h6 class="fw-bold mb-4" th:text="#{layout.footer.company}"></h6>
                             <p>
-                                <a href="#" class="footer-href">About us</a>
-                            <p>
-                            <p>
-                                <a href="#" class="footer-href">Contacts</a>
+                                <a href="#" class="footer-href" th:text="#{layout.footer.aboutUs}"></a>
                             <p>
                             <p>
-                                <a href="#" class="footer-href">Reviews</a>
+                                <a href="#" class="footer-href" th:text="#{layout.footer.contacts}"></a>
                             <p>
                             <p>
-                                <a href="#" class="footer-href">FAQ</a>
+                                <a href="#" class="footer-href" th:text="#{layout.footer.reviews}"></a>
                             <p>
                             <p>
-                                <a href="#" class="footer-href">Support</a>
+                                <a href="#" class="footer-href" th:text="#{layout.footer.faq}"></a>
+                            <p>
+                            <p>
+                                <a href="#" class="footer-href" th:text="#{layout.footer.support}"></a>
                             <p>
                         </div>
 
                         <div class="col-xl-5 mb-4 mt-0 mt-md-4">
                             <img src="/static/images/logo/jr.svg" alt="JavaRush" class="mb-3">
-                            <p>
-                                JavaRush is an online course for learning Java programming from scratch.
-                                This course is a perfect way to master Java for beginners.
-                                It contains 1200+ of tasks with instant verification and an essential scope of Java
-                                fundamentals theory.
+                            <p th:text="#{layout.footer.desc}">
                             </p>
-                            <h6>FOLLOW US</h6>
+                            <h6 th:text="#{layout.footer.followUs}"></h6>
                             <div>
                                 <a href="#" type="button" class="btn btn-sm btn-outline-light me-2">
                                     <i class="fab fa-facebook-f pe-1"></i>
@@ -188,9 +223,7 @@
                     </div>
                 </div>
             </section>
-            <div class="text-center pb-4">
-                Programmers Are Made, Not Born © 2023 JavaRush
-            </div>
+            <div class="text-center pb-4" th:text="#{layout.footer.programmersMade}"></div>
         </footer>
     </div>
 </div>
