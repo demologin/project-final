@@ -21,13 +21,14 @@ public class UserBelongService {
         userBelong.setUserId(user.id());
         if (user.hasRole(Role.ADMIN)) {
             userBelong.setUserTypeCode("admin");
+            userBelong.setObjectId(taskId);
+            userBelong.setObjectType(ObjectType.TASK);
+            belongRepository.save(userBelong);
         } else if (user.hasRole(Role.DEV)) {
-            userBelong.setUserTypeCode("dev");
-        } else {
-            userBelong.setUserTypeCode("quest");
+            userBelong.setUserTypeCode("user");
+            userBelong.setObjectId(taskId);
+            userBelong.setObjectType(ObjectType.TASK);
+            belongRepository.save(userBelong);
         }
-        userBelong.setObjectId(taskId);
-        userBelong.setObjectType(ObjectType.TASK);
-        belongRepository.save(userBelong);
     }
 }
