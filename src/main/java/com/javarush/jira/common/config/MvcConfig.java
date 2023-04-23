@@ -58,7 +58,7 @@ public class MvcConfig implements WebMvcConfigurer {
         public void preHandle(WebRequest request) {
         }
     });
-
+//TODO add localChangeInterceptor to registry
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
@@ -102,6 +102,7 @@ public class MvcConfig implements WebMvcConfigurer {
                 .setReadTimeout(Duration.ofSeconds(10))
                 .build();
     }
+//TODO added localResolver with default locale
 
     @Bean
     public LocaleResolver localeResolver() {
@@ -109,7 +110,7 @@ public class MvcConfig implements WebMvcConfigurer {
         slr.setDefaultLocale(new Locale("en","EN"));
         return slr;
     }
-
+    //TODO added localChangeInterceptor with lang param
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
@@ -117,6 +118,7 @@ public class MvcConfig implements WebMvcConfigurer {
         return lci;
     }
 
+//    TODO added messageSource for i18n
     @Bean
     public MessageSource messageSource () {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
