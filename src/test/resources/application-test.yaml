@@ -10,6 +10,18 @@ spring:
     password: test
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
 
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+    host: smtp.gmail.com
+    username: jira4jr@gmail.com
+    password: zdfzsrqvgimldzyj
+    port: 587
+
   liquibase:
     change-log: db/changelog-test.sql
     enabled: true
@@ -36,15 +48,3 @@ spring:
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
             authorization-grant-type: authorization_code
             scope: read_user
-
-  mail:
-    properties:
-      mail:
-        smtp:
-          starttls:
-            enable: true
-          auth: true
-    host: smtp.gmail.com
-    username: jira4jr@gmail.com
-    password: zdfzsrqvgimldzyj
-    port: 587
