@@ -1,7 +1,5 @@
 package com.javarush.jira.profile.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.javarush.jira.AbstractControllerTest;
 import com.javarush.jira.common.config.PGContainer;
 import com.javarush.jira.common.util.JsonUtil;
@@ -19,7 +17,8 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-import static com.javarush.jira.login.internal.web.UserTestData.*;
+import static com.javarush.jira.login.internal.web.UserTestData.GUEST_MAIL;
+import static com.javarush.jira.login.internal.web.UserTestData.guest;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
