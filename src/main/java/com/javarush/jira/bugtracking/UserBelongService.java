@@ -16,6 +16,7 @@ public class UserBelongService {
     }
 
     //todo added method for subscribing to a task
+    //todo added description field initialization
     public void subscribeToTask(User user, Long taskId) {
         UserBelong userBelong = new UserBelong();
         userBelong.setUserId(user.id());
@@ -23,11 +24,13 @@ public class UserBelongService {
             userBelong.setUserTypeCode("admin");
             userBelong.setObjectId(taskId);
             userBelong.setObjectType(ObjectType.TASK);
+            userBelong.setDescription("subscription");
             belongRepository.save(userBelong);
         } else if (user.hasRole(Role.DEV)) {
             userBelong.setUserTypeCode("user");
             userBelong.setObjectId(taskId);
             userBelong.setObjectType(ObjectType.TASK);
+            userBelong.setDescription("subscription");
             belongRepository.save(userBelong);
         }
     }
