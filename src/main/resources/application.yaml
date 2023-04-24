@@ -28,8 +28,10 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/jira
 
-    #url: jdbc:h2:mem:jira;NON_KEYWORDS=KEY,VALUE
-
+  #TODO TODO replace SQL changelog to XML
+  liquibase:
+    #changeLog: "classpath:db/changelog.sql"
+    changeLog: "classpath:db/changelog.xml"
 
   security:
     oauth2:
@@ -66,10 +68,7 @@ spring:
     port: 587
   config:
     import: classpath:securityprop.yaml
-  liquibase:
-    #TODO TODO replace SQL changelog to XML
-    #changeLog: "classpath:db/changelog.sql"
-    changeLog: "classpath:db/changelog.xml"
+
 
   # Jackson Fields Serialization
   jackson:

@@ -25,6 +25,14 @@
                                             th:text="${task.description}"></h6>
                                         <h6 class="card-subtitle mb-2 text-muted" style="text-align: left; "
                                             th:text="${task.priorityCode}"></h6>
+                                        <!-- TODO add Tags adding functionality -->
+                                        <div th:if="${task.getTags() != null}">
+                                            <h6 class="card-subtitle mb-2 text-muted" style="text-align: left; ">TAGS:</h6>
+                                            <div th:each="tag: ${task.getTags()}">
+                                                <h6 class="card-subtitle mb-2 text-muted" style="text-align: left; "
+                                                    th:text="${tag}"></h6>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
