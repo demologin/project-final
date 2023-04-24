@@ -15,7 +15,6 @@ spring:
 # validate db by model
     hibernate:
       ddl-auto: validate
-      #dialect: org.hibernate.dialect.H2Dialect
 
 
     properties:
@@ -25,8 +24,7 @@ spring:
         default_batch_fetch_size: 20
         # https://stackoverflow.com/questions/21257819/what-is-the-difference-between-hibernate-jdbc-fetch-size-and-hibernate-jdbc-batc
         jdbc.batch_size: 20
-  datasource:
-    url: jdbc:postgresql://localhost:5432/jira
+
 
   #TODO TODO replace SQL changelog to XML
   liquibase:

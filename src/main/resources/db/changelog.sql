@@ -141,6 +141,7 @@ create table TASK_TAG
     constraint FK_TASK_TAG foreign key (TASK_ID) references TASK (ID) on delete cascade
 );
 
+--TODO add TASK_USER_ROLE for notifications
 create table USER_BELONG
 (
     ID             bigserial primary key,
@@ -148,11 +149,13 @@ create table USER_BELONG
     OBJECT_TYPE    smallint    not null,
     USER_ID        bigint      not null,
     USER_TYPE_CODE varchar(32) not null,
+    TASK_USER_ROLE   smallint      not null,
     STARTPOINT     timestamp,
     ENDPOINT       timestamp,
-    constraint FK_USER_BELONG foreign key (USER_ID) references USERS (ID)
+    constraint FK_USER_BELONG foreign key (USER_ID) references USERS (ID),
+    constraint UK_USER_BELONG_OBJECT_USER_ROLE unique (OBJECT_ID, USER_ID, TASK_USER_ROLE)
 );
-create unique index UK_USER_BELONG on USER_BELONG (OBJECT_ID, OBJECT_TYPE, USER_ID, USER_TYPE_CODE);
+create unique index UK_USER_BELONG on USER_BELONG (OBJECT_ID, OBJECT_TYPE, USER_ID, USER_TYPE_CODE, TASK_USER_ROLE);
 create index IX_USER_BELONG_USER_ID on USER_BELONG (USER_ID);
 
 create table ATTACHMENT
@@ -262,7 +265,8 @@ INSERT INTO task (id, title, description, type_code, status_code, priority_code,
 INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (5, 'Task-4', 'test 4', 'bug', 'in progress', 'normal', null, null, 2, 1, null, null, null);
 INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (4, 'Task-3', 'test 3 descr', 'task', 'done', 'low', null, null, 2, 1, null, null, null);
 
-INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, startpoint, endpoint) VALUES (3, 2, 2, 2, 'admin', null, null);
-INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, startpoint, endpoint) VALUES (4, 3, 2, 2, 'admin', null, null);
-INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, startpoint, endpoint) VALUES (5, 4, 2, 2, 'admin', null, null);
-INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, startpoint, endpoint) VALUES (6, 5, 2, 2, 'admin', null, null);
+--TODO add TASK_USER_ROLE for notifications
+INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, task_user_role, startpoint, endpoint) VALUES (3, 2, 2, 2, 'admin', 2, null, null);
+INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, task_user_role, startpoint, endpoint) VALUES (4, 3, 2, 2, 'admin', 2, null, null);
+INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, task_user_role, startpoint, endpoint) VALUES (5, 4, 2, 2, 'admin', 2, null, null);
+INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, task_user_role, startpoint, endpoint) VALUES (6, 5, 2, 2, 'admin', 2, null, null);
