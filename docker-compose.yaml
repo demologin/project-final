@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  postgres:
+  postgres-prod:
     image: 'postgres:latest'
     container_name: 'postgres-db'
     ports:
@@ -10,3 +10,12 @@ services:
       - 'POSTGRES_USER=jira'
       - 'POSTGRES_PASSWORD=jiraRush'
       - 'POSTGRES_DB=jira'
+  postgres-test:
+    image: 'postgres:latest'
+    container_name: 'postgres-test'
+    ports:
+      - 5433:5432
+    environment:
+      - 'POSTGRES_USER=testName'
+      - 'POSTGRES_PASSWORD=jiraRushTest'
+      - 'POSTGRES_DB=jiraTest'
