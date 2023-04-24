@@ -1,4 +1,4 @@
-const userUrl = "/task";
+const userUrl = "/api/task";
 
 // https://stackoverflow.com/a/5064235/548473
 const ctx = {
@@ -15,7 +15,7 @@ function enable(chkbox, id) {
         data: "enabled=" + enabled
     }).done(function () {
         chkbox.closest("tr").attr("data-user-enabled", enabled);
-        successNoty(enabled ? "User enabled" : "User disabled");
+        successNoty(enabled ? "Task enabled" : "Task disabled");
     }).fail(function () {
         $(chkbox).prop("checked", !enabled);
     });
@@ -40,6 +40,15 @@ $(function () {
                 "data": "typeCode"
             },
             {
+                "data": "enabled",
+                "render": function (data, type, row) {
+                    if (type === "display") {
+                        return "<input type='checkbox' " + (data ? "checked" : "") + " onclick='enable($(this)," + row.id + ");'/>";
+                    }
+                    return data;
+                }
+            },
+            {
                 "orderable": false,
                 "defaultContent": "",
                 "render": renderEditBtn
@@ -55,6 +64,17 @@ $(function () {
                 0,
                 "asc"
             ]
-        ]
+        ],
+        "createdRow": function (row, data, dataIndex) {
+            if (!data.enabled) {
+                $(row).attr("data-user-enabled", false);
+            }
+        }
     });
+});
+
+document.querySelector(".checkbox-value").addEventListener('click', (evt) => {
+    let checkbox = evt.target;
+    let checked = checkbox.checked;
+    checkbox.value = checked ? 'true' : 'false';
 });

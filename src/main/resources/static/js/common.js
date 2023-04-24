@@ -34,11 +34,21 @@ function add() {
 }
 
 function updateRow(id) {
-    form.find(":input").val("");
+    const find = form.find(":input").val("");
     $("#modalTitle").html('Edit ' + ctx.pageName);
+    fillTaskModal(id, find);
+}
+
+function fillTaskModal(id, form) {
     $.get(ctx.ajaxUrl + '/' + id, function (data) {
-        $.each(data, function (key, value) {
-            form.find("input[name='" + key + "']").val(value);
+        $.each(data, function (key, valueKey) {
+            let line = form[key];
+            if (line) {
+                line.value = valueKey;
+            }
+            if (line != null && line.type === 'checkbox') {
+                line.checked = valueKey;
+            }
         });
         $('#editRow').modal('show');
     });

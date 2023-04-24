@@ -4,11 +4,17 @@ import com.javarush.jira.bugtracking.internal.mapper.TaskMapper;
 import com.javarush.jira.bugtracking.internal.model.Task;
 import com.javarush.jira.bugtracking.internal.repository.TaskRepository;
 import com.javarush.jira.bugtracking.to.TaskTo;
+import com.javarush.jira.common.error.NotFoundException;
+import com.javarush.jira.ref.RefTo;
+import com.javarush.jira.ref.RefType;
+import com.javarush.jira.ref.internal.ReferenceMapper;
+import com.javarush.jira.ref.internal.ReferenceRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -17,11 +23,15 @@ import java.util.stream.Stream;
 @Transactional(readOnly = true)
 public class TaskService extends BugtrackingService<Task, TaskTo, TaskRepository> {
     private final TaskRepository taskRepository;
+    private final ReferenceRepository referenceRepository;
+    private final ReferenceMapper referenceMapper;
 
     public TaskService(TaskRepository repository, TaskMapper mapper,
-                       TaskRepository taskRepository) {
+                       TaskRepository taskRepository, ReferenceRepository referenceRepository, ReferenceMapper referenceMapper) {
         super(repository, mapper);
         this.taskRepository = taskRepository;
+        this.referenceRepository = referenceRepository;
+        this.referenceMapper = referenceMapper;
     }
 
     public List<TaskTo> getAllSprints() {
@@ -63,5 +73,23 @@ public class TaskService extends BugtrackingService<Task, TaskTo, TaskRepository
     public TaskTo create(TaskTo taskTo) {
         Task save = repository.save(mapper.toEntity(taskTo));
         return mapper.toTo(save);
+    }
+
+    @Transactional
+    public void enable(long id, boolean enabled) {
+        Stream.of(getTaskById(id))
+                .peek(taskTo -> taskTo.enable(enabled))
+                .map(mapper::toEntity)
+                .map(repository::save)
+                .findAny().orElseThrow(() -> new NotFoundException("Task not found"));
+    }
+
+    public Map<String, List<RefTo>> getReferences(List<Integer> refTypes) {
+        return refTypes.stream()
+                .map(integer -> referenceRepository.getByType(RefType.values()[integer]))
+                .filter(references -> !references.isEmpty())
+                .collect(Collectors
+                        .toMap(r -> r.get(0).getRefType().name(),
+                                referenceMapper::toToList));
     }
 }

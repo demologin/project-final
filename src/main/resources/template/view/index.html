@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" th:lang="#{lang}">
 <!--/*@thymesVar id="authUser" type="com.javarush.jira.login.AuthUser"*/-->
 <!--/*@thymesVar id="taskMap" type="java.util.Map<com.javarush.jira.bugtracking.to.SprintTo, java.util.List<com.javarush.jira.bugtracking.to.TaskTo>>"*/-->
-
+<script th:src="@{/static/js/common.js}" defer></script>
+<script th:src="@{/static/js/dashboard.js}" defer></script>
 <th:block th:replace="~{layout/main::page(title=#{index.window-title},appMain=~{::appMain})}">
     <appMain>
         <h1 th:text="#{index.title}"/>
@@ -18,7 +19,7 @@
                         <div class="row">
                             <div class="col" th:each="task: ${tasks}">
                                 <div class="card">
-                                    <div class="card-body">
+                                    <div class="card-body task-body" th:value="${task.id}">
                                         <h5 class="card-title mb-2 text-muted" style="text-align: left; "
                                             th:text="${task.title}"></h5>
                                         <h6 class="card-subtitle mb-2 text-muted" style="text-align: left; "
@@ -29,6 +30,95 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" id="editRow">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalTitle"></h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" onclick="closeNoty()">&times;
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="detailsForm">
+                            <input type="hidden" id="id" name="id">
+                            <div class="form-group">
+                                <label for="enabled" class="col-form-label" th:text="#{task.enabled}"></label>
+                                <input type="checkbox" class="checkbox-value" id="enabled" name="enabled"
+                                       value="true"
+                                       th:placeholder="#{task.enabled}">
+                            </div>
+                            <div class="form-group">
+                                <label for="statusCode" class="col-form-label" th:text="#{task.status}"></label>
+                                <select class="form-control" id="statusCode" name="statusCode">
+                                    <option th:each="ref: ${refs.get('TASK_STATUS')}"
+                                            th:value="${ref.code}"
+                                            th:text="${ref.title}"
+                                            th:placeholder="#{task.status}"
+                                    ></option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="title" class="col-form-label" th:text="#{task.title}"></label>
+                                <input type="text" class="form-control" id="title" name="title"
+                                       th:placeholder="#{task.title}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description" class="col-fo  rm-label"
+                                       th:text="#{task.description}"></label>
+                                <input type="text" class="form-control" id="description" name="description"
+                                       th:placeholder="#{task.description}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="typeCode" class="col-form-label"
+                                       th:text="#{task.type-code}"></label>
+                                <select type="text" class="form-control" id="typeCode" name="typeCode">
+                                    <option th:each="ref: ${refs.get('TASK')}"
+                                            th:value="${ref.code}"
+                                            th:text="${ref.title}"
+                                            th:placeholder="#{task.type-code}"
+                                    ></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="priorityCode" class="col-form-label"
+                                       th:text="#{task.priority-code}"></label>
+                                <select type="text" class="form-control" id="priorityCode" name="priorityCode">
+                                    <option th:each="ref: ${refs.get('PRIORITY')}"
+                                            th:value="${ref.code}"
+                                            th:text="${ref.title}"
+                                            th:placeholder="#{task.priority-code}"
+                                    ></option>
+                                </select>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="estimate" class="col-form-label" th:text="#{task.estimate}"></label>
+                                <input type="number" class="form-control" id="estimate" name="estimate"
+                                       th:placeholder="#{task.estimate}">
+                            </div>
+                            <div class="form-group">
+                                <label for="storyPoints" class="col-form-label"
+                                       th:text="#{task.storyPoints}"></label>
+                                <input type="number" class="form-control" id="storyPoints" name="storyPoints"
+                                       th:placeholder="#{task.storyPoints}">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeNoty()"
+                                th:text="#{btn-cancel}">
+                            <span class="fa fa-close"></span>
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="save()" th:text="#{btn-save}">
+                            <span class="fa fa-check"></span>
+                        </button>
                     </div>
                 </div>
             </div>

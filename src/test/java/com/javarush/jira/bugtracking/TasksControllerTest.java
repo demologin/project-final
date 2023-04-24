@@ -54,7 +54,7 @@ class TasksControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void updateTaskTags() throws Exception {
-        perform(MockMvcRequestBuilders.put(TaskController.TASK_URL + "/" + TEST_TASK_ID + "/tags")
+        perform(MockMvcRequestBuilders.put(TaskRestController.TASK_URL + "/" + TEST_TASK_ID + "/tags")
                 .content("""
                         {
                             "id":2,
@@ -71,7 +71,7 @@ class TasksControllerTest {
     void updateTaskTagsWithDuplicate() throws Exception {
         TaskTo taskBeforeAdd = taskService.getTaskById(2L);
 
-        perform(MockMvcRequestBuilders.put(TaskController.TASK_URL + "/" + TEST_TASK_ID + "/tags")
+        perform(MockMvcRequestBuilders.put(TaskRestController.TASK_URL + "/" + TEST_TASK_ID + "/tags")
                 .content("""
                                 {
                                     "id":2,

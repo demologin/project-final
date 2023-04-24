@@ -15,4 +15,7 @@ public interface TaskRepository extends BaseRepository<Task> {
     @Query("select t from Task t where t.sprint.id is null")
     List<Task> findBySprintIdByNull();
 
+
+//    @Query("from RefType r WHERE ref_type = :code")
+//    Map<RefType, List<String>> getHeadersTask(String code);
 }

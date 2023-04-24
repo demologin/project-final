@@ -17,9 +17,9 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 @RestController
-@RequestMapping(TaskController.TASK_URL)
-public class TaskController {
-    public static final String TASK_URL = "/task";
+@RequestMapping(TaskRestController.TASK_URL)
+public class TaskRestController {
+    public static final String TASK_URL = "/api/task";
     private final TaskService taskService;
 
     @PostMapping
@@ -51,8 +51,7 @@ public class TaskController {
         taskService.addTags(id, task);
     }
 
-
-        @PostMapping("/form")
+    @PostMapping("/form")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Hidden
     public void createOrUpdate(@Validated(View.OnUpdate.class) TaskTo taskTo) {
@@ -67,5 +66,11 @@ public class TaskController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
+    }
+
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void enable(@PathVariable long id, @RequestParam boolean enabled) {
+        taskService.enable(id, enabled);
     }
 }

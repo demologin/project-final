@@ -9,6 +9,9 @@ app:
     max-pool-size: 100
 
 spring:
+  devtools:
+    livereload:
+      enabled: true
   datasource:
     url: jdbc:postgresql://localhost:5432/jira
     username: jira
@@ -90,7 +93,7 @@ spring:
 
   #  thymeleaf.check-template-location: false
   thymeleaf:
-    cache: true
+    cache: false
     prefix: classpath:/template/view/
     suffix: .html
 
