@@ -19,13 +19,6 @@ spring:
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:jira;NON_KEYWORDS=KEY,VALUE
-    username: jira
-    password: JiraRush
-#
-#  hibernate:
-#    dialect: org.hibernate.dialect.H2Dialect
-#    hbm2ddl:
-#      auto: create
 
   mail:
     properties:
