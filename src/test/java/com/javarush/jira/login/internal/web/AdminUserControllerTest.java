@@ -1,9 +1,11 @@
 package com.javarush.jira.login.internal.web;
 
 import com.javarush.jira.AbstractControllerTest;
+import com.javarush.jira.common.config.Initializerpostgres;
 import com.javarush.jira.login.Role;
 import com.javarush.jira.login.User;
 import com.javarush.jira.login.internal.UserRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -26,7 +28,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class AdminUserControllerTest extends AbstractControllerTest {
-
+    @BeforeAll
+    static void init(){
+        Initializerpostgres.postgreSQLContainer.start();
+    }
     private static final String REST_URL_SLASH = REST_URL + '/';
 
     @Autowired

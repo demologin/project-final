@@ -2,7 +2,6 @@ package com.javarush.jira.login.internal.web;
 
 import com.javarush.jira.AbstractControllerTest;
 import com.javarush.jira.common.config.Initializerpostgres;
-import com.javarush.jira.common.config.TestcontainerConfig;
 import com.javarush.jira.login.User;
 import com.javarush.jira.login.UserTo;
 import com.javarush.jira.login.internal.UserMapper;
@@ -10,18 +9,12 @@ import com.javarush.jira.login.internal.UserRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.util.TestPropertyValues;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static com.javarush.jira.common.util.JsonUtil.writeValue;
 import static com.javarush.jira.login.internal.UniqueMailValidator.EXCEPTION_DUPLICATE_EMAIL;

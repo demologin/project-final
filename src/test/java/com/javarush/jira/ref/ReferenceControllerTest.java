@@ -1,8 +1,10 @@
 package com.javarush.jira.ref;
 
 import com.javarush.jira.AbstractControllerTest;
+import com.javarush.jira.common.config.Initializerpostgres;
 import com.javarush.jira.ref.internal.Reference;
 import com.javarush.jira.ref.internal.ReferenceRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,10 @@ public class ReferenceControllerTest extends AbstractControllerTest {
     private ReferenceRepository referenceRepository;
     @Autowired
     private ReferenceService referenceService;
-
+    @BeforeAll
+    static void init(){
+        Initializerpostgres.postgreSQLContainer.start();
+    }
     @BeforeEach
     void reInit() {
         referenceService.updateRefs(RefType.TASK);
@@ -131,6 +136,7 @@ public class ReferenceControllerTest extends AbstractControllerTest {
     }
 
     @NonNull
+    @SuppressWarnings(value = "all")
     private Reference getRef() {
         return referenceRepository.getByTypeAndCode(RefType.TASK, TASK_CODE).get();
     }
