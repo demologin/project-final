@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 @Transactional(readOnly = true)
 public interface TaskRepository extends BaseRepository<Task> {
     @Query("SELECT t FROM Task t LEFT JOIN FETCH t.project LEFT JOIN FETCH t.sprint LEFT JOIN FETCH t.activities WHERE t.sprint IS NOT NULL")
@@ -15,7 +17,14 @@ public interface TaskRepository extends BaseRepository<Task> {
     @Query("select t from Task t where t.sprint.id is null")
     List<Task> findBySprintIdByNull();
 
-
-//    @Query("from RefType r WHERE ref_type = :code")
-//    Map<RefType, List<String>> getHeadersTask(String code);
+    default void saveOrUpdate(Task entity) {
+        Task fromDB = getExisted(entity.getId());
+        if (isNull(entity.getSprint())) {
+            entity.setSprint(fromDB.getSprint());
+        }
+        if (isNull(entity.getProject())) {
+            entity.setProject(fromDB.getProject());
+        }
+        save(entity);
+    }
 }

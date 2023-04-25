@@ -37,10 +37,9 @@ public class TaskService extends BugtrackingService<Task, TaskTo, TaskRepository
     public List<TaskTo> getAllSprints() {
         return mapper.toToList(repository.findAllSprintIdIsNotNull());
     }
-
     @Transactional
     public void update(TaskTo taskTo) {
-        repository.save(mapper.toEntity(taskTo));
+        repository.saveOrUpdate(mapper.toEntity(taskTo));
     }
 
     @Transactional

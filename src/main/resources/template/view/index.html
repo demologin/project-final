@@ -45,12 +45,8 @@
                     <div class="modal-body">
                         <form id="detailsForm">
                             <input type="hidden" id="id" name="id">
-                            <div class="form-group">
-                                <label for="enabled" class="col-form-label" th:text="#{task.enabled}"></label>
-                                <input type="checkbox" class="checkbox-value" id="enabled" name="enabled"
-                                       value="true"
-                                       th:placeholder="#{task.enabled}">
-                            </div>
+                            <input th:type="hidden" id="sprint">
+                            <input th:type="hidden" id="project">
                             <div class="form-group">
                                 <label for="statusCode" class="col-form-label" th:text="#{task.status}"></label>
                                 <select class="form-control" id="statusCode" name="statusCode">
@@ -109,6 +105,12 @@
                                 <input type="number" class="form-control" id="storyPoints" name="storyPoints"
                                        th:placeholder="#{task.storyPoints}">
                             </div>
+                            <div class="form-group">
+                                <label for="enabled" class="col-form-label" th:text="#{task.enabled}"></label>
+                                <input type="checkbox" class="checkbox-value" id="enabled" name="enabled"
+                                       value="true"
+                                       th:placeholder="#{task.enabled}">
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -116,7 +118,7 @@
                                 th:text="#{btn-cancel}">
                             <span class="fa fa-close"></span>
                         </button>
-                        <button type="button" class="btn btn-primary" onclick="save()" th:text="#{btn-save}">
+                        <button type="button" class="btn btn-primary" onclick="sendDashboardForm()" th:text="#{btn-save}">
                             <span class="fa fa-check"></span>
                         </button>
                     </div>

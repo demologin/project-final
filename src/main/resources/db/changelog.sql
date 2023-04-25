@@ -256,6 +256,7 @@ values (1, 'skype', 'userSkype'),
 INSERT INTO project (id, code, title, description, type_code, startpoint, endpoint, parent_id) VALUES (2, 'task tracker', 'PROJECT-1', 'test project', 'task tracker', null, null, null);
 
 INSERT INTO sprint (id, status_code, startpoint, endpoint, title, project_id) VALUES (1, 'planning', '2023-04-09 23:05:05.000000', '2023-04-12 23:05:12.000000', 'Sprint-1', 2);
+INSERT INTO sprint (id, status_code, startpoint, endpoint, title, project_id) VALUES (2, 'review', '2023-04-23 23:05:05.000000', '2023-05-12 23:05:12.000000', 'Sprint-2', 2);
 
 INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-1', 'short test task', 'task', 'in progress', 'high', 1, null, 2, 1, null, '2023-04-23 12:52:08.000000', '2023-04-23 12:39:13.761882');
 INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-2', 'test 2 task', 'bug', 'ready', 'normal', 1, null, 2, 1, null, '2023-04-23 12:00:08.000000', '2023-04-23 12:52:08.000000');
@@ -276,6 +277,9 @@ INSERT INTO task (title, description, type_code, status_code, priority_code, est
 INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-7', 'test backlog 18 descr', 'task', 'in progress', 'low', 1, null, 2, null, null, '2023-04-23 12:52:08.000000', null);
 INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-8', 'test backlog 19 descr', 'task', 'ready', 'low', 1, null, 2, null, null, '2023-04-23 12:52:08.000000', null);
 INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-9', 'test backlog 20 descr', 'task', 'done', 'low', 1, null, 2, null, null, '2023-04-23 12:52:08.000000', null);
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-SP2', 'test SP2g 18 descr', 'task', 'in progress', 'low', 1, null, 2, 2, null, '2023-04-23 12:52:08.000000', null);
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-SP22', 'test backlog 19 descr', 'task', 'ready', 'low', 1, null, 2, 2, null, '2023-04-23 12:52:08.000000', '2023-04-24 12:52:08.000000');
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-SP2SP2', 'test SP2 20 descr', 'task', 'done', 'low', 1, null, 2, 2, null, '2023-04-23 12:52:08.000000', null);
 
 
 insert into TASK_TAG (TASK_ID, TAG) values (2,'OneTag'), (2,'TwoTag');

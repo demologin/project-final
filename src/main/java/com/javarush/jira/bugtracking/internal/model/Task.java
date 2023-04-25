@@ -11,6 +11,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -23,6 +25,8 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@DynamicUpdate
+@DynamicInsert
 public class Task extends TitleEntity {
 
     // link to Reference.code with RefType.TASK

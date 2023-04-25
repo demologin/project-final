@@ -1,8 +1,8 @@
-const userUrl = "/api/task";
+const taskUrl = "/api/task";
 
 // https://stackoverflow.com/a/5064235/548473
 const ctx = {
-    ajaxUrl: userUrl,
+    ajaxUrl: taskUrl,
     pageName: "backlog"
 }
 
@@ -78,3 +78,25 @@ document.querySelector(".checkbox-value").addEventListener('click', (evt) => {
     let checked = checkbox.checked;
     checkbox.value = checked ? 'true' : 'false';
 });
+
+function renderEditBtn(data, type, row) {
+    if (type === "display") {
+        return "<a onclick='modalFill(" + row.id + ");'><span class='fa fa-pencil'></span></a>";
+    }
+}
+
+function modalFill(id) {
+    const form = $('#detailsForm');
+    $.get(ctx.ajaxUrl + '/' + id, function (data) {
+        $.each(data,     function (key, valueKey) {
+            let line = form[0][key];
+            if (line) {
+                line.value = valueKey;
+            }
+            if (line != null && line.type === 'checkbox') {
+                line.checked = valueKey;
+            }
+        });
+        $('#editRow').modal('show');
+    });
+}

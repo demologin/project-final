@@ -29,7 +29,7 @@ spring:
     password: zdfzsrqvgimldzyj
     port: 587
   jpa:
-    show-sql: false
+    show-sql: true
     open-in-view: false
 
     # validate db by model
