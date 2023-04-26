@@ -21,11 +21,15 @@ function openModal(evt) {
         .closest('.task-body')
         .getAttribute('value');
     modalFill(id);
-
 }
 
 function modalFill(id) {
     form = $('#detailsForm');
+    $.ajaxSetup({
+        headers: {
+            "Authorization": 'Bearer ' + localStorage.getItem("accessToken")
+        }
+    });
     $.get(ctx.ajaxUrl + '/' + id, function (data) {
         requestData = data;
         $.each(data, function (key, valueKey) {
@@ -47,10 +51,14 @@ function sendDashboardForm() {
     $.ajax({
         type: "POST",
         url: ctx.ajaxUrl + '/form',
-        data: data
+        data: data,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", 'Bearer ' + localStorage.getItem("accessToken"));
+        }
     }).done(function () {
         $("#editRow").modal('hide');
         updateTable()
         successNoty("Record saved");
+        window.location.reload();
     });
 }

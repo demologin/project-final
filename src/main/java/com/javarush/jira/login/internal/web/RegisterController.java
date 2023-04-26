@@ -35,7 +35,11 @@ public class RegisterController extends AbstractUserController {
     }
 
     @PostMapping
-    public String register(@Validated(View.OnCreate.class) UserTo userTo, BindingResult result, HttpServletRequest request) {
+    public String register(
+            @Validated(View.OnCreate.class) UserTo userTo,
+            BindingResult result,
+            HttpServletRequest request
+    ) {
         if (result.hasErrors()) {
             return "unauth/register";
         }

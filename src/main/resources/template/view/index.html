@@ -19,7 +19,8 @@
                         <div class="row">
                             <div class="col" th:each="task: ${tasks}">
                                 <div class="card">
-                                    <div class="card-body task-body" th:value="${task.id}">
+                                    <div th:class="${task.enabled ? 'task-active card-body task--body' : 'task-disabled card-body task--body'}"
+                                         th:value="${task.id}">
                                         <h5 class="card-title mb-2 text-muted" style="text-align: left; "
                                             th:text="${task.title}"></h5>
                                         <h6 class="card-subtitle mb-2 text-muted" style="text-align: left; "

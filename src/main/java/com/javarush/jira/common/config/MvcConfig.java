@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.WebRequest;
@@ -38,7 +39,7 @@ public class MvcConfig implements WebMvcConfigurer {
     // Add authUser to view model
     private final HandlerInterceptor authInterceptor = new WebRequestHandlerInterceptorAdapter(new WebRequestInterceptor() {
         @Override
-        public void postHandle(WebRequest request, ModelMap model) {
+        public void postHandle(@NonNull WebRequest request, ModelMap model) {
             if (model != null) {
                 AuthUser authUser = AuthUser.safeGet();
                 if (authUser != null) {
@@ -48,11 +49,11 @@ public class MvcConfig implements WebMvcConfigurer {
         }
 
         @Override
-        public void afterCompletion(WebRequest request, Exception ex) {
+        public void afterCompletion(@NonNull WebRequest request, Exception ex) {
         }
 
         @Override
-        public void preHandle(WebRequest request) {
+        public void preHandle(@NonNull WebRequest request) {
         }
     });
 

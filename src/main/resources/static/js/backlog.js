@@ -12,7 +12,10 @@ function enable(chkbox, id) {
     $.ajax({
         url: userUrl + '/' + id,
         type: "PATCH",
-        data: "enabled=" + enabled
+        data: "enabled=" + enabled,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", 'Bearer ' + localStorage.getItem("accessToken"));
+        }
     }).done(function () {
         chkbox.closest("tr").attr("data-user-enabled", enabled);
         successNoty(enabled ? "Task enabled" : "Task disabled");
@@ -87,6 +90,11 @@ function renderEditBtn(data, type, row) {
 
 function modalFill(id) {
     const form = $('#detailsForm');
+    $.ajaxSetup({
+        headers: {
+            "Authorization": 'Bearer ' + localStorage.getItem("accessToken")
+        }
+    });
     $.get(ctx.ajaxUrl + '/' + id, function (data) {
         $.each(data,     function (key, valueKey) {
             let line = form[0][key];

@@ -105,7 +105,7 @@ create table TASK
     PRIORITY_CODE varchar(32)   not null,
     ESTIMATE      integer,
     UPDATED       timestamp,
-    PROJECT_ID    bigint        not null,
+    PROJECT_ID    bigint,
     SPRINT_ID     bigint,
     PARENT_ID     bigint,
     STARTPOINT    timestamp,
@@ -256,17 +256,31 @@ values (1, 'skype', 'userSkype'),
 INSERT INTO project (id, code, title, description, type_code, startpoint, endpoint, parent_id) VALUES (2, 'task tracker', 'PROJECT-1', 'test project', 'task tracker', null, null, null);
 
 INSERT INTO sprint (id, status_code, startpoint, endpoint, title, project_id) VALUES (1, 'planning', '2023-04-09 23:05:05.000000', '2023-04-12 23:05:12.000000', 'Sprint-1', 2);
+INSERT INTO sprint (id, status_code, startpoint, endpoint, title, project_id) VALUES (2, 'review', '2023-04-23 23:05:05.000000', '2023-05-12 23:05:12.000000', 'Sprint-2', 2);
 
-INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (2, 'Task-1', 'short test task', 'task', 'in progress', 'high', null, null, 2, 1, null, null, null);
-INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (3, 'Task-2', 'test 2 task', 'bug', 'ready', 'normal', null, null, 2, 1, null, null, null);
-INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (5, 'Task-4', 'test 4', 'bug', 'in progress', 'normal', null, null, 2, 1, null, null, null);
-INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (4, 'Task-3', 'test 3 descr', 'task', 'done', 'low', null, null, 2, 1, null, null, null);
-INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (6, 'Task-6', 'test backlog 1 descr', 'task', 'done', 'low', null, null, 2, null, null, null, null);
-INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (7, 'Task-7', 'test backlog 2 descr', 'task', 'done', 'low', null, null, 2, null, null, null, null);
-INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (8, 'Task-8', 'test backlog 3 descr', 'task', 'done', 'low', null, null, 2, null, null, null, null);
-INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (9, 'Task-9', 'test backlog 4 descr', 'task', 'done', 'low', null, null, 2, null, null, null, null);
-INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (10, 'Task-10', 'test backlog 5 descr', 'task', 'done', 'low', null, null, 2, null, null, null, null);
-INSERT INTO task (id, title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES (11, 'Task-11', 'test backlog 6 descr', 'task', 'done', 'low', null, null, 2, null, null, null, null);
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-1', 'short test task', 'task', 'in progress', 'high', 1, null, 2, 1, null, '2023-04-23 12:52:08.000000', '2023-04-23 12:39:13.761882');
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-2', 'test 2 task', 'bug', 'ready', 'normal', 1, null, 2, 1, null, '2023-04-23 12:00:08.000000', '2023-04-23 12:52:08.000000');
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-4', 'test 4', 'bug', 'in progress', 'normal', 1, null, 2, 1, null, '2023-04-23 12:52:08.000000', null);
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-3', 'test 3 descr', 'task', 'done', 'low', 1, null, 2, 1, null, '2023-04-23 12:52:08.000000', null);
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-6', 'test backlog 1 descr', 'task', 'done', 'low', 1, null, 2, null, null, '2023-04-23 12:52:08.000000', null);
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-7', 'test backlog 2 descr', 'task', 'in progress', 'low', 1, null, 2, null, null, '2023-04-23 12:52:08.000000', '2023-04-23 12:52:08.000000');
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-8', 'test backlog 3 descr', 'task', 'ready', 'low', 1, null, 2, null, null, '2023-04-23 12:52:08.000000', null);
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-9', 'test backlog 4 descr', 'task', 'done', 'low', 1, null, 2, null, null, '2023-04-23 12:52:08.000000', null);
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-10', 'test backlog 10 descr', 'task', 'reaty', 'low', 1, null, 2, null, null, '2023-04-23 12:52:08.000000', null);
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-11', 'test backlog 11 descr', 'task', 'done', 'low', 1, null, 2, null, null, '2023-04-23 12:52:08.000000', '2023-04-23 12:52:08.000000');
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-7', 'test backlog 12 descr', 'task', 'in progress', 'low', 1, null, 2, null, null, '2023-04-23 12:52:08.000000', null);
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-8', 'test backlog 13 descr', 'task', 'ready', 'normal', 1, null, 2, null, null, '2023-04-23 12:52:08.000000', '2023-04-23 12:52:08.000000');
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-9', 'test backlog 14 descr', 'task', 'done', 'low', 1, null, 2, null, null, '2023-04-23 12:52:08.000000', null);
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-7', 'test backlog 15 descr', 'task', 'in progress', 'low', 1, null, 2, null, null, '2023-04-23 12:52:08.000000', null);
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-8', 'test backlog 16 descr', 'task', 'ready', 'low', 1, null, 2, null, null, '2023-04-23 12:52:08.000000', null);
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-9', 'test backlog 17 descr', 'task', 'done', 'high', 1, null, 2, null, null, '2023-04-23 12:52:08.000000', null);
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-7', 'test backlog 18 descr', 'task', 'in progress', 'low', 1, null, 2, null, null, '2023-04-23 12:52:08.000000', null);
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-8', 'test backlog 19 descr', 'task', 'ready', 'low', 1, null, 2, null, null, '2023-04-23 12:52:08.000000', null);
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-9', 'test backlog 20 descr', 'task', 'done', 'low', 1, null, 2, null, null, '2023-04-23 12:52:08.000000', null);
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-SP2', 'test SP2g 18 descr', 'task', 'in progress', 'low', 1, null, 2, 2, null, '2023-04-23 12:52:08.000000', null);
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-SP22', 'test backlog 19 descr', 'task', 'ready', 'low', 1, null, 2, 2, null, '2023-04-23 12:52:08.000000', '2023-04-24 12:52:08.000000');
+INSERT INTO task (title, description, type_code, status_code, priority_code, estimate, updated, project_id, sprint_id, parent_id, startpoint, endpoint) VALUES ( 'Task-SP2SP2', 'test SP2 20 descr', 'task', 'done', 'low', 1, null, 2, 2, null, '2023-04-23 12:52:08.000000', null);
+
 
 insert into TASK_TAG (TASK_ID, TAG) values (2,'OneTag'), (2,'TwoTag');
 
@@ -274,3 +288,20 @@ INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, st
 INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, startpoint, endpoint) VALUES (4, 3, 2, 2, 'admin', null, null);
 INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, startpoint, endpoint) VALUES (5, 4, 2, 2, 'admin', null, null);
 INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, startpoint, endpoint) VALUES (6, 5, 2, 2, 'admin', null, null);
+
+CREATE TABLE token
+(
+    id         BIGINT GENERATED BY DEFAULT AS IDENTITY NOT NULL,
+    token      VARCHAR(255),
+    token_type VARCHAR(255),
+    revoked    BOOLEAN                                 NOT NULL,
+    expired    BOOLEAN                                 NOT NULL,
+    user_id    BIGINT,
+    CONSTRAINT pk_token PRIMARY KEY (id)
+);
+
+ALTER TABLE token
+    ADD CONSTRAINT uc_token_token UNIQUE (token);
+
+ALTER TABLE token
+    ADD CONSTRAINT FK_TOKEN_ON_USER FOREIGN KEY (user_id) REFERENCES users (id);

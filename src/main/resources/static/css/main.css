@@ -1,4 +1,6 @@
-@import url('./task-body.css');
+@import url('./task/__body/task--body.css');
+@import url('./task/active/task-active.css');
+@import url('./task/active/task-disabled.css');
 /*SIDEBAR*/
 
 @media (min-width: 200px) {

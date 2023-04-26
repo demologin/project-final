@@ -37,6 +37,7 @@ public class TaskService extends BugtrackingService<Task, TaskTo, TaskRepository
     public List<TaskTo> getAllSprints() {
         return mapper.toToList(repository.findAllSprintIdIsNotNull());
     }
+
     @Transactional
     public void update(TaskTo taskTo) {
         repository.saveOrUpdate(mapper.toEntity(taskTo));
@@ -74,6 +75,7 @@ public class TaskService extends BugtrackingService<Task, TaskTo, TaskRepository
         return mapper.toTo(save);
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Transactional
     public void enable(long id, boolean enabled) {
         Stream.of(getTaskById(id))

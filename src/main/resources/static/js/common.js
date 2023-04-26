@@ -7,7 +7,10 @@ function makeEditable(datatableOpts) {
             {
                 "ajax": {
                     "url": ctx.ajaxUrl,
-                    "dataSrc": ""
+                    "dataSrc": "",
+                    "beforeSend": function (xhr) {
+                        xhr.setRequestHeader("Authorization", 'Bearer ' + localStorage.getItem("accessToken"));
+                    }
                 },
                 "paging": true,
                 "info": true,
@@ -48,7 +51,10 @@ function deleteRow(id) {
     if (confirm("Are you sure?")) {
         $.ajax({
             url: ctx.ajaxUrl + '/' + id,
-            type: "DELETE"
+            type: "DELETE",
+            "beforeSend": function (xhr) {
+                xhr.setRequestHeader("Authorization", 'Bearer ' + localStorage.getItem("accessToken"));
+            }
         }).done(function () {
             updateTable();
             successNoty("Record deleted");
@@ -66,7 +72,10 @@ function save() {
     $.ajax({
         type: "POST",
         url: ctx.ajaxUrl + '/form',
-        data: form.serialize()
+        data: form.serialize(),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", 'Bearer ' + localStorage.getItem("accessToken"));
+        }
     }).done(function () {
         $("#editRow").modal('hide');
         updateTable()

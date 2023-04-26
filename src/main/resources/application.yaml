@@ -6,6 +6,12 @@ app:
   mail-sending-props:
     core-pool-size: 8
     max-pool-size: 100
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET_KEY}
+      expiration: 60000 # 1 day
+      refresh-token:
+        expiration: 604800000 # 7 days
 
 spring:
   jpa:
