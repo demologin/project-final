@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress HttpUrlsUsage -->
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="240423-1" author="bogdanov">
+        <sql>
+            SELECT setval('project_id_seq', 10, false);
+        </sql>
+    </changeSet>
+
+    <changeSet id="240423-2" author="bogdanov">
+        <sql>
+            SELECT setval('task_id_seq', 10, false);
+        </sql>
+    </changeSet>
+
+    <changeSet id="240423-3" author="bogdanov">
+        <sql>
+            SELECT setval('user_belong_id_seq', 10, false);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

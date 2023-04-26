@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress HttpUrlsUsage -->
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="230425-1" author="bogdanov">
+        <insert tableName="task">
+            <column name="title">Uborka</column>
+            <column name="description">Pomit pol</column>
+            <column name="type_code">task</column>
+            <column name="status_code">backlog</column>
+            <column name="priority_code">high</column>
+            <column name="project_id">2</column>
+        </insert>
+        <insert tableName="task">
+            <column name="title">Kot</column>
+            <column name="description">pogladit kota</column>
+            <column name="type_code">task</column>
+            <column name="status_code">backlog</column>
+            <column name="priority_code">normal</column>
+            <column name="project_id">2</column>
+        </insert>
+        <insert tableName="task">
+            <column name="title">Obed</column>
+            <column name="description">pridumat obed</column>
+            <column name="type_code">task</column>
+            <column name="status_code">backlog</column>
+            <column name="priority_code">normal</column>
+            <column name="project_id">2</column>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

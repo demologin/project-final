@@ -1,0 +1,33 @@
+<!--TODO Реализовать бэклог (backlog) – полный список задач (с пейджингом),
+которые должны быть выполнены и еще не относятся ни к какому спринту. (бек + фронт)-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<th:block th:replace="~{layout/main::page(title='Free tasks',appMain=~{::appMain})}">
+    <appMain>
+        <div class="jumbotron pt-4">
+            <div class="container">
+                <h3 class="text-center">Free tasks</h3>
+                <table class="table table-striped" id="datatable">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Type code</th>
+                        <th>Status code</th>
+                        <th>Priority code</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="task : ${freeTasks}">
+                        <td th:text="${task.title}"></td>
+                        <td th:text="${task.description}"></td>
+                        <td th:text="${task.typeCode}"></td>
+                        <td th:text="${task.statusCode}"></td>
+                        <td th:text="${task.priorityCode}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </appMain>
+</th:block>

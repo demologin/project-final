@@ -4,8 +4,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
-
-@Component("vk")
+// TODO Удалить социальные сети: vk, yandex
+//@Component("vk")
 public class VkOAuth2UserDataHandler implements OAuth2UserDataHandler {
     @Override
     public String getFirstName(OAuth2UserData oAuth2UserData) {
