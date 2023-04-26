@@ -16,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @RequestMapping(value = TaskController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class TaskController {
-    //TODO создал контроллер
+    //TODO 6.add task tag controller
     public static final String REST_URL = "/api/task";
 
     private final TaskService taskService;

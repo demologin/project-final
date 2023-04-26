@@ -1,4 +1,5 @@
 #  https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# TODO 3.sensitive information
 app:
   host-url: 0.0.0.0:8080
   test-mail: jira4jr@gmail.com

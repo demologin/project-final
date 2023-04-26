@@ -1,5 +1,7 @@
 spring.cache.type: none
 # template for server
+# TODO 3.sensitive information
+# TODO 2.vk, yandex delete
 app:
   host-url: 0.0.0.0:8080
   test-mail: jira4jr@gmail.com
@@ -9,7 +11,7 @@ app:
     max-pool-size: 100
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/jira}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://db:5432/jira}
     username: ${SPRING_DATASOURCE_USERNAME:jira}
     password: ${SPRING_DATASOURCE_PASSWORD:JiraRush}
   liquibase:

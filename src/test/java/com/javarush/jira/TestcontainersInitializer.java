@@ -6,12 +6,13 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.lifecycle.Startables;
 import org.testcontainers.utility.DockerImageName;
-
+//TODO 4.add testcontainers
 public class TestcontainersInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:15.1"));
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:15.2"));
 
     static {
         Startables.deepStart(postgres).join();
+
     }
 
     @Override

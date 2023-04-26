@@ -1,5 +1,5 @@
 --liquibase formatted sql
-
+# TODO 2.vk, yandex delete
 --changeset kmpk:init_schema
 DROP TABLE IF EXISTS USER_ROLE;
 DROP TABLE IF EXISTS CONTACT;

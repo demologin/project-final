@@ -20,26 +20,14 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Sql(scripts = "classpath:db/test.sql", config = @SqlConfig(encoding = "UTF-8"))
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+//TODO 4.add testcontainers
 //https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-testing-spring-boot-applications-testing-with-mock-environment
 public abstract class AbstractControllerTest {
-
-    private static final String DATABASE_NAME = "jira";
 
     @Autowired
     private MockMvc mockMvc;
 
     protected ResultActions perform(MockHttpServletRequestBuilder builder) throws Exception {
         return mockMvc.perform(builder);
-    }
-    @Container
-    public static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:15.2")
-            .withReuse(true)
-            .withDatabaseName(DATABASE_NAME);
-
-    @DynamicPropertySource
-    static void datasourceProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
-        registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
-        registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
     }
 }
