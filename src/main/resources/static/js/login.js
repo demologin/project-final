@@ -1,10 +1,17 @@
 const loginUrl = window.location.origin + "/api/v1/auth";
+const logoutUrl = window.location.origin + "/api/v1/auth/logout";
 const formLogin = document.forms.loginForm;
-let token;
 
-formLogin.addEventListener('submit', (evt) => {
-    auth()
-});
+window.onload = () => {
+    if (window.location.pathname === '/view/login')
+        formLogin.addEventListener('submit', () => {
+            auth()
+        });
+    const btnLogout = document.querySelector('#btn-logout');
+    if (btnLogout) {
+        btnLogout.addEventListener('submit', logout);
+    }
+}
 
 function auth() {
     const userAuth = {
@@ -26,4 +33,14 @@ function auth() {
             localStorage.setItem("refreshToken", token['refresh_token']);
         })
         .catch(console.log);
+}
+
+function logout() {
+    fetch(logoutUrl, {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+            "Authorization": 'Bearer ' + localStorage.getItem("accessToken")
+        }
+    }).then(console.log)
 }

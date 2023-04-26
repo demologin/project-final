@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         // Если запрос на аутентификацию пропустить дальше
-        if (request.getServletPath().contains(AuthenticationController.PATH_ROOT)) {
+        if (request.getServletPath().contains(AuthenticationRestController.PATH_ROOT)) {
             filterChain.doFilter(request, response);
             return;
         }

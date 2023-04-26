@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 
 @RestController
-@RequestMapping(AuthenticationController.PATH_ROOT)
+@RequestMapping(AuthenticationRestController.PATH_ROOT)
 @RequiredArgsConstructor
-public class AuthenticationController {
+public class AuthenticationRestController {
     public final static String PATH_ROOT = "/api/v1/auth";
     private final AuthenticationService authService;
 

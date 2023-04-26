@@ -297,6 +297,8 @@ CREATE TABLE token
     revoked    BOOLEAN                                 NOT NULL,
     expired    BOOLEAN                                 NOT NULL,
     user_id    BIGINT,
+    STARTPOINT     timestamp,
+    ENDPOINT       timestamp,
     CONSTRAINT pk_token PRIMARY KEY (id)
 );
 

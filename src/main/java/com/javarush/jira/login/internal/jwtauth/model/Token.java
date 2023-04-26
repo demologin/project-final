@@ -1,5 +1,6 @@
 package com.javarush.jira.login.internal.jwtauth.model;
 
+import com.javarush.jira.common.model.TimestampEntry;
 import com.javarush.jira.login.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,10 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "token")
-public class Token {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Token extends TimestampEntry {
     @Column(unique = true)
     private String token;
     @Enumerated(EnumType.STRING)

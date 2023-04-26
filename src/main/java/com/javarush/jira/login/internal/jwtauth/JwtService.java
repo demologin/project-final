@@ -44,14 +44,13 @@ public class JwtService {
             HashMap<String, Object> extraClaims,
             UserDetails userDetails,
             long expiration) {
-        String compact = Jwts.builder()
+        return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
-        return compact;
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {

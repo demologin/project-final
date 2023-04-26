@@ -1,5 +1,11 @@
 let requestData;
 const taskUrlDash = "/api/task";
+const urlUiLogin = `${location.origin}/view/login`;
+const taskSelector = '.task--body';
+const headersWithJwt = {
+    "Authorization": 'Bearer ' + localStorage.getItem("accessToken")
+}
+
 // https://stackoverflow.com/a/5064235/548473
 
 const ctx = {
@@ -8,17 +14,18 @@ const ctx = {
 }
 window.onload = function () {
     setEventListeners();
-
 }
+
 function setEventListeners() {
-    document.querySelectorAll('.task-body')
+    document.querySelectorAll(taskSelector)
         .forEach(task =>
             task.addEventListener('click', openModal));
 
 }
+
 function openModal(evt) {
     const id = evt.target
-        .closest('.task-body')
+        .closest(taskSelector)
         .getAttribute('value');
     modalFill(id);
 }
@@ -26,9 +33,7 @@ function openModal(evt) {
 function modalFill(id) {
     form = $('#detailsForm');
     $.ajaxSetup({
-        headers: {
-            "Authorization": 'Bearer ' + localStorage.getItem("accessToken")
-        }
+        headers: headersWithJwt
     });
     $.get(ctx.ajaxUrl + '/' + id, function (data) {
         requestData = data;
@@ -53,7 +58,7 @@ function sendDashboardForm() {
         url: ctx.ajaxUrl + '/form',
         data: data,
         beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", 'Bearer ' + localStorage.getItem("accessToken"));
+            xhr.setRequestHeader(headersWithJwt);
         }
     }).done(function () {
         $("#editRow").modal('hide');
