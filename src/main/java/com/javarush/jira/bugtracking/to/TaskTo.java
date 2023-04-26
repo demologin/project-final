@@ -2,6 +2,7 @@ package com.javarush.jira.bugtracking.to;
 
 import com.javarush.jira.common.util.validation.Code;
 import com.javarush.jira.common.util.validation.NoHtml;
+import com.javarush.jira.common.util.validation.View;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,7 +12,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Value;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Value
@@ -23,14 +26,13 @@ public class TaskTo extends NodeTo<TaskTo> {
     @Code
     String statusCode;
 
-    @NotBlank
     @NoHtml
     String description;
 
-    @NotNull
+    @NotNull(groups = {View.OnCreate.class})
     SprintTo sprint;
 
-    @NotNull
+    @NotNull(groups = {View.OnCreate.class})
     ProjectTo project;
 
     @Nullable
@@ -40,18 +42,15 @@ public class TaskTo extends NodeTo<TaskTo> {
     String priorityCode;
 
     @Positive
-    int estimate;
-
-    @Size(min = 1, max = 30)
-    int storyPoints;
+    Integer estimate;
 
     Set<String> tags;
 
     List<ActivityTo> activities;
 
-    public TaskTo(Long id, String title, boolean enabled, String typeCode, String statusCode, String description, SprintTo sprint,
-                  ProjectTo project, LocalDateTime updated,
-                  String priorityCode, int estimate, int storyPoints, Set<String> tags, List<ActivityTo> activities, TaskTo parent) {
+    public TaskTo(Long id, String title, boolean enabled, String typeCode, String statusCode, String description,
+                  SprintTo sprint, ProjectTo project, LocalDateTime updated,
+                  String priorityCode, Integer estimate, Set<String> tags, List<ActivityTo> activities, TaskTo parent) {
         super(id, title, enabled, parent);
         this.typeCode = typeCode;
         this.statusCode = statusCode;
@@ -61,7 +60,6 @@ public class TaskTo extends NodeTo<TaskTo> {
         this.updated = updated;
         this.priorityCode = priorityCode;
         this.estimate = estimate;
-        this.storyPoints = storyPoints;
         this.tags = tags;
         this.activities = activities;
     }

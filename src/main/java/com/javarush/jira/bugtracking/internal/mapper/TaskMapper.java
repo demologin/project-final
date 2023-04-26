@@ -3,8 +3,10 @@ package com.javarush.jira.bugtracking.internal.mapper;
 import com.javarush.jira.bugtracking.internal.model.Task;
 import com.javarush.jira.bugtracking.to.TaskTo;
 import com.javarush.jira.common.BaseMapper;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import com.javarush.jira.profile.ProfileTo;
+import com.javarush.jira.profile.internal.Profile;
+import org.mapstruct.*;
+import org.springframework.context.annotation.Bean;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,4 +23,15 @@ public interface TaskMapper extends BaseMapper<Task, TaskTo> {
 
     @Override
     List<TaskTo> toToList(Collection<Task> tasks);
+
+    @Mapping(target = "enabled", ignore = true)
+    @Mapping(target = "tags", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    Task updateFromTo(@MappingTarget Task task, TaskTo taskTo);
+
+    @AfterMapping
+    default void setTaskTags(@MappingTarget Task task, TaskTo taskTo){
+        task.getTags().addAll(taskTo.getTags());
+    }
+
 }

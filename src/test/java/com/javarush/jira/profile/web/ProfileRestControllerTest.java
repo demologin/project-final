@@ -1,18 +1,12 @@
 package com.javarush.jira.profile.web;
 
 import com.javarush.jira.AbstractControllerTest;
-import com.javarush.jira.common.error.NotFoundException;
 import com.javarush.jira.common.util.JsonUtil;
-import com.javarush.jira.login.User;
-import com.javarush.jira.login.internal.UserMapper;
-import com.javarush.jira.login.internal.UserRepository;
 import com.javarush.jira.profile.ProfileTo;
 import com.javarush.jira.profile.internal.Profile;
 import com.javarush.jira.profile.internal.ProfileMapper;
 import com.javarush.jira.profile.internal.ProfileRepository;
 import com.javarush.jira.profile.internal.ProfileUtil;
-import net.minidev.json.JSONUtil;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,10 +15,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Set;
 
-import static com.javarush.jira.login.internal.web.UserController.REST_URL;
 import static com.javarush.jira.login.internal.web.UserTestData.*;
 import static com.javarush.jira.profile.web.ProfileTestData.*;
-import static org.junit.Assert.fail;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,8 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class ProfileRestControllerTest extends AbstractControllerTest {
 
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private ProfileRepository profileRepository;
     @Autowired
