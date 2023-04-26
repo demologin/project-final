@@ -3,13 +3,12 @@ package com.javarush.jira.common.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 
-import java.util.Locale;
+
 import java.util.Set;
 
 @Configuration
@@ -40,13 +39,5 @@ public class ThymeleafConfig {
             setCacheTTLMs(appProperties.getTemplatesUpdateCache().toMillis());
             setCharacterEncoding("UTF-8");
         }};
-    }
-    //TODO: 11.add localization
-
-    @Bean
-    public LocaleResolver localeResolver() {
-        SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(Locale.ENGLISH);
-        return slr;
     }
 }
