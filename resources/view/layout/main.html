@@ -7,7 +7,8 @@
         <meta name="title" th:content="${title}"/>
         <meta name="Description" th:content="${descr}"/>
 
-        <title th:text="${title}"></title>
+        <!--TODO add internationalization to index page and mail templates -->
+        <title th:text="#{index.main.text.title}"></title>
         <link rel="apple-touch-icon" sizes="180x180" href="/static/images/icon/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/static/images/icon/favicon-32x32.png">
         <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css"/>

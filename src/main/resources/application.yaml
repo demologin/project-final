@@ -86,6 +86,10 @@ spring:
       mode: always
 
   thymeleaf.check-template-location: false
+  messages:
+    basename: messages
+  web:
+    locale-resolver:
 
 
 
