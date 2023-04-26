@@ -1,5 +1,58 @@
 spring.cache.type: none
+# template for server
+app:
+  host-url: 0.0.0.0:8080
+  test-mail: jira4jr@gmail.com
+  templates-update-cache: 5s
+  mail-sending-props:
+    core-pool-size: 8
+    max-pool-size: 100
 spring:
-  sql:
-    init:
-      mode: always
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/jira}
+    username: ${SPRING_DATASOURCE_USERNAME:jira}
+    password: ${SPRING_DATASOURCE_PASSWORD:JiraRush}
+  liquibase:
+    change-log: db/test.sql
+    enabled: true
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: 3d0d8738e65881fff266
+            client-secret: 0f97031ce6178b7dfb67a6af587f37e222a16120
+            scope:
+              - email
+          google:
+            client-id: 329113642700-f8if6pu68j2repq3ef6umd5jgiliup60.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
+          gitlab:
+            client-id: 329113642700-f8if6pu68j2repq3ef6umd5jgiliup60.apps.googleusercontent.com
+            client-secret: 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
+            client-name: GitLab
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            authorization-grant-type: authorization_code
+            scope: read_user
+        provider:
+          gitlab:
+            authorization-uri: https://gitlab.com/oauth/authorize
+            token-uri: https://gitlab.com/oauth/token
+            user-info-uri: https://gitlab.com/api/v4/user
+            user-name-attribute: email
+
+  mail:
+    username: jira4jr@gmail.com
+    password: zdfzsrqvgimldzyj
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+    host: smtp.gmail.com
+    port: 587
+  thymeleaf.check-template-location: false

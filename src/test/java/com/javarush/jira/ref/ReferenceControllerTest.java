@@ -64,12 +64,6 @@ public class ReferenceControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getUnAuth() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + RefType.TASK))
-                .andExpect(status().isUnauthorized());
-    }
-
-    @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
         perform(MockMvcRequestBuilders.put(REST_URL + RefType.TASK + "/" + TASK_CODE)

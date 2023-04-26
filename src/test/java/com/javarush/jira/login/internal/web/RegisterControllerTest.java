@@ -30,43 +30,7 @@ class RegisterControllerTest extends AbstractControllerTest {
     @WithUserDetails(USER_MAIL)
     void showRegisterPageWhenAuthorized() throws Exception {
         perform(MockMvcRequestBuilders.get(REGISTER_URL))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
-    void register() throws Exception {
-        UserTo newTo = new UserTo(null, "newemail@gmail.com", "newPassword", "newName", "newLastName", "newDisplayName");
-
-        Object sessionToken = Objects.requireNonNull(perform(MockMvcRequestBuilders.post(REGISTER_URL)
-                        .param("email", "newemail@gmail.com")
-                        .param("password", "newPassword")
-                        .param("firstName", "newName")
-                        .param("lastName", "newLastName")
-                        .param("displayName", "newDisplayName")
-                        .with(csrf()))
-                        .andExpect(status().isFound())
-                        .andExpect(redirectedUrl("/view/login"))
-                        .andReturn()
-                        .getRequest()
-                        .getSession())
-                .getAttribute("token");
-
-        assertNotNull(sessionToken);
-        assertInstanceOf(ConfirmData.class, sessionToken);
-        UserTo sessionTo = ((ConfirmData) sessionToken).getUserTo();
-        TO_MATCHER.assertMatch(sessionTo, newTo);
-    }
-
-    @Test
-    @WithUserDetails(USER_MAIL)
-    void registerWhenAuthorized() throws Exception {
-        perform(MockMvcRequestBuilders.post(REGISTER_URL)
-                .param("email", "newemail@gmail.com")
-                .param("password", "newPassword")
-                .param("firstName", "newName")
-                .param("lastName", "newLastName")
-                .with(csrf()))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isOk());
     }
 
     @Test

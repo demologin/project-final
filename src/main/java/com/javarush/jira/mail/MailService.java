@@ -28,6 +28,7 @@ import java.util.concurrent.*;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+
 public class MailService {
     private static final Locale LOCALE_RU = Locale.forLanguageTag("ru");
     private static final String OK = "OK";
