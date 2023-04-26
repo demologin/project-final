@@ -115,3 +115,7 @@ function failNoty(jqXHR) {
     });
     failedNote.show()
 }
+
+//TODO add internationalization to index page and mail templates
+const a = document.querySelector('.lang');
+a.href = `${location.href}${a.getAttribute('href')}`;

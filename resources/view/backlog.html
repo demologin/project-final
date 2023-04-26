@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<!--/*@thymesVar id="authUser" type="com.javarush.jira.login.AuthUser"*/-->
+<!--/*@thymesVar id="taskMap" type="java.util.Map<com.javarush.jira.bugtracking.to.SprintTo, java.util.List<com.javarush.jira.bugtracking.to.TaskTo>>"*/-->
+
+<!--TODO Add backlog with pagination -->
+
+<th:block th:replace="~{layout/main::page(title='JiraRush: mini bugtracking system',appMain=~{::appMain})}">
+    <appMain>
+        <h1 th:text="#{backlog.main.text.backlog}">Backlog</h1>
+        <br/>
+        <div class="dropdown">
+            <span class="h5 text-dark" th:text="#{backlog.main.text.quantity}">Quantity on page:</span>
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false" th:text="${page.getSize()}"></button>
+
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                <li><a th:class="${page.getSize()} == 3 ? 'dropdown-item active' : 'dropdown-item'" href="#" th:href="@{/backlog(page=${page.getNumber()},size=3)}">3</a></li>
+                <li><a th:class="${page.getSize()} == 5 ? 'dropdown-item active' : 'dropdown-item'" href="#" th:href="@{/backlog(page=${page.getNumber()},size=5)}">5</a></li>
+                <li><a th:class="${page.getSize()} == 10 ? 'dropdown-item active' : 'dropdown-item'" href="#" th:href="@{/backlog(page=${page.getNumber()},size=10)}">10</a></li>
+            </ul>
+        </div>
+        <br/>
+        <div class="container text-center">
+            <div class="card">
+                <div class="row row-cols-3">
+                    <div class="col"  th:each="task: ${page.getContent()}">
+                        <div class="card-body">
+                            <div class="card text-dark bg-light">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-2 text-muted" style="text-align: left; "
+                                        th:text="${task.title}"></h5>
+                                    <h6 class="card-subtitle mb-2 text-muted" style="text-align: left; "
+                                        th:text="${task.description}"></h6>
+                                    <h6 class="card-subtitle mb-2 text-muted" style="text-align: left; "
+                                        th:text="${task.priorityCode}"></h6>
+                                    <div th:if="${task.getTags() != null}">
+                                        <h6 class="card-subtitle mb-2 text-muted" style="text-align: left; " th:text="|#{index.main.text.tags}: |">TAGS:</h6>
+                                        <div th:each="tag: ${task.getTags()}">
+                                            <h6 class="card-subtitle mb-2 text-muted" style="text-align: left; "
+                                                th:text="${tag}"></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <nav aria-label="...">
+            <ul class="pagination justify-content-center">
+                <li th:class="${page.getNumber()} == 0 ? 'page-item disabled' : 'page-item'">
+                    <a th:if="${page.getNumber()} == 0" class="page-link" href="#" tabindex="-1" aria-disabled="true" th:text="#{backlog.main.link.previous}">Previous</a>
+                    <a th:if="${page.getNumber()} != 0" class="page-link" href="#" th:href="@{/backlog(page=${page.getNumber()}-1,size=${page.getSize()})}" th:text="#{backlog.main.link.previous}">Previous</a>
+                </li>
+                <li th:each="pageNumber : ${pageNumbers}" th:class="${page.getNumber()} == (${pageNumber}-1) ? 'page-item active' : 'page-item'">
+                    <a class="page-link" href="main.html" th:if="${page.getNumber()} != (${pageNumber}-1)" th:href="@{/backlog(page=${pageNumber}-1,size=${page.getSize()})}" th:text="${pageNumber}"></a>
+                    <a class="page-link" href="#"  th:if="${page.getNumber()} == (${pageNumber}-1)" th:text="${pageNumber}"></a>
+                </li>
+                <li th:class="${page.getNumber()} == (${page.getTotalPages()}-1) ? 'page-item disabled' : 'page-item'">
+                    <a th:if="${page.getNumber()} == ${page.getTotalPages()-1}" class="page-link" href="#" tabindex="-1" aria-disabled="true" th:text="#{backlog.main.link.next}">Next</a>
+                    <a th:if="${page.getNumber()} != ${page.getTotalPages()-1}" class="page-link" href="#" th:href="@{/backlog(page=${page.getNumber()}+1,size=${page.getSize()})}" th:text="#{backlog.main.link.next}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </appMain>
+</th:block>
