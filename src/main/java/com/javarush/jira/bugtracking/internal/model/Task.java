@@ -68,7 +68,6 @@ public class Task extends TitleEntity {
             uniqueConstraints = @UniqueConstraint(columnNames = {"task_id", "tag"}, name = "uk_task_tag"))
     @Column(name = "tag")
     @ElementCollection(fetch = FetchType.EAGER)
-    @JoinColumn()
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<@Size(min = 2, max = 32) String> tags = Set.of();
 

@@ -4,8 +4,12 @@ const formLogin = document.forms.loginForm;
 
 window.onload = () => {
     if (window.location.pathname === '/view/login')
-        formLogin.addEventListener('submit', () => {
+        formLogin.addEventListener('submit', (evt) => {
+            evt.preventDefault();
             auth()
+                .then(() => {
+                    formLogin.submit();
+                });
         });
     const btnLogout = document.querySelector('#btn-logout');
     if (btnLogout) {
@@ -18,7 +22,7 @@ function auth() {
         username: formLogin.username.value,
         password: formLogin.password.value
     };
-    fetch(loginUrl, {
+    return fetch(loginUrl, {
         method: 'POST',
         body: JSON.stringify(userAuth),
         headers: {
@@ -28,7 +32,6 @@ function auth() {
         .then(resp => resp.json())
         .catch(console.log)
         .then(token => {
-            console.log(token);
             localStorage.setItem("accessToken", token['access_token']);
             localStorage.setItem("refreshToken", token['refresh_token']);
         })

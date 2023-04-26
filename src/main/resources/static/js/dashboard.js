@@ -7,23 +7,21 @@ const headersWithJwt = {
 }
 
 // https://stackoverflow.com/a/5064235/548473
-
 const ctx = {
     ajaxUrl: taskUrlDash,
     pageName: "index"
-}
-window.onload = function () {
-    setEventListeners();
 }
 
 function setEventListeners() {
     document.querySelectorAll(taskSelector)
         .forEach(task =>
             task.addEventListener('click', openModal));
-
 }
 
+setEventListeners();
+
 function openModal(evt) {
+    evt.stopPropagation();
     const id = evt.target
         .closest(taskSelector)
         .getAttribute('value');
@@ -45,7 +43,6 @@ function modalFill(id) {
             if (line != null && line.type === 'checkbox') {
                 line.checked = valueKey;
             }
-
         });
         $('#editRow').modal('show');
     });
