@@ -15,8 +15,8 @@
                         </li>
                     </ul>
                     <div>
-                        <a href="?lang=en" type="button" class="btn btn-outline-info" th:text="eng"></a>
-                        <a href="?lang=ru" type="button" class="btn btn-outline-info me-5" th:text="rus"></a>
+                        <a href="?lang=en" type="button" class="btn btn-danger" th:text="eng"></a>
+                        <a href="?lang=ru" type="button" class="btn btn-danger me-5" th:text="rus"></a>
                     </div>
                     <div th:if="${authUser} == null">
                         <a href="/view/login" type="button" class="btn btn-orange" th:text="#{header.login}"></a>
