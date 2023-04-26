@@ -15,12 +15,11 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 //https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-testing-spring-boot-applications
+@EnableTestContainers
 @SpringBootTest
-@Testcontainers
-@AutoConfigureMockMvc(addFilters = false)
-@ContextConfiguration
-@TestPropertySource(properties = {"spring.config.location=classpath:application-test.yaml"})
 @Sql(scripts = "classpath:db/test.sql", config = @SqlConfig(encoding = "UTF-8"))
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
 //https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-testing-spring-boot-applications-testing-with-mock-environment
 public abstract class AbstractControllerTest {
 

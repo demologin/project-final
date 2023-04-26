@@ -12,7 +12,7 @@
 	<groupId>com.javarush</groupId>
 	<artifactId>jira</artifactId>
 	<version>1.0</version>
-	<name>JiraRush</name>
+	<name>jira</name>
 	<description>Mini-JIRA from JavaRush</description>
 
 	<properties>
