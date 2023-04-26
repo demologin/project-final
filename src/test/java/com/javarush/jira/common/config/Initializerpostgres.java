@@ -4,7 +4,7 @@ import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.testcontainers.containers.PostgreSQLContainer;
-
+//TODO: Задача №5
 public class Initializerpostgres {
     public  static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:15.2");
 public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext>{

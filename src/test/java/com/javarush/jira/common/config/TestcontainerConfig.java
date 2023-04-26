@@ -5,7 +5,7 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
-
+//TODO: Задача №5
 @Testcontainers
 public class TestcontainerConfig implements ApplicationContextInitializer<ConfigurableApplicationContext>{
     @org.testcontainers.junit.jupiter.Container
