@@ -28,6 +28,7 @@ public class DashboardUIController {
 
     @GetMapping("/") // index page
     public String getAll(Model model) {
+        // !!!Оптимизировать обращение к базе!!!
         List<TaskTo> tasks = taskService.getAll();
         Map<SprintTo, List<TaskTo>> taskMap = tasks.stream()
                 .filter(task -> Objects.nonNull(task.getSprint()))
@@ -54,6 +55,7 @@ public class DashboardUIController {
     // TODO Реализовать бэклог (backlog) – полный список задач (с пейджингом),
     @GetMapping("/tasks")
     public String getFreeTasks(Model model) {
+        // !!!Оптимизировать обращение к базе!!!
         List<TaskTo> all = taskService.getAll();
         List<TaskTo> freeTasks = all.stream()
                 .filter(task -> Objects.isNull(task.getSprint()))

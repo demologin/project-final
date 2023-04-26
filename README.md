@@ -31,3 +31,13 @@
 7. Добавить возможность подписываться на задачи, которые не назначены на текущего пользователя. (Рассылку уведомлений/письма о смене статуса задачи делать не нужно).
 11. Добавить локализацию минимум на двух языках для шаблонов писем и стартовой страницы index.html.
 12. Реализовать бэклог (backlog) – полный список задач (с пейджингом), которые должны быть выполнены и еще не относятся ни к какому спринту. (бек + фронт)
+
+## Запуск приложения
+1. Проверить в службах, что все порты свободны (отключить Postgres SQL Server, TomCat 9.0 (10.0));
+2. Развернуть docker-контейнер БД:
+   docker run -p 5432:5432 --name postgres-db -e POSTGRES_USER=jira -e POSTGRES_PASSWORD=JiraRush -e POSTGRES_DB=jira -e PGDATA=/var/lib/postgresql/data/pgdata -v ./pgdata:/var/lib/postgresql/data -d postgres
+3. Подключить при необходимости БД в IntelliJ IDEA
+   url: jdbc:postgresql://localhost:5432/jira
+   username: jira
+   password: JiraRush
+4. Запустить Spring Boot приложение (JiraRushApplication) с профилем prod
