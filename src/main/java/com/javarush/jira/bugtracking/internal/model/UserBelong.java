@@ -1,5 +1,6 @@
 package com.javarush.jira.bugtracking.internal.model;
 
+import com.javarush.jira.bugtracking.TaskUserRole;
 import com.javarush.jira.bugtracking.to.ObjectType;
 import com.javarush.jira.common.model.TimestampEntry;
 import com.javarush.jira.common.util.validation.Code;
@@ -36,4 +37,10 @@ public class UserBelong extends TimestampEntry {
     @Code
     @Column(name = "user_type_code", nullable = false)
     private String userTypeCode;
+
+    //TODO add user role for notifications
+    @Column(name = "task_user_role", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    @NotNull
+    private TaskUserRole taskUserRole;
 }
