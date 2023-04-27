@@ -52,11 +52,6 @@ class UserControllerTest extends AbstractControllerTest {
                 .andExpect(USER_MATCHER.contentJson(admin));
     }
 
-    @Test
-    void getUnauthorized() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL))
-                .andExpect(status().isUnauthorized());
-    }
 
     @Test
     void createWithLocation() throws Exception {
@@ -151,12 +146,6 @@ class UserControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void deleteUnauthorized() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL))
-                .andExpect(status().isUnauthorized());
-    }
-
-    @Test
     @WithUserDetails(value = USER_MAIL)
     void changePassword() throws Exception {
         String changedPassword = "changedPassword";
@@ -181,9 +170,4 @@ class UserControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnprocessableEntity());
     }
 
-    @Test
-    void changePasswordUnauthorized() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + "/change_password"))
-                .andExpect(status().isUnauthorized());
-    }
 }

@@ -2,6 +2,8 @@ package com.javarush.jira.profile.web;
 
 import com.javarush.jira.common.error.ErrorMessageHandler;
 import com.javarush.jira.login.AuthUser;
+import com.javarush.jira.profile.ProfileService;
+import com.javarush.jira.profile.internal.ProfileMapper;
 import com.javarush.jira.ref.RefType;
 import com.javarush.jira.ref.ReferenceService;
 import jakarta.validation.Valid;
@@ -20,14 +22,18 @@ import static com.javarush.jira.profile.web.ProfileUIController.PROFILE_URL;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping(value = PROFILE_URL)
-public class ProfileUIController extends AbstractProfileController {
+public class ProfileUIController {
     static final String PROFILE_URL = "/ui/profile";
+
+    private final ProfileService service;
+
+    private final ProfileMapper mapper;
 
     private final ErrorMessageHandler errorMessageHandler;
 
     @GetMapping
     public String get(Model model, @AuthenticationPrincipal AuthUser authUser) {
-        model.addAttribute("profile", super.get(authUser.id()));
+        model.addAttribute("profile", service.get(authUser.id()));
         model.addAttribute("contactRefs", ReferenceService.getRefs(RefType.CONTACT).values());
         model.addAttribute("mailNotificationRefs", ReferenceService.getRefs(RefType.MAIL_NOTIFICATION).values());
         return "profile";
@@ -41,7 +47,7 @@ public class ProfileUIController extends AbstractProfileController {
             return "redirect:" + PROFILE_URL;
         }
         redirectAttrs.addFlashAttribute("profileSuccess", "Saved successfully");
-        super.update(profileMapper.fromPostToTo(profile), authUser.id());
+        service.update(mapper.fromPostToTo(profile), authUser.id());
         return "redirect:" + PROFILE_URL;
     }
 }

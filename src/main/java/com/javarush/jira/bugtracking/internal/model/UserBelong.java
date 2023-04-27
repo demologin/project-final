@@ -17,10 +17,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class UserBelong extends TimestampEntry {
-
+    //TODO 7.subscribe task
     // no FK, manual check
     @Column(name = "object_id", nullable = false)
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long objectId;
 
     @Column(name = "object_type", nullable = false)

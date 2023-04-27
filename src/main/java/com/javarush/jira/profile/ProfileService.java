@@ -1,24 +1,25 @@
-package com.javarush.jira.profile.web;
+package com.javarush.jira.profile;
 
 import com.javarush.jira.common.util.validation.ValidationUtil;
-import com.javarush.jira.profile.ProfileTo;
 import com.javarush.jira.profile.internal.Profile;
 import com.javarush.jira.profile.internal.ProfileMapper;
 import com.javarush.jira.profile.internal.ProfileRepository;
 import com.javarush.jira.profile.internal.ProfileUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
+@RequiredArgsConstructor
 @Slf4j
-public abstract class AbstractProfileController {
-    @Autowired
-    protected ProfileMapper profileMapper;
-    @Autowired
-    private ProfileRepository profileRepository;
+public class ProfileService {
+    private final ProfileRepository repository;
+
+    private final ProfileMapper mapper;
 
     public ProfileTo get(long id) {
         log.info("get {}", id);
-        return profileMapper.toTo(profileRepository.getOrCreate(id));
+        return mapper.toTo(repository.getOrCreate(id));
     }
 
     public void update(ProfileTo profileTo, long id) {
@@ -26,7 +27,7 @@ public abstract class AbstractProfileController {
         ValidationUtil.assureIdConsistent(profileTo, id);
         ValidationUtil.assureIdConsistent(profileTo.getContacts(), id);
         ProfileUtil.checkContactsExist(profileTo.getContacts());
-        Profile profile = profileMapper.updateFromTo(profileRepository.getOrCreate(profileTo.id()), profileTo);
-        profileRepository.save(profile);
+        Profile profile = mapper.updateFromTo(repository.getOrCreate(profileTo.id()), profileTo);
+        repository.save(profile);
     }
 }

@@ -48,12 +48,18 @@ values ('task', 'Task', 2),
 -- CONTACT
        ('skype', 'Skype', 0),
        ('tg', 'Telegram', 0),
+
        ('mobile', 'Mobile', 0),
+
        ('phone', 'Phone', 0),
+
        ('website', 'Website', 0),
-       ('vk', 'VK', 0),
+
+
        ('linkedin', 'LinkedIn', 0),
+
        ('github', 'GitHub', 0),
+
 -- PRIORITY
        ('critical', 'Critical', 7),
        ('high', 'High', 7),
@@ -77,13 +83,21 @@ values (1, null, null, 49),
 DELETE FROM contact;
 insert into contact (ID, CODE, VALUE)
 values (1, 'skype', 'userSkype'),
+
        (1, 'mobile', '+01234567890'),
+
        (1, 'website', 'user.com'),
+
        (2, 'github', 'adminGitHub'),
-       (2, 'tg', 'adminTg'),
-       (2, 'vk', 'adminVk');
+
+       (2, 'tg', 'adminTg');
+
+
+
+
 
 -- bugtracking
+
 INSERT INTO project (id, code, title, description, type_code, startpoint, endpoint, parent_id) VALUES (2, 'task tracker', 'PROJECT-1', 'test project', 'task tracker', null, null, null);
 
 INSERT INTO sprint (id, status_code, startpoint, endpoint, title, project_id) VALUES (1, 'planning', '2023-04-09 23:05:05.000000', '2023-04-12 23:05:12.000000', 'Sprint-1', 2);
@@ -97,4 +111,3 @@ INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, st
 INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, startpoint, endpoint) VALUES (4, 3, 2, 2, 'admin', null, null);
 INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, startpoint, endpoint) VALUES (5, 4, 2, 2, 'admin', null, null);
 INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, startpoint, endpoint) VALUES (6, 5, 2, 2, 'admin', null, null);
-

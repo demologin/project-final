@@ -1,0 +1,70 @@
+#TODO 10.docker-compose
+version: "3.9"
+services:
+  db:
+    container_name: jira-db
+    image: postgres:15.2
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=$DB_NAME
+      - POSTGRES_USER=$SPRING_DATASOURCE_USERNAME
+      - POSTGRES_PASSWORD=$SPRING_DATASOURCE_PASSWORD
+      - PGDATA=$PGDATA
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - frontend
+
+  app:
+    container_name: jira-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jira
+    ports:
+      - "8080:8080"
+    environment:
+      - DATASOURCE_URL=jdbc:$SPRING_DATASOURCE_URL
+      - DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME
+      - DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD
+      - OAUTH2_GITHUB_CLIENT_ID=$SECURITY_OAUTH2_CLIENT_REGISTRATION_GITHUB_CLIENTID
+      - OAUTH2_GITHUB_CLIENT_SECRET=$SECURITY_OAUTH2_CLIENT_REGISTRATION_GITHUB_CLIENTSECRET
+      - OAUTH2_GOOGLE_CLIENT_ID=$SECURITY_OAUTH2_CLIENT_REGISTRATION_GOOGLE_CLIENTID
+      - OAUTH2_GOOGLE_CLIENT_SECRET=$SECURITY_OAUTH2_CLIENT_REGISTRATION_GOOGLE_CLIENTSECRET
+      - OAUTH2_GITLAB_CLIENT_ID=$SECURITY_OAUTH2_CLIENT_REGISTRATION_GITLAB_CLIENTID
+      - OAUTH2_GITLAB_CLIENT_SECRET=$SECURITY_OAUTH2_CLIENT_REGISTRATION_GITLAB_CLIENTSECRET
+      - MAIL_USERNAME=$MAIL_USERNAME
+      - MAIL_PASSWORD=$MAIL_PASSWORD
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+    networks:
+      - frontend
+      - backend
+
+  nginx:
+    container_name: jira-nginx
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./resources:/opt/jirarush/resources:ro
+    depends_on:
+      app:
+        condition: service_started
+    restart: always
+    networks:
+      - frontend
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge

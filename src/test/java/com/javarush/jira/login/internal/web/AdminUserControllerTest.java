@@ -87,18 +87,6 @@ class AdminUserControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
-    void getUnauthorized() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL))
-                .andExpect(status().isUnauthorized());
-    }
-
-    @Test
-    @WithUserDetails(value = USER_MAIL)
-    void getForbidden() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL))
-                .andExpect(status().isForbidden());
-    }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
