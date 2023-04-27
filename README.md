@@ -2,7 +2,7 @@
 
 ## Запуск
 
-Заупстить файл [docker-compose.yml](docker-compose.yml)
+Запустить файл [docker-compose.yml](docker-compose.yml)
 
 - Или выполните команду
 
@@ -12,6 +12,25 @@ docker compose up
 
 Для изменения режима DEV PROD измените строку 12 в [Dockerfile](Dockerfile)
 
+### Логины и пароли для входа:
+ADMIN
+```text
+admin@gmail.com
+```
+```text
+admin
+```
+
+DEV
+```text
+user@gmail.com
+```
+```text
+password
+```
+
+
+
 ## [REST API](http://localhost:8080/doc)
 
 ## Концепция проекта:
@@ -20,12 +39,6 @@ docker compose up
     - [Spring Modulith: достигли ли мы зрелости модульности](https://habr.com/ru/post/701984/)
     - [Introducing Spring Modulith](https://spring.io/blog/2022/10/21/introducing-spring-modulith)
     - [Spring Modulith - Reference documentation](https://docs.spring.io/spring-modulith/docs/current-SNAPSHOT/reference/html/)
-
-```
-  url: jdbc:postgresql://localhost:5432/jira
-  username: jira
-  password: JiraRush
-```
 
 - Есть 2 общие таблицы, на которых не fk
     - _Reference_ - справочник. Связь делаем по _code_ (по id нельзя, тк id привязано к окружению-конкретной базе)
@@ -55,8 +68,8 @@ docker compose up
 
 > Вся чусвительная ифомация вынесена в ./config/files.env
 > #### Имеется два файла:
-> - [jira-app-prod.env](config%2Fjira-app-prod.env) - Файл с основными кофигурациями приложения
-> - [postgresql-prod.env](config%2Fpostgresql-prod.env) - Файл для автоматического создания БД при использовании
+> - [jira-app-prod.env](config/jira-app-prod.env) - Файл с основными кофигурациями приложения
+> - [postgresql-prod.env](config/postgresql-prod.env) - Файл для автоматического создания БД при использовании
     Compouse
 
 4) ✅ Переделать тесты так, чтоб во время тестов использовалась in memory БД (H2), а не PostgreSQL. Для этого нужно
@@ -100,8 +113,8 @@ docker compose up
 13) ✅ Переделать механизм распознавания «свой-чужой» между фронтом и беком с JSESSIONID на JWT. Из сложностей – тебе
     придётся переделать отправку форм с фронта, чтоб добавлять хедер аутентификации.
 
-> Работает как JSession так и JWT.
-> Авторизация возможна через JSession но контент не будет доступен без JWT токена.
+> Работает как JSession, так и JWT.
+> Авторизация возможна через JSession, но контент не будет доступен без JWT токена.
 > Так сделано по причине сильного связывания с шаблонизатором Thymeleaf
 
 

@@ -60,6 +60,9 @@ function sendDashboardForm() {
         $("#editRow").modal('hide');
         updateTable()
         successNoty("Record saved");
-        window.location.reload();
+        setTimeout(() => {
+            window.location = window.location.origin + '/';
+        }, 1000);
+
     });
 }

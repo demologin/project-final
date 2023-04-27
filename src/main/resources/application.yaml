@@ -1,54 +1,24 @@
-#  https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 app:
-  host-url: ${{HOST_URL}}
+  host-url: ${HOST_URL}
   test-mail: ${TEST_MAIL}
   templates-update-cache: 5s
   mail-sending-props:
     core-pool-size: 8
     max-pool-size: 100
+
   security:
     jwt:
       secret-key: ${JWT_SECRET_KEY}
-      expiration: 60000 # 1 day
+      expiration: 86400000 # 1 day
       refresh-token:
         expiration: 604800000 # 7 days
 
 spring:
-  jpa:
-    show-sql: false
-    open-in-view: false
-
-    # validate db by model
-    hibernate:
-      ddl-auto: validate
-
-    properties:
-      #  http://docs.jboss.org/hibernate/orm/5.3/userguide/html_single/Hibernate_User_Guide.html#configurations
-      hibernate:
-        format_sql: true
-        default_batch_fetch_size: 20
-        # https://stackoverflow.com/questions/21257819/what-is-the-difference-between-hibernate-jdbc-fetch-size-and-hibernate-jdbc-batc
-        jdbc.batch_size: 20
-
-  liquibase:
-    changeLog: "classpath:db/changelog.sql"
-
-  # Jackson Fields Serialization
-  jackson:
-    visibility:
-      field: any
-      getter: none
-      setter: none
-      is-getter: none
-
-  # https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html#common-application-properties-cache
-  cache:
-    cache-names: users
-    caffeine.spec: maximumSize=10000,expireAfterAccess=5m
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
+
   mail:
     properties:
       mail:
@@ -60,12 +30,37 @@ spring:
     username: ${SPRING_MAIL_USERNAME}
     password: ${SPRING_MAIL_PASSWORD}
     port: ${SPRING_MAIL_PORT}
+
+  jpa:
+    show-sql: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 20
+        jdbc.batch_size: 20
+
+  liquibase:
+    changeLog: "classpath:db/changelog.sql"
+
+  jackson:
+    visibility:
+      field: any
+      getter: none
+      setter: none
+      is-getter: none
+
+  cache:
+    cache-names: users
+    caffeine.spec: maximumSize=10000,expireAfterAccess=5m
   security:
     oauth2:
       client:
         registration:
           github:
-            client-id: ${GITHUB_CLIENT_ID}}
+            client-id: ${GITHUB_CLIENT_ID}
             client-secret: ${GITHUB_CLIENT_SECRET}
             scope: ${GITHUB_SCOPE}
           google:
@@ -106,11 +101,10 @@ logging:
     org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
 
 server:
-  #  https://springdoc.org/index.html#how-can-i-deploy-springdoc-openapi-ui-behind-a-reverse-proxy
   forward-headers-strategy: framework
   servlet:
     encoding:
-      charset: UTF-8 # Charset of HTTP requests and responses. Added to the "Content-Type" header if not set explicitly
-      enabled: true # Enable http encoding support
+      charset: UTF-8
+      enabled: true
       force: true
 springdoc.swagger-ui.path: /doc

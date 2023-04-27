@@ -37,6 +37,11 @@ function add() {
 }
 
 function updateRow(id) {
+    $.ajaxSetup({
+        headers: {
+            "Authorization": 'Bearer ' + localStorage.getItem("accessToken")
+        }
+    });
     form.find(":input").val("");
     $("#modalTitle").html('Edit ' + ctx.pageName);
     $.get(ctx.ajaxUrl + '/' + id, function (data) {
@@ -63,6 +68,11 @@ function deleteRow(id) {
 }
 
 function updateTable() {
+    $.ajaxSetup({
+        headers: {
+            "Authorization": 'Bearer ' + localStorage.getItem("accessToken")
+        }
+    });
     $.get(ctx.ajaxUrl, el => {
         ctx.datatableApi.clear().rows.add(el).draw();
     })

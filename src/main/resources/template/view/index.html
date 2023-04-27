@@ -105,7 +105,7 @@
                                 <label for="storyPoints" class="col-form-label"
                                        th:text="#{task.storyPoints}"></label>
                                 <input type="number" class="form-control" id="storyPoints" name="storyPoints"
-                                       th:placeholder="#{task.storyPoints}">
+                                       th:placeholder="#{task.storyPoints}" min="1" th:default="1">
                             </div>
                             <div class="form-group">
                                 <label for="enabled" class="col-form-label" th:text="#{task.enabled}"></label>
