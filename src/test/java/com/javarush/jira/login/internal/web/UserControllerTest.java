@@ -1,10 +1,12 @@
 package com.javarush.jira.login.internal.web;
 
 import com.javarush.jira.AbstractControllerTest;
+import com.javarush.jira.common.config.Initializerpostgres;
 import com.javarush.jira.login.User;
 import com.javarush.jira.login.UserTo;
 import com.javarush.jira.login.internal.UserMapper;
 import com.javarush.jira.login.internal.UserRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -31,7 +33,10 @@ class UserControllerTest extends AbstractControllerTest {
     private UserRepository repository;
     @Autowired
     UserMapper mapper;
-
+@BeforeAll
+static void init(){
+    Initializerpostgres.postgreSQLContainer.start();
+}
     @Test
     @WithUserDetails(value = USER_MAIL)
     void get() throws Exception {

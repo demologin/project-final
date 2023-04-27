@@ -5,7 +5,9 @@ import com.javarush.jira.bugtracking.to.ObjectType;
 import com.javarush.jira.common.model.NamedEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 

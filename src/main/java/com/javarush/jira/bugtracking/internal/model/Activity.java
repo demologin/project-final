@@ -1,9 +1,7 @@
 package com.javarush.jira.bugtracking.internal.model;
 
 import com.javarush.jira.common.model.BaseEntity;
-import com.javarush.jira.common.util.validation.Description;
 import com.javarush.jira.common.util.validation.NoHtml;
-import com.javarush.jira.common.util.validation.Title;
 import com.javarush.jira.login.User;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;

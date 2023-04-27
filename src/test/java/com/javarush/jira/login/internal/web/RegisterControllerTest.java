@@ -1,8 +1,10 @@
 package com.javarush.jira.login.internal.web;
 
 import com.javarush.jira.AbstractControllerTest;
+import com.javarush.jira.common.config.Initializerpostgres;
 import com.javarush.jira.login.UserTo;
 import com.javarush.jira.login.internal.verification.ConfirmData;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -18,7 +20,10 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 class RegisterControllerTest extends AbstractControllerTest {
-
+    @BeforeAll
+    static void init(){
+        Initializerpostgres.postgreSQLContainer.start();
+    }
     @Test
     void showRegisterPage() throws Exception {
         perform(MockMvcRequestBuilders.get(REGISTER_URL))

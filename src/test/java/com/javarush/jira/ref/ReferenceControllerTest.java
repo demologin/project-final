@@ -1,16 +1,20 @@
 package com.javarush.jira.ref;
 
 import com.javarush.jira.AbstractControllerTest;
+import com.javarush.jira.common.config.Initializerpostgres;
 import com.javarush.jira.ref.internal.Reference;
 import com.javarush.jira.ref.internal.ReferenceRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.lang.NonNull;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static com.javarush.jira.common.util.JsonUtil.writeValue;
 import static com.javarush.jira.login.internal.web.UserTestData.ADMIN_MAIL;
@@ -20,7 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
+@SpringBootTest
+@Testcontainers
 public class ReferenceControllerTest extends AbstractControllerTest {
     private static final String REST_URL = ReferenceController.REST_URL + "/";
 
@@ -28,7 +33,10 @@ public class ReferenceControllerTest extends AbstractControllerTest {
     private ReferenceRepository referenceRepository;
     @Autowired
     private ReferenceService referenceService;
-
+    @BeforeAll
+    static void init(){
+        Initializerpostgres.postgreSQLContainer.start();
+    }
     @BeforeEach
     void reInit() {
         referenceService.updateRefs(RefType.TASK);
@@ -128,6 +136,7 @@ public class ReferenceControllerTest extends AbstractControllerTest {
     }
 
     @NonNull
+    @SuppressWarnings(value = "all")
     private Reference getRef() {
         return referenceRepository.getByTypeAndCode(RefType.TASK, TASK_CODE).get();
     }
