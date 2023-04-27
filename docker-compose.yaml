@@ -1,0 +1,38 @@
+version: '3.9'
+#TODO Added docker compose
+services:
+
+#TODO image for jira app depend on db and nginx
+  app:
+    container_name: "main_jira_service"
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: jira-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - nginx
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/jira
+      - SPRING_DATASOURCE_USERNAME=jira
+      - SPRING_DATASOURCE_PASSWORD=JiraRush
+#TODO image for postgres db
+  db:
+    container_name: pg_db_jira
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: jira
+      POSTGRES_PASSWORD: JiraRush
+      POSTGRES_DB: jira
+    ports:
+      - "5432:5432"
+#TODO image for nginx
+  nginx:
+    image: nginx:latest
+    container_name: nginx_app
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/conf.d/nginx.conf
+    ports:
+      - "80:80"

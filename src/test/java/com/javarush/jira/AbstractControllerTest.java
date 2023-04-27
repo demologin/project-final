@@ -9,17 +9,25 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 //https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-testing-spring-boot-applications
 @SpringBootTest
 @Sql(scripts = "classpath:db/test.sql", config = @SqlConfig(encoding = "UTF-8"))
 @AutoConfigureMockMvc
-@ActiveProfiles("test")
+@Testcontainers
+@ActiveProfiles("testcontainer")
 //https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-testing-spring-boot-applications-testing-with-mock-environment
 public abstract class AbstractControllerTest {
 
+
     @Autowired
     private MockMvc mockMvc;
+//TODO added testcontainers for all controllers tests
+    @Container
+    private static final PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:15.2");
 
     protected ResultActions perform(MockHttpServletRequestBuilder builder) throws Exception {
         return mockMvc.perform(builder);

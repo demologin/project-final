@@ -1,0 +1,12 @@
+#TODO properties for testcontainers
+spring.cache.type: none
+spring:
+  sql:
+    init:
+      mode: always
+
+  datasource:
+    username: test
+    password: test
+    url: jdbc:tc:postgresql:15.2:///test
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver

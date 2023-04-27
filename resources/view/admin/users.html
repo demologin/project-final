@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <script th:src="@{/static/js/common.js}" defer></script>
 <script th:src="@{/static/js/users.js}" defer></script>
 
@@ -8,18 +8,18 @@
     <appMain>
         <div class="jumbotron pt-4">
             <div class="container">
-                <h3 class="text-center">Users</h3>
-                <button th:onclick="add()" class="btn btn-primary">Add</button>
+                <h3 class="text-center" th:text="#{layout.sidebar.users}"></h3>
+                <button th:onclick="add()" class="btn btn-primary" th:text="#{admin.users.add}"></button>
                 <table class="table table-striped" id="datatable">
                     <thead>
                     <tr>
-                        <th>First name</th>
-                        <th>Last name</th>
-                        <th>Display name</th>
-                        <th>Email</th>
-                        <th>Roles</th>
-                        <th>Registered</th>
-                        <th>Active</th>
+                        <th th:text="#{admin.users.firstName}"></th>
+                        <th th:text="#{admin.users.lastName}"></th>
+                        <th th:text="#{admin.users.displayName}"></th>
+                        <th th:text="#{admin.users.email}"></th>
+                        <th th:text="#{admin.users.roles}"></th>
+                        <th th:text="#{admin.users.registered}"></th>
+                        <th th:text="#{admin.users.active}"></th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -40,44 +40,42 @@
                             <input type="hidden" id="id" name="id">
 
                             <div class="form-group">
-                                <label for="firstName" class="col-form-label">First name</label>
+                                <label for="firstName" class="col-form-label" th:text="#{admin.users.firstName}"></label>
                                 <input type="text" class="form-control" id="firstName" name="firstName"
-                                       placeholder="First name">
+                                       th:placeholder="#{admin.users.firstName}" >
                             </div>
 
                             <div class="form-group">
-                                <label for="lastName" class="col-form-label">Last name</label>
+                                <label for="lastName" class="col-form-label" th:text="#{admin.users.lastName}"></label>
                                 <input type="text" class="form-control" id="lastName" name="lastName"
-                                       placeholder="Last name">
+                                       th:placeholder="#{admin.users.lastName}">
                             </div>
 
                             <div class="form-group">
-                                <label for="displayName" class="col-form-label">Display name</label>
+                                <label for="displayName" class="col-form-label"  th:text="#{admin.users.displayName}"></label>
                                 <input type="text" class="form-control" id="displayName" name="displayName"
-                                       placeholder="Display name">
+                                       th:placeholder="#{admin.users.displayName}">
                             </div>
 
                             <div class="form-group">
-                                <label for="email" class="col-form-label">Email</label>
+                                <label for="email" class="col-form-label"  th:text="#{admin.users.email}"></label>
                                 <input type="email" class="form-control" id="email" name="email"
-                                       placeholder="Email">
+                                       th:placeholder="#{admin.users.email}">
                             </div>
 
                             <div class="form-group">
-                                <label for="password" class="col-form-label">Password</label>
+                                <label for="password" class="col-form-label"  th:text="#{admin.users.password}"></label>
                                 <input type="password" class="form-control" id="password" name="password"
-                                       placeholder="Password">
+                                       th:placeholder="#{admin.users.password}">
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeNoty()">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeNoty()" th:text="#{profile.cancel}">
                             <span class="fa fa-close"></span>
-                            Cancel
                         </button>
-                        <button type="button" class="btn btn-primary" onclick="save()">
+                        <button type="button" class="btn btn-primary" onclick="save()" th:text="#{profile.save}">
                             <span class="fa fa-check"></span>
-                            Save
                         </button>
                     </div>
                 </div>
