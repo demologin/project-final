@@ -1,8 +1,8 @@
 package com.javarush.jira.login.internal.sociallogin.handler;
 
 import org.springframework.stereotype.Component;
-
-@Component("yandex")
+// TODO Удалить социальные сети: vk, yandex
+//@Component("yandex")
 public class YandexOAuth2UserDataHandler implements OAuth2UserDataHandler {
     @Override
     public String getFirstName(OAuth2UserData oAuth2UserData) {

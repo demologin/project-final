@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress HttpUrlsUsage -->
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <include file="v1/changelog.sql" relativeToChangelogFile="true"/>
+    <include file="v1/230424_change-sequence.xml" relativeToChangelogFile="true"/>
+    <include file="v1/230425_add-free-tasks.xml" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>
