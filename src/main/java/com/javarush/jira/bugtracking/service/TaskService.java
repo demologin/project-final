@@ -1,5 +1,6 @@
-package com.javarush.jira.bugtracking;
+package com.javarush.jira.bugtracking.service;
 
+import com.javarush.jira.bugtracking.internal.StatusChangeEvent;
 import com.javarush.jira.bugtracking.internal.mapper.TaskMapper;
 import com.javarush.jira.bugtracking.internal.model.Task;
 import com.javarush.jira.bugtracking.internal.repository.TaskRepository;
@@ -9,7 +10,10 @@ import com.javarush.jira.ref.RefTo;
 import com.javarush.jira.ref.RefType;
 import com.javarush.jira.ref.internal.ReferenceMapper;
 import com.javarush.jira.ref.internal.ReferenceRepository;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.lang.NonNull;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,19 +23,23 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.Objects.isNull;
+
 @Service
 @Transactional(readOnly = true)
 public class TaskService extends BugtrackingService<Task, TaskTo, TaskRepository> {
     private final TaskRepository taskRepository;
     private final ReferenceRepository referenceRepository;
     private final ReferenceMapper referenceMapper;
+    private final ApplicationEventPublisher eventPublisher;
 
     public TaskService(TaskRepository repository, TaskMapper mapper,
-                       TaskRepository taskRepository, ReferenceRepository referenceRepository, ReferenceMapper referenceMapper) {
+                       TaskRepository taskRepository, ReferenceRepository referenceRepository, ReferenceMapper referenceMapper, ApplicationEventPublisher eventPublisher) {
         super(repository, mapper);
         this.taskRepository = taskRepository;
         this.referenceRepository = referenceRepository;
         this.referenceMapper = referenceMapper;
+        this.eventPublisher = eventPublisher;
     }
 
     public List<TaskTo> getAllSprints() {
@@ -40,7 +48,16 @@ public class TaskService extends BugtrackingService<Task, TaskTo, TaskRepository
 
     @Transactional
     public void update(TaskTo taskTo) {
-        repository.saveOrUpdate(mapper.toEntity(taskTo));
+        Task fromTo = mapper.toEntity(taskTo);
+        Task fromDb = repository.getExisted(fromTo.getId());
+        checkChangeStatusTask(fromDb, taskTo);
+        if (isNull(fromTo.getSprint())) {
+            fromTo.setSprint(fromDb.getSprint());
+        }
+        if (isNull(fromTo.getProject())) {
+            fromTo.setProject(fromDb.getProject());
+        }
+        repository.save(fromTo);
     }
 
     @Transactional
@@ -71,8 +88,9 @@ public class TaskService extends BugtrackingService<Task, TaskTo, TaskRepository
 
     @Transactional
     public TaskTo create(TaskTo taskTo) {
-        Task save = repository.save(mapper.toEntity(taskTo));
-        return mapper.toTo(save);
+        Task taskDb = repository.save(mapper.toEntity(taskTo));
+        saveCreateStateTask(taskDb);
+        return mapper.toTo(taskDb);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -92,5 +110,25 @@ public class TaskService extends BugtrackingService<Task, TaskTo, TaskRepository
                 .collect(Collectors
                         .toMap(r -> r.get(0).getRefType().name(),
                                 referenceMapper::toToList));
+    }
+
+    private void checkChangeStatusTask(Task taskDb, TaskTo toTo) {
+        String statusCodeDb = taskDb.getStatusCode();
+        String statusCodeTo = toTo.getStatusCode();
+        if (statusCodeDb != null && !statusCodeDb.equals(statusCodeTo)) {
+            executeEvent(taskDb);
+        }
+    }
+
+    private void saveCreateStateTask(Task taskDb) {
+        if (taskDb != null) {
+            executeEvent(taskDb);
+        }
+    }
+
+    private void executeEvent(Task taskDb) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        eventPublisher.publishEvent(new StatusChangeEvent(username, taskDb));
     }
 }

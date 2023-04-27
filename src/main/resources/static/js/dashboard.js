@@ -1,6 +1,5 @@
 let requestData;
 const taskUrlDash = "/api/task";
-const urlUiLogin = `${location.origin}/view/login`;
 const taskSelector = '.task--body';
 const headersWithJwt = {
     "Authorization": 'Bearer ' + localStorage.getItem("accessToken")
@@ -55,7 +54,7 @@ function sendDashboardForm() {
         url: ctx.ajaxUrl + '/form',
         data: data,
         beforeSend: function (xhr) {
-            xhr.setRequestHeader(headersWithJwt);
+            xhr.setRequestHeader("Authorization", 'Bearer ' + localStorage.getItem("accessToken"));
         }
     }).done(function () {
         $("#editRow").modal('hide');

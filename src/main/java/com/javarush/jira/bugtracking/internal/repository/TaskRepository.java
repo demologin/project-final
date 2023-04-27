@@ -17,7 +17,7 @@ public interface TaskRepository extends BaseRepository<Task> {
     @Query("select t from Task t where t.sprint.id is null")
     List<Task> findBySprintIdByNull();
 
-    default void saveOrUpdate(Task entity) {
+    default Task saveOrUpdate(Task entity) {
         Task fromDB = getExisted(entity.getId());
         if (isNull(entity.getSprint())) {
             entity.setSprint(fromDB.getSprint());
@@ -25,6 +25,6 @@ public interface TaskRepository extends BaseRepository<Task> {
         if (isNull(entity.getProject())) {
             entity.setProject(fromDB.getProject());
         }
-        save(entity);
+        return save(entity);
     }
 }

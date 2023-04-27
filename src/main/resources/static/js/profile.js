@@ -5,6 +5,7 @@ function changeInputContactCodeToTitleAndReturnCode(row) {
     const typeTitle = codeTitleMap.get(typeCode);
     if (typeTitle !== undefined) {
         row.cells[0].children[0].value = typeTitle;
+        row.cells[0].children[0].value = typeTitle;
         return typeCode;
     } else {
         return row.cells[0].children[1].value;

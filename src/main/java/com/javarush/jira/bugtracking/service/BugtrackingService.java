@@ -1,4 +1,4 @@
-package com.javarush.jira.bugtracking;
+package com.javarush.jira.bugtracking.service;
 
 import com.javarush.jira.bugtracking.to.NodeTo;
 import com.javarush.jira.common.BaseMapper;

@@ -1,4 +1,4 @@
-package com.javarush.jira.bugtracking;
+package com.javarush.jira.bugtracking.service;
 
 import com.javarush.jira.bugtracking.internal.mapper.ProjectMapper;
 import com.javarush.jira.bugtracking.internal.model.Project;
