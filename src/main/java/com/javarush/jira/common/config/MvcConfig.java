@@ -19,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.servlet.handler.WebRequestHandlerInterceptorAdapter;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.mvc.UrlFilenameViewController;
 
 import java.time.Duration;
@@ -52,9 +53,10 @@ public class MvcConfig implements WebMvcConfigurer {
         public void preHandle(WebRequest request) {
         }
     });
-
+    // TODO 11 - add interceptor
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LocaleChangeInterceptor());
         registry.addInterceptor(authInterceptor).excludePathPatterns("/api/**");
     }
 

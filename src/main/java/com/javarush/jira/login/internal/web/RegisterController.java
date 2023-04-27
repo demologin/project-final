@@ -1,5 +1,6 @@
 package com.javarush.jira.login.internal.web;
 
+import com.javarush.jira.common.config.AppConfig;
 import com.javarush.jira.common.error.DataConflictException;
 import com.javarush.jira.common.util.validation.View;
 import com.javarush.jira.login.UserTo;
@@ -26,6 +27,7 @@ import static com.javarush.jira.common.util.validation.ValidationUtil.checkNew;
 public class RegisterController extends AbstractUserController {
     static final String REGISTER_URL = "/ui/register";
 
+    private final AppConfig appConfig;
     private final ApplicationEventPublisher eventPublisher;
 
     @GetMapping
@@ -41,9 +43,14 @@ public class RegisterController extends AbstractUserController {
         }
         log.info("register {}", userTo);
         checkNew(userTo);
-        ConfirmData confirmData = new ConfirmData(userTo);
-        request.getSession().setAttribute("token", confirmData);
-        eventPublisher.publishEvent(new RegistrationConfirmEvent(userTo, confirmData.getToken()));
+    //  TODO * - add user registration without email confirmation
+        if (appConfig.isEmailConfirmationEnabled()) {
+            ConfirmData confirmData = new ConfirmData(userTo);
+            request.getSession().setAttribute("token", confirmData);
+            eventPublisher.publishEvent(new RegistrationConfirmEvent(userTo, confirmData.getToken()));
+        } else {
+            create(userTo);
+        }
         return "redirect:/view/login";
     }
 

@@ -1,5 +1,8 @@
+# TODO 4 - add "test" profile to run tests with h2 db
 spring.cache.type: none
 spring:
   sql:
     init:
       mode: always
+  datasource:
+    url: jdbc:h2:mem:testdb;NON_KEYWORDS=VALUE

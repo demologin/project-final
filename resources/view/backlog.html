@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<!-- TODO - 12 add backlog -->
+
+<th:block th:replace="~{layout/main::page(title='JiraRush: mini bugtracking system',appMain=~{::appMain})}">
+    <appMain>
+        <div class="jumbotron pt-4" th:with="tasks=${taskPage.content}">
+            <div class="container">
+                <h3 class="text-center" th:text="#{backlog.title}"></h3>
+                <div class="row">
+                    <div class="col col-9"></div>
+                    <div class="col col-3">
+                        <form th:action="@{/backlog}" id="formPageSize">
+                            <div class="input-group">
+                                <label class="input-group-text" for="formPageSize" th:text="#{pagination.size}"></label>
+                                <select form="formPageSize" name="size" th:value="${pageSize}"
+                                        onchange=$("#formPageSize").submit(); class="form-select"
+                                        id="pageSize">
+                                    <option th:each="size : ${#numbers.sequence(5, 15, 5)}"
+                                            th:value="${size}" th:text="${size}"
+                                            th:selected="${size == pageSize}"></option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <table class="table table-striped" id="datatable">
+                    <thead>
+                    <tr>
+                        <th th:text="#{backlog.table.project}"></th>
+                        <th th:text="#{backlog.table.status}"></th>
+                        <th th:text="#{backlog.table.title}"></th>
+                        <th th:text="#{backlog.table.description}"></th>
+                        <th th:text="#{backlog.table.priority}"></th>
+                        <th th:text="#{backlog.table.type}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="task : ${tasks}">
+                        <td th:text="${task.project.title}"/>
+                        <td th:text="${task.statusCode}"/>
+                        <td th:text="${task.title}"/>
+                        <td th:text="${task.description}"/>
+                        <td th:text="${task.priorityCode}"/>
+                        <td th:text="${task.typeCode}"/>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <ul class="pagination justify-content-center" th:with="currentPage=${taskPage.number} + 1">
+                <li сlass="page-item" th:class="${currentPage <= 1} ? 'page-item disabled' : 'page-item'">
+                    <a th:href="@{/backlog(page=${currentPage - 1})}" class="page-link">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <div th:if="${taskPage.totalPages > 0}" th:each="number : ${#numbers.sequence(1, taskPage.totalPages)}">
+                    <li class="page-item" th:class="${currentPage == number ? 'active' : ''}">
+                        <a class="page-link"
+                           th:href="@{/backlog(page=${number})}"
+                           th:text="${number}">
+
+                        </a>
+                    </li>
+                </div>
+                <li th:class="${currentPage >= taskPage.totalPages} ? 'page-item disabled' : 'page-item'">
+                    <a th:href="@{/backlog(page=${currentPage + 1})}" class="page-link">&raquo;</a>
+                </li>
+            </ul>
+        </div>
+    </appMain>
+</th:block>
+

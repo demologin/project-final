@@ -1,9 +1,15 @@
 # template for server
 app:
+  # TODO * - add user registration without email confirmation
+  # switch false to enable email-confirmation
+  email-confirmation-disabled: true
   host-url: http://localhost
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/jira
+    # TODO 10 - changed url to address inside docker container network
+    # url for connect: jdbc:postgresql://localhost:5432/jira
+    # jira-db - address inside docker container network
+    url: jdbc:postgresql://jira-db:5432/jira
     username: jira
     password: JiraRush
 

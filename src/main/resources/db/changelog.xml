@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress HttpUrlsUsage -->
+<!-- TODO 4 - split changelog.sql into two files - init-schema and populate-data-->
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <include file="changelog/init-schema.sql" relativeToChangelogFile="true"/>
+    <include file="changelog/populate-data.sql" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>
