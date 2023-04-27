@@ -4,5 +4,7 @@ target
 *.iml
 logs
 *.patch
+pgdata/
+.DS_Store
 
 

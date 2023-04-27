@@ -8,9 +8,10 @@ import org.springframework.data.domain.Persistable;
 import org.springframework.data.util.ProxyUtils;
 import org.springframework.util.Assert;
 
-@MappedSuperclass
+// base entity to define base properties
+@MappedSuperclass   // just to include this class to JPA but not map to real DB table
 //  https://stackoverflow.com/a/6084701/548473
-@Access(AccessType.FIELD)
+@Access(AccessType.FIELD) // access direct attributes values using reflection during persistence to db
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -34,6 +35,7 @@ public abstract class BaseEntity implements Persistable<Long>, HasId {
     }
 
     //    https://stackoverflow.com/questions/1638723
+    // equals by id
     @Override
     public boolean equals(Object o) {
         if (this == o) {

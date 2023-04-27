@@ -19,7 +19,7 @@ public abstract class NamedEntity extends BaseEntity {
     @NotBlank
     @Size(min = 2, max = 128)
     @Column(name = "name", nullable = false)
-    @NoHtml
+    @NoHtml     // HTML validator make sure no html elements are in the name
     protected String name;
 
     protected NamedEntity(Long id, String name) {

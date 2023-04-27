@@ -1,5 +1,6 @@
 package com.javarush.jira.bugtracking.to;
 
+import com.javarush.jira.common.Subscribable;
 import com.javarush.jira.common.util.validation.Code;
 import com.javarush.jira.common.util.validation.NoHtml;
 import jakarta.validation.constraints.NotBlank;
@@ -9,7 +10,7 @@ import lombok.Value;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
-public class ProjectTo extends NodeTo<ProjectTo> {
+public class ProjectTo extends NodeTo<ProjectTo> implements Subscribable {
     @Code
     String code;
 
@@ -26,5 +27,9 @@ public class ProjectTo extends NodeTo<ProjectTo> {
         this.code = code;
         this.description = description;
         this.typeCode = typeCode;
+    }
+
+    public ObjectType getObjectType() {
+        return ObjectType.PROJECT;
     }
 }

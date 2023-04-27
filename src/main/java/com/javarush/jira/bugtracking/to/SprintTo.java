@@ -1,5 +1,6 @@
 package com.javarush.jira.bugtracking.to;
 
+import com.javarush.jira.common.Subscribable;
 import com.javarush.jira.common.to.TitleTo;
 import com.javarush.jira.common.util.validation.Code;
 import jakarta.validation.constraints.NotNull;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
-public class SprintTo extends TitleTo {
+public class SprintTo extends TitleTo implements Subscribable {
     @Code
     String statusCode;
 
@@ -27,5 +28,9 @@ public class SprintTo extends TitleTo {
         this.startpoint = startpoint;
         this.endpoint = endpoint;
         this.project = project;
+    }
+
+    public ObjectType getObjectType() {
+        return ObjectType.SPRINT;
     }
 }

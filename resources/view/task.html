@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/html" lang="ru">
+
+<th:block th:replace="~{layout/main::page(title='JiraRush: Task Card',appMain=~{::appMain})}">
+    <appMain>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="page-header border border-dark rounded bg-dark text-white text-center mb-2">
+                        <h4 th:text="${selectedTask.getTitle()}"/>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                                <form role="form" action="#" th:action="@{/ui/task/{id}(id=${selectedTask.getId()})}" method="post">
+
+                                    <!-- Title -->
+                                    <div class="row">
+                                        <label for="title" class="col-sm-4 col-form-label">
+                                            <strong>Title: </strong>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly class="form-control-plaintext" id="title" name="title" th:value="${selectedTask.title}">
+                                        </div>
+                                    </div>
+
+                                    <!-- Description -->
+                                    <div class="row">
+                                        <label for="description" class="col-sm-4 col-form-label">
+                                            <strong>Description: </strong>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly class="form-control-plaintext" id="description" name="description" th:value="${selectedTask.description}">
+                                        </div>
+                                    </div>
+
+                                    <!-- Enabled -->
+                                    <div class="row">
+                                        <label for="enabled" class="col-sm-4 col-form-label">
+                                            <strong>Enabled: </strong>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly class="form-control-plaintext" id="enabled" name="enabled" th:value="${selectedTask.enabled}">
+                                        </div>
+                                    </div>
+
+                                    <!-- Status Code -->
+                                    <div class="row">
+                                        <label for="statusCode" class="col-sm-4 col-form-label">
+                                            <strong>Status Code: </strong>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly class="form-control-plaintext" id="statusCode" name="statusCode" th:value="${selectedTask.statusCode}">
+                                        </div>
+                                    </div>
+
+                                    <!-- Priority Code -->
+                                    <div class="row">
+                                        <label for="priorityCode" class="col-sm-4 col-form-label">
+                                            <strong>Priority Code: </strong>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly class="form-control-plaintext" id="priorityCode" name="priorityCode" th:value="${selectedTask.priorityCode}">
+                                        </div>
+                                    </div>
+
+                                    <!-- Type Code -->
+                                    <div class="row">
+                                        <label for="typeCode" class="col-sm-4 col-form-label">
+                                            <strong>Type Code: </strong>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly class="form-control-plaintext" id="typeCode" name="typeCode" th:value="${selectedTask.typeCode}">
+                                        </div>
+                                    </div>
+
+                                    <input hidden="hidden" id="id" name="id" th:value="${selectedTask.getId()}">
+                                    <!--
+                                    <input hidden="hidden" id="sprint" name="sprint" th:value="${selectedTask.getSprint()}">
+                                    <input hidden="hidden" id="project" name="project" th:value="${selectedTask.getProject()}">
+                                    -->
+
+                                    <!-- Tags -->
+                                            <div class="row">
+                                                <label for="tags" class="col-sm-4 col-form-label">
+                                                    <strong>Task Tags: </strong>
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" readonly class="form-control-plaintext"
+                                                           id="existingTags" name="existingTags"
+                                                           th:value="${selectedTask.tags.size()>0?#strings.arrayJoin(selectedTask.tags, ', '):''}">
+                                                </div>
+                                            </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+
+                                            <input placeholder="Add New Tag" type="text" class="form-control w-75"
+                                                   id="tags" name="tags" minlength="2" maxlength="32"/>
+                                                <span class="input-group-btn">
+                                                    <button type="submit" class="btn btn-outline-success">ADD</button>
+                                                </span>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="border border-dark rounded bg-dark text-white text-center mb-2">
+                        <h4> Assigned Sprint </h4>
+                    </div>
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <p th:text="'Sprint Status: ' + ${selectedTask.getSprint().getStatusCode()}">Task Assigned Spring</p>
+                            <p th:text="'Sprint Start: ' + ${selectedTask.getSprint().getStartpoint()}">Task Assigned Spring</p>
+                        </div>
+                    </div>
+                    <div class="border border-dark rounded bg-dark text-white text-center mb-2">
+                        <h4> Assigned Project </h4>
+                    </div>
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <p th:text="'Project Code: ' + ${selectedTask.getProject().getCode()}">Project Code</p>
+                            <p th:text="'Project Description: ' + ${selectedTask.getProject().getDescription()}">Project Description</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </appMain>
+</th:block>
