@@ -1,8 +1,5 @@
 version: "3.9"
 
-volumes:
-  pgdata:
-    name: pgdata
 services:
   jira:
     image: jira-app
@@ -11,7 +8,9 @@ services:
       - "8080:8080"
     build:
       context: .
-      dockerfile: Dockerfile-local-build
+      # Для смены места поиска JAR файла проекта поменяйте строчки
+      dockerfile: Dockerfile
+#      dockerfile: Dockerfile-local-build
     depends_on:
       - nginx
       - db
@@ -41,3 +40,6 @@ services:
       retries: 5
       start_period: 5s
     restart: unless-stopped
+volumes:
+  pgdata:
+    name: pgdata
