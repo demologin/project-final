@@ -1,0 +1,395 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<!-- TODO: Task 4. Made xml changelog for h2 db for tests. Not finished. -->
+<!--suppress ALL -->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="drop_user_role" author="drege">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="user_role"/>
+        </preConditions>
+        <dropTable tableName="user_role"/>
+    </changeSet>
+    <changeSet id="drop_contact" author="drege">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="contact"/>
+        </preConditions>
+        <dropTable tableName="contact"/>
+    </changeSet>
+    <changeSet id="drop_mail_case" author="drege">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="mail_case"/>
+        </preConditions>
+        <dropTable tableName="mail_case"/>
+    </changeSet>
+    <changeSet id="drop_profile" author="drege">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="profile"/>
+        </preConditions>
+        <dropTable tableName="profile"/>
+    </changeSet>
+    <changeSet id="drop_task_tag" author="drege">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="task_tag"/>
+        </preConditions>
+        <dropTable tableName="task_tag"/>
+    </changeSet>
+    <changeSet id="drop_user_belong" author="drege">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="user_belong"/>
+        </preConditions>
+        <dropTable tableName="user_belong"/>
+    </changeSet>
+    <changeSet id="drop_activity" author="drege">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="activity"/>
+        </preConditions>
+        <dropTable tableName="activity"/>
+    </changeSet>
+    <changeSet id="drop_task" author="drege">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="task"/>
+        </preConditions>
+        <dropTable tableName="task"/>
+    </changeSet>
+    <changeSet id="drop_sprint" author="drege">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="sprint"/>
+        </preConditions>
+        <dropTable tableName="sprint"/>
+    </changeSet>
+    <changeSet id="drop_project" author="drege">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="project"/>
+        </preConditions>
+        <dropTable tableName="project"/>
+    </changeSet>
+    <changeSet id="drop_reference" author="drege">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="reference"/>
+        </preConditions>
+        <dropTable tableName="reference"/>
+    </changeSet>
+    <changeSet id="drop_attachment" author="drege">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="attachment"/>
+        </preConditions>
+        <dropTable tableName="attachment"/>
+    </changeSet>
+    <changeSet id="drop_users" author="drege">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="users"/>
+        </preConditions>
+        <dropTable tableName="users"/>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-1">
+        <createTable tableName="project">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="project_pkey"/>
+            </column>
+            <column name="code" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(4096)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type_code" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="startpoint" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="endpoint" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="parent_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-3">
+        <createTable tableName="mail_case">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="mail_case_pkey"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_time" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="result" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="template" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-4">
+        <createTable tableName="sprint">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="sprint_pkey"/>
+            </column>
+            <column name="status_code" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="startpoint" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="endpoint" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="title" type="VARCHAR(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="project_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-6">
+        <createTable tableName="reference">
+            <column autoIncrement="true" name="id" startWith="1" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="reference_pkey"/>
+            </column>
+            <column name="code" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ref_type" type="SMALLINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="endpoint" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="startpoint" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="title" type="VARCHAR(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aux" type="VARCHAR"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-8">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="id" startWith="1" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="users_pkey"/>
+            </column>
+            <column name="display_name" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(32)"/>
+            <column name="password" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="endpoint" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="startpoint" type="TIMESTAMP WITHOUT TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-10">
+        <createTable tableName="task">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="task_pkey"/>
+            </column>
+            <column name="title" type="VARCHAR(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(4096)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type_code" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status_code" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="priority_code" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="estimate" type="INTEGER"/>
+            <column name="updated" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="project_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sprint_id" type="BIGINT"/>
+            <column name="parent_id" type="BIGINT"/>
+            <column name="startpoint" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="endpoint" type="TIMESTAMP WITHOUT TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-12">
+        <createTable tableName="activity">
+            <column autoIncrement="true" name="id" startWith="1" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="activity_pkey"/>
+            </column>
+            <column name="author_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="task_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="comment" type="VARCHAR(4096)"/>
+            <column name="title" type="VARCHAR(1024)"/>
+            <column name="description" type="VARCHAR(4096)"/>
+            <column name="estimate" type="INTEGER"/>
+            <column name="type_code" type="VARCHAR(32)"/>
+            <column name="status_code" type="VARCHAR(32)"/>
+            <column name="priority_code" type="VARCHAR(32)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-13">
+        <createTable tableName="user_belong">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="user_belong_pkey"/>
+            </column>
+            <column name="object_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="object_type" type="SMALLINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_type_code" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="startpoint" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="endpoint" type="TIMESTAMP WITHOUT TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-15">
+        <createTable tableName="attachment">
+            <column autoIncrement="true" name="id" startWith="1" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="attachment_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_link" type="VARCHAR(2048)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="object_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="object_type" type="SMALLINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-16">
+        <createTable tableName="task_tag">
+            <column name="task_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tag" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-17">
+        <createTable tableName="user_role">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="SMALLINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-19">
+        <addUniqueConstraint columnNames="code" constraintName="uk_project_code" tableName="project"/>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-20">
+        <addUniqueConstraint columnNames="ref_type, code" constraintName="uk_reference_ref_type_code" tableName="reference"/>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-21">
+        <addUniqueConstraint columnNames="display_name" constraintName="uk_users_display_name" tableName="users"/>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-22">
+        <addUniqueConstraint columnNames="email" constraintName="uk_users_email" tableName="users"/>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-23">
+        <createIndex indexName="uk_user_belong" tableName="user_belong" unique="true">
+            <column name="object_id"/>
+            <column name="object_type"/>
+            <column name="user_id"/>
+            <column name="user_type_code"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-24">
+        <createIndex indexName="ix_user_belong_user_id" tableName="user_belong">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-25">
+        <addUniqueConstraint columnNames="task_id, tag" constraintName="uk_task_tag" tableName="task_tag"/>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-26">
+        <addUniqueConstraint columnNames="user_id, role" constraintName="uk_user_role" tableName="user_role"/>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-27">
+        <createTable tableName="contact">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="contact_pkey"/>
+            </column>
+            <column name="code" type="VARCHAR(32)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="contact_pkey"/>
+            </column>
+            <column name="value" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-28">
+        <createTable tableName="profile">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="profile_pkey"/>
+            </column>
+            <column name="last_login" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="last_failed_login" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="mail_notifications" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-31">
+        <addForeignKeyConstraint baseColumnNames="task_id" baseTableName="activity" constraintName="fk_activity_task" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="task" validate="true"/>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-32">
+        <addForeignKeyConstraint baseColumnNames="author_id" baseTableName="activity" constraintName="fk_activity_users" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-33">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="attachment" constraintName="fk_attachment" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-34">
+        <addForeignKeyConstraint baseColumnNames="id" baseTableName="contact" constraintName="fk_contact_profile" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="profile" validate="true"/>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-35">
+        <addForeignKeyConstraint baseColumnNames="id" baseTableName="profile" constraintName="fk_profile_users" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-36">
+        <addForeignKeyConstraint baseColumnNames="parent_id" baseTableName="project" constraintName="fk_project_parent" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="project" validate="true"/>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-37">
+        <addForeignKeyConstraint baseColumnNames="project_id" baseTableName="sprint" constraintName="fk_sprint_project" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="project" validate="true"/>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-38">
+        <addForeignKeyConstraint baseColumnNames="parent_id" baseTableName="task" constraintName="fk_task_parent_task" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="task" validate="true"/>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-39">
+        <addForeignKeyConstraint baseColumnNames="project_id" baseTableName="task" constraintName="fk_task_project" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="project" validate="true"/>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-40">
+        <addForeignKeyConstraint baseColumnNames="sprint_id" baseTableName="task" constraintName="fk_task_sprint" deferrable="false" initiallyDeferred="false" onDelete="SET NULL" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="sprint" validate="true"/>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-41">
+        <addForeignKeyConstraint baseColumnNames="task_id" baseTableName="task_tag" constraintName="fk_task_tag" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="task" validate="true"/>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-42">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_belong" constraintName="fk_user_belong" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="drege (generated)" id="1681771408795-43">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_role" constraintName="fk_user_role" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

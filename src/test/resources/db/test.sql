@@ -1,3 +1,4 @@
+-- TODO: Task 2. Deleted social networks.
 DELETE FROM profile;
 DELETE FROM user_role;
 DELETE FROM user_belong;
@@ -20,7 +21,7 @@ values (0, 1),
        (0, 2);
 
 DELETE FROM reference;
-ALTER SEQUENCE reference_id_seq RESTART WITH 1;
+-- ALTER SEQUENCE reference_id_seq RESTART WITH 1;
 --============ References =================
 insert into reference (CODE, TITLE, REF_TYPE)
 -- TASK
@@ -51,7 +52,6 @@ values ('task', 'Task', 2),
        ('mobile', 'Mobile', 0),
        ('phone', 'Phone', 0),
        ('website', 'Website', 0),
-       ('vk', 'VK', 0),
        ('linkedin', 'LinkedIn', 0),
        ('github', 'GitHub', 0),
 -- PRIORITY
@@ -80,8 +80,7 @@ values (1, 'skype', 'userSkype'),
        (1, 'mobile', '+01234567890'),
        (1, 'website', 'user.com'),
        (2, 'github', 'adminGitHub'),
-       (2, 'tg', 'adminTg'),
-       (2, 'vk', 'adminVk');
+       (2, 'tg', 'adminTg');
 
 -- bugtracking
 INSERT INTO project (id, code, title, description, type_code, startpoint, endpoint, parent_id) VALUES (2, 'task tracker', 'PROJECT-1', 'test project', 'task tracker', null, null, null);
@@ -97,4 +96,3 @@ INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, st
 INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, startpoint, endpoint) VALUES (4, 3, 2, 2, 'admin', null, null);
 INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, startpoint, endpoint) VALUES (5, 4, 2, 2, 'admin', null, null);
 INSERT INTO user_belong (id, object_id, object_type, user_id, user_type_code, startpoint, endpoint) VALUES (6, 5, 2, 2, 'admin', null, null);
-

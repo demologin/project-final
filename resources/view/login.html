@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ALL -->
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
 
 <th:block th:replace="~{layout/main::page(title='Login',appMain=~{::appMain})}">
@@ -48,14 +49,7 @@
                            class="btn btn-secondary btn-lg me-2">
                             <i class="fa-brands fa-google"></i>
                         </a>
-                        <a href="/oauth2/authorization/vk" type="button" class="btn btn-primary btn-lg me-2"
-                           style="padding-left: 17px; padding-right: 17px;">
-                            <i class="fa-brands fa-vk"></i>
-                        </a>
-                        <a href="/oauth2/authorization/yandex" type="button" class="btn btn-danger btn-lg me-2"
-                           style="padding-left: 21px; padding-right: 21px;">
-                            <i class="fa-brands fa-yandex"></i>
-                        </a>
+                        <!-- TODO: Task 2. Deleted social networks. -->
                         <a href="/oauth2/authorization/github" type="button" class="btn btn-dark btn-lg me-2">
                             <i class="fa-brands fa-github"></i>
                         </a>
