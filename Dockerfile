@@ -9,4 +9,4 @@ LABEL authors="sergey"
 RUN mkdir /app
 COPY --from=build app/target/jira-1.0.jar /jira-1.0.jar
 WORKDIR /app
-ENTRYPOINT ["java", "-Dspring.profiles.active=dev", "-jar", "/jira-1.0.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "/jira-1.0.jar"]
