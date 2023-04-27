@@ -4,17 +4,30 @@ const formLogin = document.forms.loginForm;
 
 window.onload = () => {
     if (window.location.pathname === '/view/login')
-        formLogin.addEventListener('submit', (evt) => {
-            evt.preventDefault();
-            auth()
-                .then(() => {
-                    formLogin.submit();
-                });
-        });
+        setEventListener();
+
     const btnLogout = document.querySelector('#btn-logout');
     if (btnLogout) {
         btnLogout.addEventListener('submit', logout);
     }
+}
+
+function setEventListener() {
+    formLogin.addEventListener('submit', (evt) => {
+        evt.preventDefault();
+        auth()
+            .then(() => {
+                formLogin.submit();
+            });
+    });
+    document.querySelectorAll('.btn-oauth').forEach(btn => {
+        btn.addEventListener("click", (evt) => {
+            evt.preventDefault();
+            auth().then(() => {
+                window.location = evt.target.closest('.btn').href;
+            });
+        })
+    })
 }
 
 function auth() {
