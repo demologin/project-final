@@ -1,25 +1,22 @@
 package com.javarush.jira.bugtracking.to;
 
+import com.javarush.jira.common.Subscribable;
 import com.javarush.jira.common.util.validation.Code;
 import com.javarush.jira.common.util.validation.NoHtml;
 import com.javarush.jira.common.util.validation.View;
 import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
-public class TaskTo extends NodeTo<TaskTo> {
+public class TaskTo extends NodeTo<TaskTo> implements Subscribable {
     @Code
     String typeCode;
 
@@ -62,5 +59,9 @@ public class TaskTo extends NodeTo<TaskTo> {
         this.estimate = estimate;
         this.tags = tags;
         this.activities = activities;
+    }
+
+    public ObjectType getObjectType() {
+        return ObjectType.TASK;
     }
 }

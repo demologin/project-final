@@ -36,4 +36,6 @@ public class UserBelong extends TimestampEntry {
     @Code
     @Column(name = "user_type_code", nullable = false)
     private String userTypeCode;
+
+
 }
