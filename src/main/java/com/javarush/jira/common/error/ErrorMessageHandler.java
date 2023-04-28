@@ -13,6 +13,7 @@ import org.springframework.validation.ObjectError;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @Component
@@ -41,6 +42,6 @@ public class ErrorMessageHandler {
     }
 
     public String getErrorMessage(ObjectError error) {
-        return messageSource.getMessage(error.getCode(), error.getArguments(), error.getDefaultMessage(), LocaleContextHolder.getLocale());
+        return messageSource.getMessage(Objects.requireNonNull(Objects.requireNonNull(error.getCode())), error.getArguments(), error.getDefaultMessage(), LocaleContextHolder.getLocale());
     }
 }

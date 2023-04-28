@@ -1,11 +1,12 @@
-#TODO: 9. add docker file
-
-FROM maven:3.9-eclipse-temurin-17
+FROM maven:3.9.1 AS build
+RUN mkdir /app
 WORKDIR /app
-COPY pom.xml .
-RUN mvn dependency:go-offline
-COPY src ./src
-COPY resources ./resources
+COPY . /app
 RUN mvn clean package -DskipTests
-RUN mv ./target/*.jar ./jira.jar
-ENTRYPOINT ["java","-jar","/app/jira.jar", "--spring.profiles.active=prod"]
+
+FROM openjdk:17 AS image-jira
+LABEL authors="sergey"
+RUN mkdir /app
+COPY --from=build app/target/jira-1.0.jar /jira-1.0.jar
+WORKDIR /app
+ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "/jira-1.0.jar"]

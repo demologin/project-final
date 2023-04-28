@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.WebRequest;
@@ -25,18 +26,20 @@ import org.springframework.web.servlet.mvc.UrlFilenameViewController;
 import java.time.Duration;
 import java.util.Properties;
 
-//@EnableWebMvc : http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc-auto-configuration
+//@EnableWebMvc
+// : http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc-auto-configuration
 @EnableAutoConfiguration
 @Configuration
 @AllArgsConstructor
 @Slf4j
 public class MvcConfig implements WebMvcConfigurer {
     private final AppProperties appProperties;
+    private final LocaleChangeInterceptor localeChangeInterceptor;
 
     // Add authUser to view model
     private final HandlerInterceptor authInterceptor = new WebRequestHandlerInterceptorAdapter(new WebRequestInterceptor() {
         @Override
-        public void postHandle(WebRequest request, ModelMap model) {
+        public void postHandle(@NonNull WebRequest request, ModelMap model) {
             if (model != null) {
                 AuthUser authUser = AuthUser.safeGet();
                 if (authUser != null) {
@@ -46,18 +49,18 @@ public class MvcConfig implements WebMvcConfigurer {
         }
 
         @Override
-        public void afterCompletion(WebRequest request, Exception ex) {
+        public void afterCompletion(@NonNull WebRequest request, Exception ex) {
         }
 
         @Override
-        public void preHandle(WebRequest request) {
+        public void preHandle(@NonNull WebRequest request) {
         }
     });
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor).excludePathPatterns("/api/**");
-        registry.addInterceptor(localeChangeInterceptor()); //TODO: 11.add localization
+        registry.addInterceptor(localeChangeInterceptor);
     }
 
     //  http://www.codejava.net/frameworks/spring/spring-mvc-url-based-view-resolution-with-urlfilenameviewcontroller-example
@@ -85,7 +88,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**").addResourceLocations("file:./resources/static/");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
         registry.setOrder(Integer.MAX_VALUE);
     }
 
@@ -96,12 +99,5 @@ public class MvcConfig implements WebMvcConfigurer {
                 .setConnectTimeout(Duration.ofSeconds(10))
                 .setReadTimeout(Duration.ofSeconds(10))
                 .build();
-    }
-
-    @Bean
-    public LocaleChangeInterceptor localeChangeInterceptor() { //TODO: 11.add localization
-        LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
-        lci.setParamName("lang");
-        return lci;
     }
 }

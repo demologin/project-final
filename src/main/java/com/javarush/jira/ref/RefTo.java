@@ -8,7 +8,7 @@ import lombok.Value;
 import org.springframework.lang.Nullable;
 
 @Value
-@EqualsAndHashCode(of = {"refType", "code"})
+@EqualsAndHashCode(of = {"refType", "code"}, callSuper = false)
 public class RefTo extends TitleTo {
     @NotNull
     RefType refType;

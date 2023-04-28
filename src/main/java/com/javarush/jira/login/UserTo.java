@@ -1,5 +1,6 @@
 package com.javarush.jira.login;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.javarush.jira.common.HasIdAndEmail;
@@ -25,6 +26,7 @@ public class UserTo extends BaseTo implements HasIdAndEmail, Serializable {
     @NotBlank
     @Size(max = 128)
     @NoHtml  // https://stackoverflow.com/questions/17480809
+    @JsonAlias({"username", "email"})
     private String email;
 
     @NotBlank(groups = {View.OnCreate.class})

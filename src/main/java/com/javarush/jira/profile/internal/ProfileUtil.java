@@ -8,6 +8,7 @@ import com.javarush.jira.ref.ReferenceService;
 import lombok.experimental.UtilityClass;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,7 +25,7 @@ public class ProfileUtil {
     public static long notificationsToMask(Set<String> notifications) {
         return notifications.stream()
                 .map(code -> ReferenceService.getRefTo(RefType.MAIL_NOTIFICATION, code))
-                .map(ref -> Long.parseLong(ref.getAux()))
+                .map(ref -> Long.parseLong(Objects.requireNonNull(ref.getAux())))
                 .reduce(0L, (mask1, mask2) -> mask1 | mask2);
     }
 
