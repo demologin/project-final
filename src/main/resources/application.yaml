@@ -9,6 +9,7 @@ app:
 
 spring:
   messages:
+    encoding: UTF-8
     basename: lang
   config:
     import: classpath:secret-env.yaml
