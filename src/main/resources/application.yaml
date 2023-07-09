@@ -36,7 +36,8 @@ spring:
     password: ${spring.datasource.password}
 
   liquibase:
-    changeLog: "classpath:db/changelog.sql"
+    changeLog: classpath:db/changelog-master.yaml
+    enabled: true
 
   # Jackson Fields Serialization
   jackson:
