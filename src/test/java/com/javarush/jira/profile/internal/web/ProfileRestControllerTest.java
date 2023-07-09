@@ -87,4 +87,15 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
     }
+
+    @Test
+    @WithUserDetails(ADMIN_MAIL)
+    void update_shouldReturnStatusIsUnprocessableEntity_whenInvalidUserEmail() throws Exception {
+        manager.setEmail("@");
+        perform(MockMvcRequestBuilders.put(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(manager)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
 }
