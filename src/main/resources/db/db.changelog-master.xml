@@ -5,9 +5,9 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <include file="classpath:db/changelog.sql"/>
-    <include file="classpath:db/data.sql"/>
-    <include file="classpath:db/changelog/2023/07/10-01-remote-social.xml"/>
+    <include file="classpath:db/changelog.sql" context="prod"/>
+    <include file="classpath:db/changelog/2023/07/10-01-remote-social.xml" context="prod"/>
+    <include file="classpath:data4dev/data.sql" context="test"/>
 
 
 </databaseChangeLog>

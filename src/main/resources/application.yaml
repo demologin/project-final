@@ -8,8 +8,8 @@ app:
     max-pool-size: 100
 
 spring:
-#  profiles:
-#    active: prod
+  profiles:
+    active: prod
   config:
     import: application-secrets.yaml
   init:
@@ -37,6 +37,7 @@ spring:
 
   liquibase:
     changeLog: "classpath:db/db.changelog-master.xml"
+    contexts: prod
 
   # Jackson Fields Serialization
   jackson:
