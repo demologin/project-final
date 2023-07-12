@@ -27,8 +27,8 @@ spring:
         jdbc.batch_size: 20
   datasource:
     url: jdbc:postgresql://localhost:5432/jira
-    username: ${db.username}
-    password: ${db.password}
+    username: ${datasource.username}
+    password: ${datasource.password}
 
   liquibase:
     changeLog: "classpath:db/changelog.sql"
