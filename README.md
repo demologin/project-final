@@ -37,4 +37,8 @@
     - run without env vars will be used default params
 - 6 Сделать рефакторинг метода com.javarush.jira.bugtracking.attachment.FileUtil#upload чтоб он использовал современный
   подход для работы с файловой системмой.
-  - refactored upload method
+    - refactored upload method
+- 7 Добавить новый функционал: добавления тегов к задаче (REST API + реализация на сервисе). Фронт делать необязательно.
+  Таблица task_tag уже создана.
+    - added Post method addTaskTag in TaskUIController
+    - TaskService now add tags to task and update repository
