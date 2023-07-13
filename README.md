@@ -28,7 +28,13 @@
 
 Список выполненных задач:
 
-- Разобраться со структурой проекта.
-- Удалить социальные сети: vk, yandex.
-- Вынести чувствительную информацию в отдельный проперти файл.
+- 1 Разобраться со структурой проекта.
+- 2 Удалить социальные сети: vk, yandex.
+    - deleted handlers and view parts
+- 3 Вынести чувствительную информацию в отдельный проперти файл.
   Значения этих проперти должны считываться при старте сервера из переменных окружения машины
+    - removed sensitive property to sensitive.yaml use env vars
+    - run without env vars will be used default params
+- 6 Сделать рефакторинг метода com.javarush.jira.bugtracking.attachment.FileUtil#upload чтоб он использовал современный
+  подход для работы с файловой системмой.
+  - refactored upload method

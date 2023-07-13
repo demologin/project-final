@@ -46,8 +46,6 @@ spring:
     cache-names: users
     caffeine.spec: maximumSize=10000,expireAfterAccess=5m
 
-
-
   sql:
     init:
       mode: always
