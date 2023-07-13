@@ -27,4 +27,4 @@
 - https://habr.com/ru/articles/259055/
 
 Список выполненных задач:
-...
+1,2,3,поправил мелкую ошибку  [-exec-10] ERROR| com.javarush.jira.common.internal.web.UIExceptionHandler.processError:56 ERR# Exception No message available at request /static/bootstrap/css/bootstrap-select.min.css в main.html
