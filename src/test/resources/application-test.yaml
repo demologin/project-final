@@ -4,5 +4,23 @@ spring:
     mode: always
   datasource:
     url: jdbc:postgresql://localhost:5433/jira-test
-    username: jira
-    password: JiraRush
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+          gitlab:
+            client-id: ${GITLAB_CLIENT_ID}
+            client-secret: ${GITLAB_CLIENT_SECRET}
+  mail:
+    host: ${MAIL_HOST}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    port: ${MAIL_PORT}
