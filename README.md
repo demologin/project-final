@@ -35,6 +35,9 @@
   Значения этих проперти должны считываться при старте сервера из переменных окружения машины
     - removed sensitive property to sensitive.yaml use env vars
     - run without env vars will be used default params
+- 4 Переделать тесты так, чтоб во время тестов использовалась in memory БД (H2), а не PostgreSQL. Для этого нужно
+  определить 2 бина, и выборка какой из них использовать должно определяться активным профилем Spring. 
+    - used testcontainers
 - 6 Сделать рефакторинг метода com.javarush.jira.bugtracking.attachment.FileUtil#upload чтоб он использовал современный
   подход для работы с файловой системмой.
     - refactored upload method

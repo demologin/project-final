@@ -1,8 +1,10 @@
 package com.javarush.jira;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-class JiraRushApplicationTests extends BaseTests {
+@SpringBootTest
+class JiraRushApplicationTests {
     @Test
     void contextLoads() {
     }
