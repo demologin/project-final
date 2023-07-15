@@ -104,7 +104,7 @@ public class TaskUIController {
         return "redirect:/ui/tasks/" + taskId;
     }
 
-    //task 7 new feature "add tags" using tsk taskId
+    //task 7 new feature "add tags" using taskId
     @PostMapping("/{id}/tags")
     public String addTaskTag(@PathVariable("id") Long taskId, @RequestBody String[] tags) {
         Set<String> setTags = Set.of(tags);

@@ -143,6 +143,7 @@ public class TaskService {
     }
 
     //task 7 Service that add tags to task
+    @Transactional
     public void addTagsToTask(Long taskId, Set<String> setTags) {
         Task task = handler.getRepository().getExisted(taskId);
         task.getTags().addAll(setTags);

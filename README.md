@@ -41,4 +41,5 @@
 - 7 Добавить новый функционал: добавления тегов к задаче (REST API + реализация на сервисе). Фронт делать необязательно.
   Таблица task_tag уже создана.
     - added Post method addTaskTag in TaskUIController
+    - added Post method addTaskTag in TaskController, swagger-ui documentation
     - TaskService now add tags to task and update repository
