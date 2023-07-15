@@ -49,7 +49,8 @@ public class TaskController {
     }
 
     @PostMapping("/tag/{id}")
-    public void createTaskTag(@PathVariable("id") Long taskId, @RequestBody Set<String> tags)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createTaskTag(@PathVariable("id") long taskId, @RequestBody Set<String> tags)
     {
         log.info("create task tags for task with id={}", taskId);
         taskService.createTaskTag(taskId, tags);

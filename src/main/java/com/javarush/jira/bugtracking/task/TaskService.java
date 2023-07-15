@@ -42,7 +42,7 @@ public class TaskService {
     private final UserBelongRepository userBelongRepository;
 
     @Transactional
-    public void createTaskTag(Long taskId, Set<String> tags) {
+    public void createTaskTag(long taskId, Set<String> tags) {
         TaskRepository taskRepository = handler.getRepository();
 
         if (taskRepository.existsById(taskId)) {
