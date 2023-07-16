@@ -8,25 +8,30 @@ from PROFILE;
 
 delete
 from ACTIVITY;
+create sequence if not exists ACTIVITY_ID_SEQ;
 alter
-sequence ACTIVITY_ID_SEQ restart with 1;
+    sequence ACTIVITY_ID_SEQ restart with 1;
 delete
 from TASK;
+create sequence if not exists TASK_ID_SEQ;
 alter
-sequence TASK_ID_SEQ restart with 1;
+    sequence TASK_ID_SEQ restart with 1;
 delete
 from SPRINT;
+create sequence if not exists SPRINT_ID_SEQ;
 alter
-sequence SPRINT_ID_SEQ restart with 1;
+    sequence SPRINT_ID_SEQ restart with 1;
 delete
 from PROJECT;
+create sequence if not exists PROJECT_ID_SEQ;
 alter
-sequence PROJECT_ID_SEQ restart with 1;
+    sequence PROJECT_ID_SEQ restart with 1;
 
 delete
 from USERS;
+create sequence if not exists USERS_ID_SEQ;
 alter
-sequence USERS_ID_SEQ restart with 1;
+    sequence USERS_ID_SEQ restart with 1;
 
 insert into USERS (EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, DISPLAY_NAME)
 values ('user@gmail.com', '{noop}password', 'userFirstName', 'userLastName', 'userDisplayName'),
@@ -48,13 +53,12 @@ insert into PROFILE (ID, LAST_FAILED_LOGIN, LAST_LOGIN, MAIL_NOTIFICATIONS)
 values (1, null, null, 49),
        (2, null, null, 14);
 
-insert into CONTACT (ID, CODE, VALUE)
+insert into CONTACT (ID, CODE, CONTACT_VALUE)
 values (1, 'skype', 'userSkype'),
-       (1, 'mobile', '+01234567890'),
+       (1, 'mobile', ' + 01234567890 '),
        (1, 'website', 'user.com'),
        (2, 'github', 'adminGitHub'),
-       (2, 'tg', 'adminTg'),
-       (2, 'vk', 'adminVk');
+       (2, 'tg', 'adminTg');
 
 
 insert into PROJECT (code, title, description, type_code, parent_id)
@@ -88,7 +92,8 @@ values (1, 1, '2023-05-15 09:05:10', null, 'Data', null, 3, 'epic', 'in_progress
        (1, 2, '2023-05-15 12:05:10', null, 'Trees', 'Trees desc', 4, 'epic', 'in_progress', 'normal');
 
 insert into USER_BELONG (OBJECT_ID, OBJECT_TYPE, USER_ID, USER_TYPE_CODE, STARTPOINT, ENDPOINT)
-values (1, 2, 2, 'task_developer', '2023-06-14 08:35:10', '2023-06-14 08:55:00'),
+values
+     (1, 2, 2, 'task_developer', '2023-06-14 08:35:10', '2023-06-14 08:55:00'),
        (1, 2, 2, 'task_reviewer', '2023-06-14 09:35:10', null),
        (1, 2, 1, 'task_developer', '2023-06-12 11:40:00', '2023-06-12 12:35:00'),
        (1, 2, 1, 'task_developer', '2023-06-13 12:35:00', null),

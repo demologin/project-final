@@ -48,26 +48,26 @@ public class AppConfig {
             }
         };
     }
-    @Bean
-    @Profile("prod")
-    public DataSource postgresDataSource(){
-        return DataSourceBuilder.create()
-                .url("jdbc:postgresql://localhost:5432/jira")
-                .driverClassName("org.postgresql.Driver")
-                .username("jira")
-                .password("JiraRush")
-                .build();
-    }
-    @Bean
-    @Profile("test")
-    public DataSource postgresTestDataSource(){
-        return DataSourceBuilder.create()
-                .url("jdbc:postgresql://localhost:5432/jira")
-                .driverClassName("org.postgresql.Driver")
-                .username("jira")
-                .password("JiraRush")
-                .build();
-    }
+//    @Bean
+//    @Profile("prod")
+//    public DataSource postgresDataSource(){
+//        return DataSourceBuilder.create()
+//                .url("jdbc:postgresql://localhost:5432/jira")
+//                .driverClassName("org.postgresql.Driver")
+//                .username("jira")
+//                .password("JiraRush")
+//                .build();
+//    }
+//    @Bean
+//    @Profile("test")
+//    public DataSource postgresTestDataSource(){
+//        return DataSourceBuilder.create()
+//                .url("jdbc:h2:mem:mydb")
+//                .driverClassName("org.h2.Driver")
+//                .username("sa")
+//                .password("")
+//                .build();
+//    }
 
     public boolean isProd() {
         return env.acceptsProfiles(Profiles.of("prod"));

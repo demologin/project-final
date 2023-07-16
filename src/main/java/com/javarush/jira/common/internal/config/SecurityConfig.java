@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.security.config.annotation.SecurityBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -24,6 +25,7 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCo
 import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler;
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -33,12 +35,14 @@ import java.util.Arrays;
 @Slf4j
 @AllArgsConstructor
 //https://stackoverflow.com/questions/72493425/548473
-public class SecurityConfig {
+public class SecurityConfig{
+
     public static final PasswordEncoder PASSWORD_ENCODER = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     private final UserRepository userRepository;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -95,6 +99,18 @@ public class SecurityConfig {
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID")
                 .and().csrf().disable();
+        return http.build();
+    }
+
+    @Bean
+    @Order(3)
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.
+                authorizeHttpRequests()
+                .requestMatchers(new AntPathRequestMatcher("/h2-console/**"))
+                .permitAll();
+        http.csrf().disable();
+
         return http.build();
     }
 
