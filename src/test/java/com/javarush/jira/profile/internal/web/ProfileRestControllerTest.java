@@ -17,9 +17,11 @@ import static com.javarush.jira.login.internal.web.UserTestData.USER_MAIL;
 import static com.javarush.jira.profile.internal.web.ProfileRestController.REST_URL;
 import static com.javarush.jira.profile.internal.web.ProfileTestData.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 class ProfileRestControllerTest extends AbstractControllerTest {
 
@@ -29,6 +31,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
     @Autowired
     private ProfileMapper profileMapper;
 
+    // Test unauthorized access
     @Test
     void getUnauthorized() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL))
@@ -36,6 +39,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnauthorized());
     }
 
+    // Test access with guest profile
     @Test
     void getGuestProfile() throws Exception {
         ProfileTo expectedProfile = GUEST_PROFILE_EMPTY_TO;
@@ -47,6 +51,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .andExpect(PROFILE_MATCHER.contentJson(expectedProfile));
     }
 
+    // Test access with user profile
     @Test
     @WithUserDetails(value = USER_MAIL)
     void getAuthorized() throws Exception {
@@ -59,6 +64,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .andExpect(PROFILE_MATCHER.contentJson(USER_PROFILE_TO));
     }
 
+    // Test creating a new profile
     @Test
     @WithUserDetails(value = USER_MAIL)
     void createNewProfile() throws Exception {
@@ -75,6 +81,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
         assertThat(createdProfile).usingRecursiveComparison().isEqualTo(expectedProfile);
     }
 
+    // Test updating a profile
     @Test
     @WithUserDetails(value = USER_MAIL)
     void updateProfile() throws Exception {
@@ -90,7 +97,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
         assertThat(profileMapper.toTo(updatedProfile)).usingRecursiveComparison().isEqualTo(profileMapper.toTo(profileToUpdate));
     }
 
-
+    // Test updating a profile with new data
     @Test
     @WithUserDetails(value = USER_MAIL)
     void updateProfileWithNewData() throws Exception {
@@ -107,6 +114,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
         assertThat(updatedProfile).usingRecursiveComparison().isEqualTo(expectedProfile);
     }
 
+    // Test updating a profile with invalid data
     @Test
     @WithUserDetails(value = USER_MAIL)
     void updateWithInvalidProfile() throws Exception {
@@ -116,9 +124,11 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalidProfile)))
                 .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(content().string(containsString("invalid_params")));
     }
 
+    // Test updating a profile with an unknown notification
     @Test
     @WithUserDetails(value = USER_MAIL)
     void updateWithUnknownNotification() throws Exception {
@@ -128,9 +138,11 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(unknownNotificationProfile)))
                 .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(content().string(containsString("Value with key WrongNotification not found")));
     }
 
+    // Test updating a profile with an unknown contact
     @Test
     @WithUserDetails(value = USER_MAIL)
     void updateWithUnknownContact() throws Exception {
@@ -140,9 +152,11 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(unknownContactProfile)))
                 .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(content().string(containsString("Value with key WrongContactCode not found")));
     }
 
+    // Test updating a profile with HTML unsafe contact
     @Test
     @WithUserDetails(value = USER_MAIL)
     void updateWithHtmlUnsafeContact() throws Exception {
@@ -152,6 +166,8 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(htmlUnsafeContactProfile)))
                 .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(content().string(containsString("{error.noHtml}")));
     }
+
 }
