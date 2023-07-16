@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-// todo task 4
+// TODO p4 - testcontainers
 @UtilityClass
 public class PostgresTestContainersInitializer {
     public static final PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:latest");
