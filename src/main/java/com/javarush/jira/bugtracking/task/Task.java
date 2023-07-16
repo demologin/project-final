@@ -14,6 +14,7 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -74,13 +75,14 @@ public class Task extends TitleEntity implements HasCode {
     @OneToMany(mappedBy = "taskId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Activity> activities;
 
-    public Task(Long id, String title, String typeCode, String statusCode, Long parentId, long projectId, Long sprintId) {
+    public Task(Long id, String title, String typeCode, String statusCode, Long parentId, long projectId, Long sprintId, Set<String> tag) {
         super(id, title);
         this.typeCode = typeCode;
         this.statusCode = statusCode;
         this.parentId = parentId;
         this.projectId = projectId;
         this.sprintId = sprintId;
+        this.tags = tag;
     }
 
     public void checkAndSetStatusCode(String statusCode) {

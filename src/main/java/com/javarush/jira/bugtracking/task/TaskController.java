@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import static com.javarush.jira.common.BaseHandler.createdResponse;
 
@@ -111,6 +112,11 @@ public class TaskController {
     public List<UserBelong> getTaskAssignmentsBySprint(@RequestParam long sprintId) {
         log.info("get task assignments for user {} for sprint {}", AuthUser.authId(), sprintId);
         return userBelongRepository.findActiveTaskAssignmentsForUserBySprint(AuthUser.authId(), sprintId);
+    }
+
+    @PostMapping("/{id}/tags")
+    public void addTagsForTask(@RequestParam long id, @RequestParam Set<String> tag) {
+        taskService.addTag(id, tag);
     }
 
     @PatchMapping("/{id}/assign")
