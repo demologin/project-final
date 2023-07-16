@@ -39,6 +39,7 @@ public class TaskService {
     private final SprintRepository sprintRepository;
     private final TaskExtMapper extMapper;
     private final UserBelongRepository userBelongRepository;
+    private final TaskRepository taskRepository;
 
     @Transactional
     public void changeStatus(long taskId, String statusCode) {
@@ -139,5 +140,13 @@ public class TaskService {
         if (!userType.equals(possibleUserType)) {
             throw new DataConflictException(String.format(assign ? CANNOT_ASSIGN : CANNOT_UN_ASSIGN, userType, task.getStatusCode()));
         }
+    }
+
+    // TODO p7 - add new functionality: adding tags to the task (REST API implementation on the service)
+    @Transactional
+    public void addTagsToTask(Long taskId, String[] tags) {
+        Task existedTask = taskRepository.getExisted(taskId);
+        existedTask.getTags().addAll(List.of(tags));
+        taskRepository.save(existedTask);
     }
 }
