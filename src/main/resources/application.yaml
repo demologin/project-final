@@ -8,8 +8,8 @@ app:
     max-pool-size: 100
 
 spring:
-  profiles:
-    active: prod
+#  profiles:
+#    active: prod
   config:
     import: application-secrets.yaml
   init:

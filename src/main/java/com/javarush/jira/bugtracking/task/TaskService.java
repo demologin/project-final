@@ -19,8 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
@@ -40,6 +42,7 @@ public class TaskService {
     private final TaskExtMapper extMapper;
     private final UserBelongRepository userBelongRepository;
     private final TaskRepository taskRepository;
+    private final ActivityRepository activityRepository;
 
     @Transactional
     public void changeStatus(long taskId, String statusCode) {
@@ -149,4 +152,26 @@ public class TaskService {
         existedTask.getTags().addAll(List.of(tags));
         taskRepository.save(existedTask);
     }
+
+    // TODO p8 - counting the time how much the task was in work and testing
+    public Duration calculateTimeInProgress(Task task) {
+        Optional<LocalDateTime> startedTime = activityRepository.getStatusChangeTime(task.getId(), "in_progress");
+        Optional<LocalDateTime> reviewTime = activityRepository.getStatusChangeTime(task.getId(), "ready_for_review");
+        if (startedTime.isPresent() && reviewTime.isPresent()) {
+            return Duration.between(startedTime.get(), reviewTime.get());
+        } else {
+            throw new IllegalStateException("Task " + task.getId() + " does not have required status change records.");
+        }
+    }
+    // TODO p8 - counting the time how much the task was in work and testing
+    public Duration calculateTimeInTesting(Task task) {
+        Optional<LocalDateTime> reviewTime = activityRepository.getStatusChangeTime(task.getId(), "ready_for_review");
+        Optional<LocalDateTime> doneTime = activityRepository.getStatusChangeTime(task.getId(), "done");
+        if (reviewTime.isPresent() && doneTime.isPresent()) {
+            return Duration.between(reviewTime.get(), doneTime.get());
+        } else {
+            throw new IllegalStateException("Task " + task.getId() + " does not have required status change records.");
+        }
+    }
+
 }
