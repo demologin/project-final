@@ -5,33 +5,33 @@ DROP TABLE IF EXISTS USER_ROLE;
 DROP TABLE IF EXISTS CONTACT;
 DROP TABLE IF EXISTS MAIL_CASE;
 DROP
-    SEQUENCE IF EXISTS MAIL_CASE_ID_SEQ;
+SEQUENCE IF EXISTS MAIL_CASE_ID_SEQ;
 DROP TABLE IF EXISTS PROFILE;
 DROP TABLE IF EXISTS TASK_TAG;
 DROP TABLE IF EXISTS USER_BELONG;
 DROP
-    SEQUENCE IF EXISTS USER_BELONG_ID_SEQ;
+SEQUENCE IF EXISTS USER_BELONG_ID_SEQ;
 DROP TABLE IF EXISTS ACTIVITY;
 DROP
-    SEQUENCE IF EXISTS ACTIVITY_ID_SEQ;
+SEQUENCE IF EXISTS ACTIVITY_ID_SEQ;
 DROP TABLE IF EXISTS TASK;
 DROP
-    SEQUENCE IF EXISTS TASK_ID_SEQ;
+SEQUENCE IF EXISTS TASK_ID_SEQ;
 DROP TABLE IF EXISTS SPRINT;
 DROP
-    SEQUENCE IF EXISTS SPRINT_ID_SEQ;
+SEQUENCE IF EXISTS SPRINT_ID_SEQ;
 DROP TABLE IF EXISTS PROJECT;
 DROP
-    SEQUENCE IF EXISTS PROJECT_ID_SEQ;
+SEQUENCE IF EXISTS PROJECT_ID_SEQ;
 DROP TABLE IF EXISTS REFERENCE;
 DROP
-    SEQUENCE IF EXISTS REFERENCE_ID_SEQ;
+SEQUENCE IF EXISTS REFERENCE_ID_SEQ;
 DROP TABLE IF EXISTS ATTACHMENT;
 DROP
-    SEQUENCE IF EXISTS ATTACHMENT_ID_SEQ;
+SEQUENCE IF EXISTS ATTACHMENT_ID_SEQ;
 DROP TABLE IF EXISTS USERS;
 DROP
-    SEQUENCE IF EXISTS USERS_ID_SEQ;
+SEQUENCE IF EXISTS USERS_ID_SEQ;
 
 create table PROJECT
 (
@@ -107,7 +107,7 @@ create table CONTACT
 (
     ID    bigint       not null,
     CODE  varchar(32)  not null,
-    VALUE varchar(256) not null,
+    CONTACT_VALUE varchar(256) not null,
     primary key (ID, CODE),
     constraint FK_CONTACT_PROFILE foreign key (ID) references PROFILE (ID) on delete cascade
 );
@@ -218,7 +218,6 @@ values ('task', 'Task', 2),
        ('mobile', 'Mobile', 0),
        ('phone', 'Phone', 0),
        ('website', 'Website', 0),
-       ('vk', 'VK', 0),
        ('linkedin', 'LinkedIn', 0),
        ('github', 'GitHub', 0),
 -- PRIORITY
@@ -282,15 +281,18 @@ values ('todo', 'ToDo', 3, 'in_progress,canceled'),
 --changeset gkislin:users_add_on_delete_cascade
 
 alter table ACTIVITY
-    drop constraint FK_ACTIVITY_USERS,
+    drop constraint FK_ACTIVITY_USERS;
+alter table ACTIVITY
     add constraint FK_ACTIVITY_USERS foreign key (AUTHOR_ID) references USERS (ID) on delete cascade;
 
 alter table USER_BELONG
-    drop constraint FK_USER_BELONG,
+    drop constraint FK_USER_BELONG;
+alter table USER_BELONG
     add constraint FK_USER_BELONG foreign key (USER_ID) references USERS (ID) on delete cascade;
 
 alter table ATTACHMENT
-    drop constraint FK_ATTACHMENT,
+    drop constraint FK_ATTACHMENT;
+alter table ATTACHMENT
     add constraint FK_ATTACHMENT foreign key (USER_ID) references USERS (ID) on delete cascade;
 
 --changeset valeriyemelyanov:change_user_type_reference
