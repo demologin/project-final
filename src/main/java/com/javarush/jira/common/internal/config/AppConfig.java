@@ -11,10 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
 import org.springframework.http.ProblemDetail;
@@ -33,6 +30,7 @@ import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE;
 @EnableCaching
 @RequiredArgsConstructor
 @EnableScheduling
+
 public class AppConfig {
 
     private final AppProperties appProperties;
@@ -48,26 +46,6 @@ public class AppConfig {
             }
         };
     }
-//    @Bean
-//    @Profile("prod")
-//    public DataSource postgresDataSource(){
-//        return DataSourceBuilder.create()
-//                .url("jdbc:postgresql://localhost:5432/jira")
-//                .driverClassName("org.postgresql.Driver")
-//                .username("jira")
-//                .password("JiraRush")
-//                .build();
-//    }
-//    @Bean
-//    @Profile("test")
-//    public DataSource postgresTestDataSource(){
-//        return DataSourceBuilder.create()
-//                .url("jdbc:h2:mem:mydb")
-//                .driverClassName("org.h2.Driver")
-//                .username("sa")
-//                .password("")
-//                .build();
-//    }
 
     public boolean isProd() {
         return env.acceptsProfiles(Profiles.of("prod"));
