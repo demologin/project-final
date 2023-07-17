@@ -31,7 +31,7 @@ spring:
         # https://stackoverflow.com/questions/21257819/what-is-the-difference-between-hibernate-jdbc-fetch-size-and-hibernate-jdbc-batc
         jdbc.batch_size: 20
   datasource:
-    url: jdbc:postgresql://localhost:5432/jira
+    url: ${spring.datasource.url}
     username: ${spring.datasource.username}
     password: ${spring.datasource.password}
 
@@ -95,7 +95,7 @@ spring:
     host: smtp.gmail.com
     username: ${spring.mail.username}
     password: ${spring.mail.password}
-    port: 587
+    port: ${spring.mail.port}
   thymeleaf.check-template-location: false
 
   mvc.throw-exception-if-no-handler-found: true

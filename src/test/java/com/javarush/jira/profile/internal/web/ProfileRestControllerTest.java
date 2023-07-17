@@ -97,5 +97,6 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(manager)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
+        manager.setEmail(MANAGER_MAIL);
     }
 }
