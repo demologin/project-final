@@ -7,7 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-//task 4 use test containers
+//TODO task 4 use test containers
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @ContextConfiguration(initializers = TestcontainersInitializer.class)
