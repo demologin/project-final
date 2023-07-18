@@ -46,3 +46,6 @@
     - added Post method addTaskTag in TaskUIController
     - added Post method addTaskTag in TaskController, swagger-ui documentation
     - TaskService now add tags to task and update repository
+- 11 Добавить локализацию минимум на двух языках для шаблонов писем (mails) и стартовой страницы index.html.
+    - added localization on EN, UA, RU languages (mail-confirmation.html, password-reset.html, footer.html, header.html, register.html index.html, login.html)
+    - added buttons to change localization
