@@ -1,5 +1,6 @@
 package com.javarush.jira.bugtracking.task;
 
+import com.javarush.jira.AbstractServiceTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +15,7 @@ import static org.mockito.Mockito.when;
 
 // TODO p8 - counting the time how much the task was in work and testing
 @SpringBootTest
-class TaskServiceTest {
+class TaskServiceTest extends AbstractServiceTest {
 
     @Autowired
     private TaskService taskService;
