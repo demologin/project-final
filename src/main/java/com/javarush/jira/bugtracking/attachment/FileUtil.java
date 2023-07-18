@@ -27,10 +27,13 @@ public class FileUtil {
 
         Path dirPath = Paths.get(directoryPath);
         try {
-            Files.createDirectories(dirPath);
+            if (!Files.exists(dirPath)) {
+                Files.createDirectories(dirPath);
+            }
+
             Path filePath = dirPath.resolve(fileName);
-            Files.write(filePath, multipartFile.getBytes());
-        } catch (IOException ex) {
+            multipartFile.transferTo(filePath.toFile());
+        } catch (IOException e) {
             throw new IllegalRequestDataException("Failed to upload file" + multipartFile.getOriginalFilename());
         }
     }

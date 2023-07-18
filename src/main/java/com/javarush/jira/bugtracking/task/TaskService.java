@@ -24,6 +24,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
@@ -41,6 +42,7 @@ public class TaskService {
     private final Handlers.ActivityHandler activityHandler;
     private final TaskFullMapper fullMapper;
     private final SprintRepository sprintRepository;
+    private final TaskRepository taskRepository;
     private final TaskExtMapper extMapper;
     private final UserBelongRepository userBelongRepository;
 
@@ -145,6 +147,15 @@ public class TaskService {
         }
     }
 
+    @Transactional
+    public void addTagToTask(Long taskId, String tag) {
+        Optional<Task> task = taskRepository.findFullById(taskId);
+        if(task.isPresent() && tag != null && !tag.isEmpty()) {
+            taskRepository.addTagToTask(taskId, tag);
+        } else {
+            throw new IllegalArgumentException("Task ID or Tag is invalid.");
+        }
+    }
 
 }
 
