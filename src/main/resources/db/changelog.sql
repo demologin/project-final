@@ -245,6 +245,8 @@ values ('assigned', 'Assigned', 6, '1'),
        ('done', 'Done', 3, 'canceled'),
        ('canceled', 'Canceled', 3, null);
 
+
+
 --changeset gkislin:change_backtracking_tables
 
 alter table SPRINT rename COLUMN TITLE to CODE;
@@ -331,3 +333,23 @@ values ('todo', 'ToDo', 3, 'in_progress,canceled|'),
 
 drop index UK_USER_BELONG;
 create unique index UK_USER_BELONG on USER_BELONG (OBJECT_ID, OBJECT_TYPE, USER_ID, USER_TYPE_CODE) where ENDPOINT is null;
+--changeset igor:init_activity
+
+insert into PROJECT (id,code, title, description, type_code, parent_id)
+values (999,'JiraRush1', 'JiraRush1', '«Mini-JIRA» app : project management system tutorial app1', 'task_tracker', 999);
+insert into SPRINT (id,status_code, startpoint, endpoint, code, project_id)
+values (999,'active', null, null, 'Sprint-2', 999);
+
+INSERT INTO TASK (id,TITLE, TYPE_CODE, STATUS_CODE, PROJECT_ID, SPRINT_ID, PARENT_ID, STARTPOINT)
+values (999,'Add role manager and filters in security', 'task', 'in_progress', 999, 999, 999,
+        '2023-05-15 09:05:10');
+
+insert into USERS (id,EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, DISPLAY_NAME)
+values (999,'user@gmail.com', '{noop}password', 'user', 'userLast', 'userDisplayName');
+
+INSERT INTO ACTIVITY(AUTHOR_ID, TASK_ID, UPDATED, STATUS_CODE)
+VALUES
+    (999, 999, '2023-05-15 09:05:10', 'in_progress'), -- время начала работы над задачей
+    (999, 999, '2023-05-15 12:25:10', 'ready_for_review'), -- время окончания разработки
+    (999, 999, '2023-05-15 14:05:10', 'done'); -- время конца тестирования
+

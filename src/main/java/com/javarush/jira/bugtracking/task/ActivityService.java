@@ -3,11 +3,14 @@ package com.javarush.jira.bugtracking.task;
 import com.javarush.jira.bugtracking.Handlers;
 import com.javarush.jira.bugtracking.task.to.ActivityTo;
 import com.javarush.jira.common.error.DataConflictException;
+import com.javarush.jira.common.error.NotFoundException;
 import com.javarush.jira.login.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.Duration;
 import java.util.List;
 
 import static com.javarush.jira.bugtracking.task.TaskUtil.getLatestValue;
@@ -16,6 +19,8 @@ import static com.javarush.jira.bugtracking.task.TaskUtil.getLatestValue;
 @RequiredArgsConstructor
 public class ActivityService {
     private final TaskRepository taskRepository;
+
+    private final ActivityRepository activityRepository;
 
     private final Handlers.ActivityHandler handler;
 
@@ -72,5 +77,17 @@ public class ActivityService {
                 task.setTypeCode(latestType);
             }
         }
+    }
+
+    public Duration getDevelopmentTime(Task task) {
+        Timestamp startTime = activityRepository.getStartTime(task.getId(), "in_progress").orElseThrow(() -> new NotFoundException("Start time not found"));
+        Timestamp endTime = activityRepository.getEndTime(task.getId(), "ready_for_review").orElseThrow(() -> new NotFoundException("End time not found"));
+        return Duration.between(startTime.toInstant(), endTime.toInstant());
+    }
+
+    public Duration getTestingTime(Task task) {
+        Timestamp startTime = activityRepository.getStartTime(task.getId(), "ready_for_review").orElseThrow(() -> new NotFoundException("Start time not found"));
+        Timestamp endTime = activityRepository.getEndTime(task.getId(), "done").orElseThrow(() -> new NotFoundException("End time not found"));
+        return Duration.between(startTime.toInstant(), endTime.toInstant());
     }
 }
