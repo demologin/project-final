@@ -38,6 +38,8 @@
 - 4 Переделать тесты так, чтоб во время тестов использовалась in memory БД (H2), а не PostgreSQL. Для этого нужно
   определить 2 бина, и выборка какой из них использовать должно определяться активным профилем Spring. 
     - used testcontainers
+- 5 Написать тесты для всех публичных методов контроллера ProfileRestController. Хоть методов только 2, но тестовых методов должно быть больше, т.к. нужно проверить success and unsuccess path.
+    - add test in ProfileRestControllerTest (getUnauthorized, getUserProfile, getGuestProfile, createProfile, updateProfile, updateInvalidProfile)
 - 6 Сделать рефакторинг метода com.javarush.jira.bugtracking.attachment.FileUtil#upload чтоб он использовал современный
   подход для работы с файловой системмой.
     - refactored upload method
@@ -46,6 +48,8 @@
     - added Post method addTaskTag in TaskUIController
     - added Post method addTaskTag in TaskController, swagger-ui documentation
     - TaskService now add tags to task and update repository
+    - add test in TaskControllerTest
 - 11 Добавить локализацию минимум на двух языках для шаблонов писем (mails) и стартовой страницы index.html.
     - added localization on EN, UA, RU languages (mail-confirmation.html, password-reset.html, footer.html, header.html, register.html index.html, login.html)
     - added buttons to change localization
+
