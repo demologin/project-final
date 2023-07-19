@@ -59,6 +59,7 @@ public class MvcConfig implements WebMvcConfigurer {
         }
     });
 
+    // todo 11 Добавить локализацию минимум на двух языках для шаблонов писем (mails) и стартовой страницы index.html
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();

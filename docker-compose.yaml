@@ -1,3 +1,5 @@
+# todo 10 Написать docker-compose файл для запуска контейнера сервера вместе с БД и nginx.
+
 version: "3.9"
 
 services:

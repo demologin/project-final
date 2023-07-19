@@ -1,3 +1,5 @@
+# todo 9 Написать Dockerfile для основного сервера
+
 FROM maven
 WORKDIR /
 COPY pom.xml .

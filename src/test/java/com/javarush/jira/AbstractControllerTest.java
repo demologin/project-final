@@ -31,6 +31,7 @@ public abstract class AbstractControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    // todo 4 Переделать тесты... на testcontainers
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
             DockerImageName.parse("postgres")
     );

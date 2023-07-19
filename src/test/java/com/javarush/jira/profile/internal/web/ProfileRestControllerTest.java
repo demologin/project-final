@@ -23,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RequiredArgsConstructor
 class ProfileRestControllerTest extends AbstractControllerTest {
 
+//    todo 5 Написать тесты для всех публичных методов контроллера ProfileRestController
     private final ProfileMapper mapper;
     private final ProfileRepository repository;
 

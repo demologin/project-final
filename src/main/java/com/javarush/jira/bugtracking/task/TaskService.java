@@ -41,6 +41,7 @@ public class TaskService {
     private final TaskExtMapper extMapper;
     private final UserBelongRepository userBelongRepository;
 
+//    todo 7 Добавить новый функционал: добавления тегов к задаче
     @Transactional
     public void createTaskTag(long taskId, Set<String> tags) {
         TaskRepository taskRepository = handler.getRepository();

@@ -7,6 +7,7 @@
         <h1 th:text="#{index.welcome}"></h1>
         <div th:if="${authUser} != null">
             <form action="/ui/logout" method="post">
+                <!-- # todo 11 Добавить локализацию минимум на двух языках для шаблонов писем (mails) и стартовой страницы index.html.   -->
                 <button class="btn btn-primary btn-lg mt-3" type="submit" th:text="#{index.logout.button}"></button>
             </form>
         </div>

@@ -48,6 +48,8 @@ public class TaskController {
         return taskService.get(id);
     }
 
+    //    todo 7 Добавить новый функционал: добавления тегов к задаче
+    // В зависимости от задачи написать вместо void возвращаемый тип...
     @PostMapping("/tag/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public void createTaskTag(@PathVariable("id") long taskId, @RequestBody Set<String> tags)
