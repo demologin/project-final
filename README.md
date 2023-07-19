@@ -26,5 +26,7 @@
 
 - https://habr.com/ru/articles/259055/
 
+### Use [startComposeClear.sh](scripts/startComposeClear.sh) for start docker-compose with db & nginx
+
 Список выполненных задач:
 ...
