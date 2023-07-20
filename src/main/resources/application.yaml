@@ -8,8 +8,6 @@ app:
     max-pool-size: 100
 
 spring:
-#  profiles:
-#    active: prod
   config:
     import: application-secrets.yaml
   init:
@@ -29,14 +27,10 @@ spring:
         default_batch_fetch_size: 20
         # https://stackoverflow.com/questions/21257819/what-is-the-difference-between-hibernate-jdbc-fetch-size-and-hibernate-jdbc-batc
         jdbc.batch_size: 20
-#  datasource:
-#    url: jdbc:postgresql://localhost:2345/jira
-#    username: jira
-#    password: JiraRush
 
   liquibase:
     changeLog: "classpath:db/db.changelog-master.xml"
-    contexts: prod
+    contexts: prod, dev
 
   # Jackson Fields Serialization
   jackson:

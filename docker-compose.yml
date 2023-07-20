@@ -19,8 +19,8 @@ services:
       - backend
 
   app:
-    container_name: jira
-    image: my-app
+    container_name: jira-app
+    image: jira
     build: .
     restart: unless-stopped
     environment:
@@ -34,7 +34,7 @@ services:
       - db
 
   nginx:
-    container_name: nginx-jira
+    container_name: jira-nginx
     image: nginx:latest
     restart: unless-stopped
     ports:

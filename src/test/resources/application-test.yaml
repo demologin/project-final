@@ -4,5 +4,5 @@ spring:
     mode: always
 
 #  liquibase:
-#    contexts: prod,test
+#    contexts: prod, dev
 
