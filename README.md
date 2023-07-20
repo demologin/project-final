@@ -49,6 +49,10 @@
     - added Post method addTaskTag in TaskController, swagger-ui documentation
     - TaskService now add tags to task and update repository
     - add test in TaskControllerTest
+- 9 Написать Dockerfile для основного сервера
+    - add Dockerfile based on maven:3.9-eclipse-temurin-17
+- 10 Написать docker-compose файл для запуска контейнера сервера вместе с БД и nginx. Для nginx используй конфиг-файл config/nginx.conf. При необходимости файл конфига можно редактировать.
+    - add docker-compose.yaml file with nginx, postgresql, server app (to run application with containers "docker-compose up")
 - 11 Добавить локализацию минимум на двух языках для шаблонов писем (mails) и стартовой страницы index.html.
     - added localization on EN, UA, RU languages (mail-confirmation.html, password-reset.html, footer.html, header.html, register.html index.html, login.html)
     - added buttons to change localization
