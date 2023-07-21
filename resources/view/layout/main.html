@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+<!--suppress ALL -->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="page"
-          th:with="img=${img}?: 'https://javarush.com/assets/images/site/homepage/og-image-jr.jpg', descr=${descr}?: ${title}">
+          th:with="img=${img}? 'https://javarush.com/assets/images/site/homepage/og-image-jr.jpg', descr=${descr}? ${title}">
     <head>
         <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
         <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -9,16 +10,16 @@
         <meta name="Description" th:content="${descr}"/>
 
         <title th:text="${title}"></title>
-        <link href="/static/images/icon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
-        <link href="/static/images/icon/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
-        <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-        <link href="/static/fontawesome/css/all.min.css" rel="stylesheet"/>
-        <link href="/static/css/color.css?v=1" rel="stylesheet"/>
-        <link href="/static/css/main.css?v=1" rel="stylesheet"/>
-        <link href="/static/datatables/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
-        <link href="/static/noty/css/noty.css" rel="stylesheet"/>
+        <link href="/static/icon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
+        <link href="/static/icon/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
+        <link href="/staticrap/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="/staticesome/css/all.min.css" rel="stylesheet"/>
+        <link href="/staticlor.css?v=1" rel="stylesheet"/>
+        <link href="/staticin.css?v=1" rel="stylesheet"/>
+        <link href="/staticbles/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
+        <link href="/staticss/noty.css" rel="stylesheet"/>
 <!--        <link href="/static/bootstrap/css/bootstrap-select.min.css" rel="stylesheet"/>-->
-        <link href="/static/jquery/css/ui.fancytree.css" rel="stylesheet"/>
+        <link href="/static/css/ui.fancytree.css" rel="stylesheet"/>
 
         <link rel="image_src" th:href="${img}"/>
         <meta CONTENT="Java,программист,курсы,обучение,трудоустройво,разработчик,практика,bugtracking,jira"
@@ -61,14 +62,14 @@
         <div th:replace="~{/layout/footer :: footer}"></div>
     </div>
     </body>
-    <script src="/static/jquery/js/jquery.min.js"></script>
+    <script src="/static/js/jquery.min.js"></script>
     <script>
         $([[${activeMenuItem}]]).addClass('active');
     </script>
-    <script defer src="/static/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script defer src="/static/datatables/js/jquery.dataTables.min.js"></script>
-    <script defer src="/static/datatables/js/dataTables.bootstrap5.min.js"></script>
-    <script defer src="/static/noty/js/noty.min.js"></script>
-    <script defer src="/static/bootstrap/js/bootstrap-select.min.js"></script>
+    <script defer src="/staticrap/js/bootstrap.bundle.min.js"></script>
+    <script defer src="/staticbles/js/jquery.dataTables.min.js"></script>
+    <script defer src="/staticbles/js/dataTables.bootstrap5.min.js"></script>
+    <script defer src="/statics/noty.min.js"></script>
+    <script defer src="/staticrap/js/bootstrap-select.min.js"></script>
 </th:block>
 </html>

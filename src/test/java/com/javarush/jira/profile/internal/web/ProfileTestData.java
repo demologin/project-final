@@ -9,6 +9,7 @@ import com.javarush.jira.profile.internal.model.Profile;
 import java.util.Collections;
 import java.util.Set;
 
+@SuppressWarnings("ALL")
 public class ProfileTestData {
     public static MatcherFactory.Matcher<Profile> PROFILE_MATCHER =
             MatcherFactory.usingIgnoringFieldsComparator(Profile.class, "user");
@@ -47,6 +48,7 @@ public class ProfileTestData {
                         new ContactTo("linkedin", "newLinkedin")));
     }
 
+
     public static Profile getUpdated(long id) {
         Profile profile = new Profile();
         profile.setId(id);
@@ -62,8 +64,8 @@ public class ProfileTestData {
 
     public static ProfileTo getInvalidTo() {
         return new ProfileTo(null,
-                Set.of(""),
-                Set.of(new ContactTo("skype", "")));
+                Set.of("assigned", "overdue", "deadline"),
+                Set.of(new ContactTo("skype", "userSkype")));
     }
 
     public static ProfileTo getWithUnknownNotificationTo() {
