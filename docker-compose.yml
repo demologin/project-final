@@ -8,9 +8,9 @@ services:
     image: postgres:latest
     restart: unless-stopped
     environment:
-      - POSTGRES_DB=jira
-      - POSTGRES_USER=jira
-      - POSTGRES_PASSWORD=JiraRush
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -24,7 +24,8 @@ services:
     build: .
     restart: unless-stopped
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/jira
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILE:-default}
     ports:
       - "8080:8080"
     networks:

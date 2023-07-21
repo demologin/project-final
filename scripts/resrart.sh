@@ -1,5 +1,6 @@
 #!/bin/bash
 cd "$(dirname "$0")/.." || exit
-docker-compose down --rmi 'local' --volumes
+export COMPOSE_ENV_FILE=./config/docker-compose.env
+docker-compose --env-file $COMPOSE_ENV_FILE down --rmi 'local' --volumes
 mvn clean install -DskipTests
-docker-compose up
+docker-compose --env-file $COMPOSE_ENV_FILE up
