@@ -27,4 +27,4 @@
 - https://habr.com/ru/articles/259055/
 
 Список выполненных задач:
-1,2,3,поправил мелкую ошибку  [-exec-10] ERROR| com.javarush.jira.common.internal.web.UIExceptionHandler.processError:56 ERR# Exception No message available at request /static/bootstrap/css/bootstrap-select.min.css в main.html
+1,2,3,4,5,6,7,8,9,11,в 10 docker compose собирается, но так и не смог понять как исправить ошибку, чтобы приложение запустилось с бд.
