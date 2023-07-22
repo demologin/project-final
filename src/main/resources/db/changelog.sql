@@ -1,3 +1,5 @@
+-- noinspection SqlInsertValuesForFile
+
 --liquibase formatted sql
 
 --changeset kmpk:init_schema
@@ -333,6 +335,8 @@ values ('todo', 'ToDo', 3, 'in_progress,canceled|'),
 
 drop index UK_USER_BELONG;
 create unique index UK_USER_BELONG on USER_BELONG (OBJECT_ID, OBJECT_TYPE, USER_ID, USER_TYPE_CODE) where ENDPOINT is null;
+
+--todo 8. Have to add all this stuff for app is working,and again a little bit confused)
 --changeset igor:init_activity
 
 insert into PROJECT (id,code, title, description, type_code, parent_id)

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!--suppress ALL -->
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:replace="~{layout/main::page(title='Tree',appMainFluid=~{::appMain}, activeMenuItem='tree')}">
@@ -25,14 +24,14 @@
         </nav>
     </appMain>
 </th:block>
-<script src="/static/js/jquery.fancytree-all-deps.min.js"></script>
-<script src="/static/js/jquery.fancytree.glyph.js"></script>
-<script src="/statictextMenu.js"></script>
-<script src="/staticmon.js"></script>
+<script src="/static/jquery/js/jquery.fancytree-all-deps.min.js"></script>
+<script src="/static/jquery/js/jquery.fancytree.glyph.js"></script>
+<script src="/static/js/contextMenu.js"></script>
+<script src="/static/js/common.js"></script>
 <!--        https://stackoverflow.com/questions/30398698/how-to-access-model-attribute-in-jquery-->
 <script th:inline="javascript">
     /*<![CDATA[*/
     const isManager = [[${authUser.isManager()}]];
     /*]]>*/
 </script>
-<script src="/statice.js"></script>
+<script src="/static/js/tree.js"></script>

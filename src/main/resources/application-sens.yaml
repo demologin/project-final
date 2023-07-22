@@ -1,4 +1,4 @@
-spring:
+spring: # todo - 3. imported property file
   datasource:
     username: "${DB_USERNAME:jira}"
     password: "${DB_PASSWORD:JiraRush}"

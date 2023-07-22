@@ -15,6 +15,7 @@ import java.util.List;
 
 import static com.javarush.jira.bugtracking.task.TaskUtil.getLatestValue;
 
+@SuppressWarnings("unused")
 @Service
 @RequiredArgsConstructor
 public class ActivityService {
@@ -78,7 +79,7 @@ public class ActivityService {
             }
         }
     }
-
+//TODO 8. Add two methods getDevelopmentTime,getTestingTime, they have no usage, but still they can be;
     public Duration getDevelopmentTime(Task task) {
         Timestamp startTime = activityRepository.getStartTime(task.getId(), "in_progress").orElseThrow(() -> new NotFoundException("Start time not found"));
         Timestamp endTime = activityRepository.getEndTime(task.getId(), "ready_for_review").orElseThrow(() -> new NotFoundException("End time not found"));

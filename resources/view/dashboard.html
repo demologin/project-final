@@ -12,7 +12,7 @@
                     <div class="col-12 col-sm-7 col-xl-4 col-xxl-3">
                         <div class="input-group">
                             <span class="input-group-text" title="Project">Project</span>
-                            <label for="project-selector"></label><select class="form-select" id="project-selector" th:disabled="${projects.isEmpty()}">
+                            <select class="form-select" id="project-selector" th:disabled="${projects.isEmpty()}">
                                 <option th:if="${projects.isEmpty()}" value="-1">No projects</option>
                                 <option th:each="project : ${projects}" th:if="${!projects.isEmpty()}"
                                         th:text="${project.title}" th:value="${project.id}"></option>
@@ -88,9 +88,9 @@
         </nav>
     </appMain>
 </th:block>
-<script src="/staticmon.js"></script>
-<script src="/statictextMenu.js"></script>
-<script src="/statichboard.js"></script>
+<script src="/static/js/common.js"></script>
+<script src="/static/js/contextMenu.js"></script>
+<script src="/static/js/dashboard.js"></script>
 <!--        https://stackoverflow.com/questions/30398698/how-to-access-model-attribute-in-jquery-->
 <script th:inline="javascript">
     const taskStatusRefs = [[${taskStatusRefs}]];

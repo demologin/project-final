@@ -37,7 +37,7 @@ public interface TaskRepository extends BaseRepository<Task> {
             WHERE id IN (SELECT child FROM task_with_subtasks)
             """, nativeQuery = true)
     void setTaskAndSubTasksSprint(long taskId, Long sprintId);
-
+//TODO 7. Creating query for adding tag
     @Modifying
     @Query(value = "INSERT INTO TASK_TAG (TASK_ID, TAG) VALUES (:taskId, :tag)", nativeQuery = true)
     void addTagToTask(Long taskId, String tag);

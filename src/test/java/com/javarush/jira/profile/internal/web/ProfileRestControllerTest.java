@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class ProfileRestControllerTest extends AbstractControllerTest {
-
+//TODO 5. Add two test methods for ProfileRestController, i'm confused a little bit, that's why only two for now;
     @Autowired
     private ObjectMapper objectMapper;
 

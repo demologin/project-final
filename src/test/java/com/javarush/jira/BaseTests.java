@@ -8,4 +8,5 @@ import org.springframework.test.context.ActiveProfiles;
 @ExtendWith(TestContainerSetup.class)
 @ActiveProfiles("test")
 abstract class BaseTests {
+ //   TODO 4. Add TestContainer Extention;
 }

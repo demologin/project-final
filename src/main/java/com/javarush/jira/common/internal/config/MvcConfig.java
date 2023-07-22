@@ -30,6 +30,7 @@ import java.util.Locale;
 import java.util.Properties;
 
 //@EnableWebMvc : http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc-auto-configuration
+@SuppressWarnings({"NullableProblems", "unused", "SpringMVCViewInspection"})
 @EnableAutoConfiguration
 @Configuration
 @AllArgsConstructor
@@ -38,7 +39,6 @@ import java.util.Properties;
 public class MvcConfig implements WebMvcConfigurer {
     private final AppProperties appProperties;
 
-    // Add authUser to view model
     private final HandlerInterceptor authInterceptor = new WebRequestHandlerInterceptorAdapter(new WebRequestInterceptor() {
         @Override
         public void postHandle(WebRequest request, ModelMap model) {
@@ -58,14 +58,12 @@ public class MvcConfig implements WebMvcConfigurer {
         public void preHandle(WebRequest request) {
         }
     });
-
+    //todo - 11. Adding interceptor
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
         registry.addInterceptor(authInterceptor).excludePathPatterns("/api/**");
     }
-
-    //  http://www.codejava.net/frameworks/spring/spring-mvc-url-based-view-resolution-with-urlfilenameviewcontroller-example
     @Bean
     public SimpleUrlHandlerMapping getUrlHandlerMapping() {
         return new SimpleUrlHandlerMapping() {{
@@ -77,7 +75,6 @@ public class MvcConfig implements WebMvcConfigurer {
         }};
     }
 
-    //  https://springdoc.org/index.html#how-can-i-deploy-springdoc-openapi-ui-behind-a-reverse-proxy
     @Bean
     ForwardedHeaderFilter forwardedHeaderFilter() {
         return new ForwardedHeaderFilter();
@@ -95,7 +92,6 @@ public class MvcConfig implements WebMvcConfigurer {
     }
 
     @Bean
-//    https://stackoverflow.com/a/46966350/548473
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
         return restTemplateBuilder
                 .setConnectTimeout(Duration.ofSeconds(10))
@@ -103,13 +99,14 @@ public class MvcConfig implements WebMvcConfigurer {
                 .build();
     }
 
+    //todo 11. Create LocaleResolver
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
         slr.setDefaultLocale(Locale.US);
         return slr;
     }
-
+    //todo 11. Create Interceptor
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();

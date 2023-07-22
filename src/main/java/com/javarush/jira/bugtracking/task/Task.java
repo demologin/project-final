@@ -25,19 +25,14 @@ import static com.javarush.jira.bugtracking.task.TaskUtil.checkStatusChangePossi
 @Setter
 @NoArgsConstructor
 public class Task extends TitleEntity implements HasCode {
-    // title, typeCode, statusCode duplicated here and in Activity for sql simplicity
-
-    // link to Reference.code with RefType.TASK
     @Code
     @Column(name = "type_code", nullable = false)
     private String typeCode;
 
-    // link to Reference.code with RefType.TASK_STATUS
     @Code
     @Column(name = "status_code", nullable = false)
     private String statusCode;
 
-    //    https://stackoverflow.com/a/44539145/548473
     @Nullable
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id", insertable = false, updatable = false)
@@ -70,7 +65,6 @@ public class Task extends TitleEntity implements HasCode {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<@Size(min = 2, max = 32) String> tags = Set.of();
 
-    //  history of comments and task fields changing
     @OneToMany(mappedBy = "taskId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Activity> activities;
 

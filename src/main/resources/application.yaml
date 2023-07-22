@@ -11,7 +11,7 @@ spring:
   messages:
     basename: lang
   config:
-    name: application,application-sens
+    name: application,application-sens   # todo - 3. add property file and import it;
     import: application-sens.yaml
   init:
     mode: never

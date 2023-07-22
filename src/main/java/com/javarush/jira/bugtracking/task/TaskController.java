@@ -151,6 +151,7 @@ public class TaskController {
         activityService.delete(id);
     }
 
+    //TODO 7. Adding tags
     @PostMapping("/{id}/tags")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> addTagToTask(@PathVariable Long id, @RequestBody String tag) {
