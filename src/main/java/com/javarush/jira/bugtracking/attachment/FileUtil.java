@@ -8,6 +8,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,19 +18,22 @@ import java.nio.file.Paths;
 public class FileUtil {
     private static final String ATTACHMENT_PATH = "./attachments/%s/";
 
+    // TODO Task 6 - refactoring method
     public static void upload(MultipartFile multipartFile, String directoryPath, String fileName) {
         if (multipartFile.isEmpty()) {
             throw new IllegalRequestDataException("Select a file to upload.");
         }
 
-        Path dir = Paths.get(directoryPath);
         try {
+            Path dir = Paths.get(directoryPath);
+
             if (!Files.exists(dir)) {
                 Files.createDirectories(dir);
             }
-            Path newFilePath = Paths.get(dir + fileName);
-            Path file = Files.createFile(newFilePath);
-            Files.write(file, multipartFile.getBytes());
+            Path newFilePath = dir.resolve(fileName);
+            try (OutputStream outputStream = Files.newOutputStream(newFilePath)) {
+                outputStream.write(multipartFile.getBytes());
+            }
         } catch (IOException ex) {
             throw new IllegalRequestDataException("Failed to upload file" + multipartFile.getOriginalFilename());
         }

@@ -19,7 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Set;
 
@@ -62,6 +64,7 @@ public class TaskService {
         handler.get(taskId).setTags(tags);
     }
 
+    // TODO Task 7 - method for add tag in task
     @Transactional
     public void changeSprint(long taskId, Long sprintId) {
         Task task = handler.getRepository().getExisted(taskId);
