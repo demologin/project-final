@@ -2,7 +2,6 @@ package com.javarush.jira.common.util;
 
 import org.junit.jupiter.api.Test;
 
-// TODO
 class UtilTest {
 
     @Test

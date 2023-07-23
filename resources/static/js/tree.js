@@ -258,7 +258,6 @@ function getProjectNodeByTask() {
 function prepareSprintContextMenu() {
     if (isManager) {
         generateContextMenuItem('assign as Manager', () => {
-            //TODO: call API when implemented
         })
     }
     const sprintId = selectedNode.data.id;
@@ -277,7 +276,6 @@ function prepareSprintContextMenu() {
 function prepareProjectContextMenu() {
     if (isManager) {
         generateContextMenuItem('assign as Manager', () => {
-            //TODO: call API when implemented
         })
         const projectId = selectedNode.data.id;
         generateContextMenuItem('create Sprint', () => {
