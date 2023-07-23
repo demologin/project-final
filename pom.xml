@@ -26,7 +26,6 @@
 
     <dependencies>
 
-        <!-- https://mvnrepository.com/artifact/org.testcontainers/testcontainers -->
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
@@ -164,14 +163,6 @@
     </dependencies>
 
     <build>
-<!--        <resources><resource>-->
-<!--            <directory>project-final/src/main/resources/</directory>-->
-<!--        </resource>-->
-<!--            <resource>-->
-<!--                <directory>project-final/resources/</directory>-->
-<!--            </resource>-->
-
-<!--        </resources>-->
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
