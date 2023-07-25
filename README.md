@@ -57,3 +57,4 @@
     - added localization on EN, UA, RU languages (mail-confirmation.html, password-reset.html, footer.html, header.html, register.html index.html, login.html)
     - added buttons to change localization
 
+## If you want to test with demo datas, after dokcer-compouse up, you need to init data.sql
