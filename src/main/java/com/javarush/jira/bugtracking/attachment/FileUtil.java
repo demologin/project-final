@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 public class FileUtil {
     private static final String ATTACHMENT_PATH = "./attachments/%s/";
 
-    // TODO p5 - make refactoring method com.javarush.jira.bugtracking.attachment.FileUtil#upload
+    // TODO p6 - make refactoring method com.javarush.jira.bugtracking.attachment.FileUtil#upload
     public static void upload(MultipartFile multipartFile, String directoryPath, String fileName) {
         if (multipartFile.isEmpty()) {
             throw new IllegalRequestDataException("Select a file to upload.");

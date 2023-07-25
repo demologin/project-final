@@ -4,26 +4,26 @@
 <!--/*@thymesVar id="codeTo" type="com.javarush.jira.common.to.CodeTo"*/-->
 <!--/*@thymesVar id="attachs" type="java.util.List<com.javarush.jira.bugtracking.attachment.Attachment>"*/-->
 <!--/*@thymesVar id="belongs" type="java.util.List<com.javarush.jira.bugtracking.UserBelong>"*/-->
-
+<!--TODO p11 add localization-->
 <th:block th:fragment="view(codeTo, urlEdit, content, fragment)">
     <th:block
-            th:replace="${fragment} ? ~{::appView} : ~{layout/main::page(title='View '+${codeTo.code},appMain=~{::appView})}">
+            th:replace="${fragment} ? ~{::appView} : ~{layout/main::page(title='view.'+${codeTo.code},appMain=~{::appView})}">
         <appView>
             <div class="card mb-3">
                 <div class="card-body">
-                    <h4 class="data-enabled" th:attr="enabled=${codeTo.enabled}" th:text="${codeTo.code}"/>
+                    <h4 class="data-enabled" th:attr="enabled=${codeTo.enabled}" th:text="#{view.code}"/>
                     <h2 th:if="${codeTo instanceof T(com.javarush.jira.common.to.TitleTo)}"
-                        th:text="${codeTo.title}"></h2>
+                        th:text="#{view.title}"></h2>
                     <div th:if="${!belongs.isEmpty()}">
                         <hr>
-                        <h5>Assigned:</h5>
+                        <h5 th:text="#{view.assigned}"></h5>
                         <table class="table table-striped" id="datatable">
                             <thead class="sticky-top bg-white">
                             <tr>
-                                <th>User ID</th>
-                                <th>Role</th>
-                                <th>Assigned</th>
-                                <th>Endpoint</th>
+                                <th th:text="#{view.userId}"></th>
+                                <th th:text="#{view.role}"></th>
+                                <th th:text="#{view.assigned}"></th>
+                                <th th:text="#{view.endpoint}"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -40,7 +40,7 @@
                     <th:block th:insert="${content}"/>
                     <div th:if="${!attachs.isEmpty()}">
                         <hr>
-                        <h5>Attachments:</h5>
+                        <h5 th:text="#{view.attachments}"></h5>
                         <h6 th:each="att : ${attachs}">
                             <a download th:href="@{'/api/attachments/download/' + ${att.id}}">[[${att.name}]]</a> (<a
                                 target="_blank" th:href="@{'/api/attachments/download/' + ${att.id}}">open</a>)
@@ -49,7 +49,7 @@
                     <div th:if="${urlEdit!=null}">
                         <hr>
                         <div class="mb-3">
-                            <a class="btn btn-primary" th:href="${urlEdit + codeTo.id}">Edit</a>
+                            <a class="btn btn-primary" th:href="${urlEdit + codeTo.id}" th:text="#{view.edit}"></a>
                         </div>
                     </div>
                 </div>
@@ -60,30 +60,30 @@
 
 <div th:fragment="edit(codeTo, urlSave, urlEnable, content, objectName)">
     <th:block
-            th:replace="~{layout/main::page(title=${codeTo.isNew()? 'New '+objectName : 'Edit '+codeTo.code}, appMain=~{::appEdit})}">
+            th:replace="~{layout/main::page(title=${codeTo.isNew()? '#{edit.new.' + objectName} : '#{edit.edit.' + codeTo.code}}, appMain=~{::appEdit})}">
         <appEdit>
             <div class="card">
                 <div class="card-body">
                     <form method="post" th:action="@{${urlSave}}" th:object="${__${objectName}__}">
                         <input hidden th:field="*{id}">
                         <div th:if="${codeTo instanceof T(com.javarush.jira.common.to.TitleTo)}">
-                            <div th:replace="~{::inputField('Title', 'title')}"></div>
+                            <div th:replace="~{::inputField(labelText='#{edit.title}', fieldName='title')}"></div>
                         </div>
                         <div th:hidden="${codeTo instanceof T(com.javarush.jira.bugtracking.task.to.TaskTo)}">
-                            <div th:replace="~{::inputField(labelText='Code', fieldName='code')}"></div>
+                            <div th:replace="~{::inputField(labelText='#{edit.code}', fieldName='code')}"></div>
                         </div>
                         <br>
                         <div class="form-check" th:hidden="${codeTo.isNew()}">
                             <input class="form-check-input" id="enabled" th:checked="${codeTo.enabled}"
                                    th:onclick="enable(this, [[${urlEnable}]])" type="checkbox">
-                            <label class="form-check-label w-25" for="enabled">Enabled</label>
+                            <label class="form-check-label w-25" for="enabled" th:text="#{edit.enabled}"></label>
                         </div>
                         <hr>
                         <th:block th:insert="${content}"/>
                         <attachments th:hidden="${codeTo.isNew()}">
                             <hr>
                             <div class="col-auto me-auto" id="alert"></div>
-                            <h5 class="fw-bold text-secondary ms-1">Attachments</h5>
+                            <h5 class="fw-bold text-secondary ms-1" th:text="#{edit.attachments}"></h5>
                             <div class="scroll-area table-responsive text-nowrap">
                                 <table class="table table-striped">
                                     <thead>
@@ -106,14 +106,13 @@
                                 </table>
                             </div>
                             <input id="att-upload" name="file" type="file">
-                            <button class="btn btn-primary" disabled id="upload-btn" type="button">+ Upload attachment
-                            </button>
+                            <button class="btn btn-primary" disabled id="upload-btn" type="button" th:text="#{edit.uploadAttachment}"></button>
                             <hr>
                         </attachments>
                         <br>
                         <div class="mb-3">
-                            <a class="btn btn-secondary" th:href="|/ui/${objectName}s/*{id}|" th:if="*{id != null}">Cancel</a>
-                            <button class="btn btn-primary" type="submit">Save</button>
+                            <a class="btn btn-secondary" th:href="|/ui/${objectName}s/*{id}|" th:if="*{id != null}" th:text="#{edit.cancel}"></a>
+                            <button class="btn btn-primary" type="submit" th:text="#{edit.save}"></button>
                         </div>
                     </form>
                 </div>
@@ -135,6 +134,7 @@
         }
     </script>
 </div>
+
 
 <div class="form-group"
      th:fragment="inputField(labelText, fieldName)"

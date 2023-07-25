@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-
+<!--TODO p2 remove social-->
     <changeSet id="remote_vk_from_contact" author="d.shubchynskyi@gmail.com">
         <delete tableName="contact">
             <where>code = 'vk'</where>

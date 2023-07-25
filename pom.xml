@@ -200,7 +200,7 @@
                 </configuration>
             </plugin>
             <plugin>
-<!--                TODO task 10 (docker-compose). For health check-->
+<!--                TODO p10 (docker-compose). For health check-->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>

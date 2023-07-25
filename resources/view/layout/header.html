@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <!--/*@thymesVar id="authUser" type="com.javarush.jira.login.AuthUser"*/-->
-
+<!--TODO p11 add localization-->
 <div th:fragment="header">
     <header class="fixed-top d-none d-md-block header-nav">
         <nav class="navbar navbar-expand-lg navbar-dark" id="header">
@@ -9,21 +9,34 @@
                 <div class="collapse navbar-collapse mt-2 mb-2 px-5">
                     <ul class="navbar-nav m-auto">
                         <form class="d-flex" role="search">
-                            <input aria-label="Search" class="form-control" id="header-search" placeholder="Search"
-                                   type="search">
+                            <input aria-label="Search" class="form-control" id="header-search"
+                                   th:placeholder="#{header.search.placeholder}" type="search">
                         </form>
                         <li class="nav-item menu-item me-3 ms-4">
-                            <a class="btn btn-yellow" href="/doc" target="_blank" type="button">Swagger API</a>
+                            <a class="btn btn-yellow" href="/doc" target="_blank" th:text="#{swagger.api}"
+                               type="button">Swagger API</a>
                         </li>
                     </ul>
+                    <div>
+                        <a href="./?lang=en" class="a-icon">
+                            <img th:src="@{/static/images/icon/en-icon.png}" th:alt="#{en.flag}" class="img-icon">
+                        </a>
+                        <a href="./?lang=ua" class="a-icon">
+                            <img th:src="@{/static/images/icon/ua-icon.png}" th:alt="#{ua.flag}" class="img-icon">
+                        </a>
+                        <a href="./?lang=ru" class="a-icon">
+                            <img th:src="@{/static/images/icon/ru-icon.png}" th:alt="#{ru.flag}" class="img-icon">
+                        </a>
+                    </div>
                     <div th:if="${authUser} == null">
-                        <a class="btn btn-orange" href="/view/login" type="button">Login/Register</a>
+                        <a class="btn btn-orange" href="/view/login" th:text="#{login.register}" type="button">Login/Register</a>
                     </div>
                     <th:block th:if="${authUser} != null">
-                        <a class="btn btn-orange" href="/ui/profile" type="button"><i
+                        <a class="btn btn-orange" href="/ui/profile" th:text="#{profile}" type="button"><i
                                 class="fa-solid fa-address-card"></i> Profile</a>
                         <form action="/ui/logout" class="mx-2" method="post">
-                            <button class="btn btn-yellow btn-orange" type="submit"><i class="fa-solid fa-sign-out"></i>
+                            <button class="btn btn-yellow btn-orange" th:text="#{logout}" type="submit"><i
+                                    class="fa-solid fa-sign-out"></i>
                                 Logout
                             </button>
                         </form>
@@ -34,3 +47,5 @@
     </header>
 </div>
 </html>
+
+

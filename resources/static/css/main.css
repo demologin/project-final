@@ -274,3 +274,15 @@
     max-height: clamp(5em, 50vh, 300px);
     overflow: auto;
 }
+   /*TODO p11 add localization*/
+.a-icon {
+    display: inline-block;
+}
+
+.img-icon {
+    width: auto;
+    height: 25px;
+    border-color: #0078ff;
+    border-width: 1px;
+    padding: 0 5px;
+}

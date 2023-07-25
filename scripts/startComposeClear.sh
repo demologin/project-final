@@ -29,4 +29,4 @@ else
         echo "Could not detect the operating system."
 fi
 
-# TODO task 10 - docker-compose
+# TODO p10 - docker-compose
