@@ -1,8 +1,9 @@
 FROM openjdk:17-jdk
 
-COPY target/jira-1.0.jar /app/jira-1.0.jar
-
 WORKDIR /app
+
+COPY resources ./resources
+COPY target/jira-1.0.jar /app/jira-1.0.jar
 
 EXPOSE 8080
 
