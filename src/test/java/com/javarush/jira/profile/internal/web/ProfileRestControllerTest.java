@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-// TODO p5 - tests for ProfileRestController.class
+// TODO task 5 - tests for ProfileRestController.class
 class ProfileRestControllerTest extends AbstractControllerTest {
 
     @Autowired

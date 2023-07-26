@@ -4,7 +4,7 @@
 <!--/*@thymesVar id="codeTo" type="com.javarush.jira.common.to.CodeTo"*/-->
 <!--/*@thymesVar id="attachs" type="java.util.List<com.javarush.jira.bugtracking.attachment.Attachment>"*/-->
 <!--/*@thymesVar id="belongs" type="java.util.List<com.javarush.jira.bugtracking.UserBelong>"*/-->
-<!--TODO p11 add localization-->
+<!--TODO task 11 add localization-->
 <th:block th:fragment="view(codeTo, urlEdit, content, fragment)">
     <th:block
             th:replace="${fragment} ? ~{::appView} : ~{layout/main::page(title='view.'+${codeTo.code},appMain=~{::appView})}">

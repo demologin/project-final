@@ -3,6 +3,3 @@ spring:
   init:
     mode: always
 
-#  liquibase:
-#    contexts: prod, dev
-

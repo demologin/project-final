@@ -100,7 +100,7 @@ public class TaskController {
         taskService.changeStatus(id, statusCode);
     }
 
-    // TODO p7 - add new functionality: adding tags to the task (REST API implementation on the service)
+    // TODO task 7 - add new functionality: adding tags to the task (REST API implementation on the service)
     @PatchMapping("/{id}/add-tags")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addTags(@PathVariable long id, @NotBlank @RequestParam String[] tags) {

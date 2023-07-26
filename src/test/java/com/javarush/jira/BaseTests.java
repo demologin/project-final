@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
-// TODO p4 - testcontainers
+// TODO task 4 - testcontainers
 @SpringBootTest
 @ActiveProfiles("test")
 @ContextConfiguration(initializers = {

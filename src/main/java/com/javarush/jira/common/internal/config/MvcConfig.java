@@ -62,7 +62,7 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor).excludePathPatterns("/api/**");
-    //    TODO p11 add localization
+    //    TODO task 11 add localization
         registry.addInterceptor(localeChangeInterceptor());
     }
 
@@ -95,7 +95,7 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.setOrder(Integer.MAX_VALUE);
     }
 
-    //    TODO p11 add localization
+    //    TODO task 11 add localization
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
@@ -103,7 +103,7 @@ public class MvcConfig implements WebMvcConfigurer {
         return lci;
     }
 
-    //    TODO p11 add localization
+    //    TODO task 11 add localization
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
@@ -120,7 +120,7 @@ public class MvcConfig implements WebMvcConfigurer {
                 .build();
     }
 
-    //    TODO p11 add localization
+    //    TODO task 11 add localization
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();

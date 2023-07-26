@@ -145,7 +145,7 @@ public class TaskService {
         }
     }
 
-    // TODO p7 - add new functionality: adding tags to the task (REST API implementation on the service)
+    // TODO task 7 - add new functionality: adding tags to the task (REST API implementation on the service)
     @Transactional
     public void addTagsToTask(Long taskId, String[] tags) {
         Task existedTask = taskRepository.getExisted(taskId);
@@ -153,7 +153,7 @@ public class TaskService {
         taskRepository.save(existedTask);
     }
 
-    // TODO p8 - counting the time how much the task was in work and testing
+    // TODO task 8 - counting the time how much the task was in work and testing
     public Duration calculateTimeInProgress(Task task) {
         Optional<LocalDateTime> startedTime = activityRepository.getStatusChangeTime(task.getId(), "in_progress");
         Optional<LocalDateTime> reviewTime = activityRepository.getStatusChangeTime(task.getId(), "ready_for_review");
@@ -163,7 +163,7 @@ public class TaskService {
             throw new IllegalStateException("Task " + task.getId() + " does not have required status change records.");
         }
     }
-    // TODO p8 - counting the time how much the task was in work and testing
+    // TODO task 8 - counting the time how much the task was in work and testing
     public Duration calculateTimeInTesting(Task task) {
         Optional<LocalDateTime> reviewTime = activityRepository.getStatusChangeTime(task.getId(), "ready_for_review");
         Optional<LocalDateTime> doneTime = activityRepository.getStatusChangeTime(task.getId(), "done");

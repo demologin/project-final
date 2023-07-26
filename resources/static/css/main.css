@@ -274,7 +274,7 @@
     max-height: clamp(5em, 50vh, 300px);
     overflow: auto;
 }
-   /*TODO p11 add localization*/
+   /*TODO task 11 add localization*/
 .a-icon {
     display: inline-block;
 }

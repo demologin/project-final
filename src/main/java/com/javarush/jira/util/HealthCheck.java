@@ -8,7 +8,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 
-//TODO p10 (docker-compose). For health check
+//TODO task 10 (docker-compose). For health check
 @UtilityClass
 public class HealthCheck {
     private static final HttpClient CLIENT = HttpClient.newHttpClient();

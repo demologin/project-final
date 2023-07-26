@@ -13,7 +13,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-// TODO p8 - counting the time how much the task was in work and testing
+// TODO task 8 - counting the time how much the task was in work and testing
 @SpringBootTest
 class TaskServiceTest extends AbstractServiceTest {
 

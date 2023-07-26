@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-<!--    // TODO p8 - counting the time how much the task was in work and testing-->
+<!--    // TODO task 8 - counting the time how much the task was in work and testing-->
     <changeSet id="insert_into_activity" author="d.shubchynskyi@gmail.com">
         <insert tableName="ACTIVITY">
             <column name="AUTHOR_ID" valueNumeric="1" />
