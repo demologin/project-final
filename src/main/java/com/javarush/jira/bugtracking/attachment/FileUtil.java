@@ -17,6 +17,8 @@ import java.nio.file.Paths;
 public class FileUtil {
     private static final String ATTACHMENT_PATH = "./attachments/%s/";
 
+//    TODO - Сделать рефакторинг метода com.javarush.jira.bugtracking.attachment.FileUtil#upload чтоб он использовал современный подход для работы с файловой системмой.
+
     public static void upload(MultipartFile multipartFile, String directoryPath, String fileName) {
         if (multipartFile.isEmpty()) {
             throw new IllegalRequestDataException("Select a file to upload.");

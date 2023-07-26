@@ -1,3 +1,4 @@
+# TODO Переделать тесты так, чтоб во время тестов использовалась in memory БД (H2), а не PostgreSQL.
 spring.cache.type: none
 spring:
   jpa:

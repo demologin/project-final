@@ -1,3 +1,5 @@
+--TODO - Переделать тесты так, чтоб во время тестов использовалась in memory БД (H2), а не PostgreSQL.
+
 DROP TABLE IF EXISTS USER_ROLE;
 DROP TABLE IF EXISTS CONTACT;
 DROP TABLE IF EXISTS MAIL_CASE;
