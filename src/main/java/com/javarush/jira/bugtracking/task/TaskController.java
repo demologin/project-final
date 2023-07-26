@@ -114,6 +114,7 @@ public class TaskController {
         return userBelongRepository.findActiveTaskAssignmentsForUserBySprint(AuthUser.authId(), sprintId);
     }
 
+    // TODO Task 7 - method for add tag in task (API)
     @PostMapping("/{id}/tags")
     public void addTagsForTask(@RequestParam long id, @RequestParam Set<String> tag) {
         taskService.addTag(id, tag);

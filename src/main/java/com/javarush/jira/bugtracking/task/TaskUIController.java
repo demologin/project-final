@@ -104,6 +104,7 @@ public class TaskUIController {
         return "redirect:/ui/tasks/" + taskId;
     }
 
+    // TODO Task 7 - method for add tag in task (UI)
     @PostMapping("/{id}/tags")
     public void addTagsForTask(@RequestParam long id, @RequestParam Set<String> tag) {
         service.addTag(id, tag);

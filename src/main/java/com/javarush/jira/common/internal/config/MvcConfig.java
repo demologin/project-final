@@ -61,9 +61,11 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor).excludePathPatterns("/api/**");
+        // TODO Task 11 - added interceptor
         registry.addInterceptor(localeChangeInterceptor());
     }
 
+    // TODO Task 11 - added two methods for localization
     @Bean
     public LocaleResolver localeResolver() {
         CookieLocaleResolver localeResolver = new CookieLocaleResolver();

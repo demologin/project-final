@@ -59,12 +59,12 @@ public class TaskService {
         }
     }
 
+    // TODO Task 7 - method for add tag in task
     @Transactional
     public void addTag(long taskId, Set<String> tags) {
         handler.get(taskId).setTags(tags);
     }
 
-    // TODO Task 7 - method for add tag in task
     @Transactional
     public void changeSprint(long taskId, Long sprintId) {
         Task task = handler.getRepository().getExisted(taskId);

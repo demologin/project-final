@@ -8,13 +8,12 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.lifecycle.Startables;
 import org.testcontainers.utility.DockerImageName;
-
+// TODO Task 4 - add TestContainer class
 public class TestcontainersInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
     static PostgreSQLContainer<?> database = new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"));
 
     static {
         database.start();
-//        Startables.deepStart(database).join();
     }
 
     @Override

@@ -1,3 +1,4 @@
+#TODO Task 9 - add dockerfile
 FROM openjdk:17-jdk
 
 WORKDIR /app

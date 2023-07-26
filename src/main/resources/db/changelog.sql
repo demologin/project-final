@@ -332,6 +332,8 @@ create unique index UK_USER_BELONG on USER_BELONG (OBJECT_ID, OBJECT_TYPE, USER_
 
 -- TODO Task 8 - added 3 entries
 insert into ACTIVITY (ID, AUTHOR_ID, TASK_ID, UPDATED, STATUS_CODE)
-values(9, 11, 15, '2023-07-13 09:09:58.251652', 'in_progress'),
-      (10, 5, 37, '2023-07-13 09:08:46.692911', 'ready_for_review'),
-      (11, 2, 17, '2023-07-13 09:09:52.170463', 'done');
+values(7, 1, 5, '2023-07-13 09:09:58.251652', 'in_progress'),
+      (8, 2, 38, '2023-07-13 09:08:46.692911', 'ready_for_review'),
+      (9, 3, 45, '2023-07-13 09:09:52.170463', 'done');
+
+
