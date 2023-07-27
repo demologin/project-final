@@ -11,19 +11,19 @@
         <appView>
             <div class="card mb-3">
                 <div class="card-body">
-                    <h4 class="data-enabled" th:attr="enabled=${codeTo.enabled}" th:text="#{view.code}"/>
+                    <h4 class="data-enabled" th:attr="enabled=${codeTo.enabled}" th:text="#{view.code}">Code</h4>
                     <h2 th:if="${codeTo instanceof T(com.javarush.jira.common.to.TitleTo)}"
-                        th:text="#{view.title}"></h2>
+                        th:text="#{view.title}">Title</h2>
                     <div th:if="${!belongs.isEmpty()}">
                         <hr>
-                        <h5 th:text="#{view.assigned}"></h5>
+                        <h5 th:text="#{view.assigned}">Assigned</h5>
                         <table class="table table-striped" id="datatable">
                             <thead class="sticky-top bg-white">
                             <tr>
-                                <th th:text="#{view.userId}"></th>
-                                <th th:text="#{view.role}"></th>
-                                <th th:text="#{view.assigned}"></th>
-                                <th th:text="#{view.endpoint}"></th>
+                                <th th:text="#{view.userId}">User ID</th>
+                                <th th:text="#{view.role}">Role</th>
+                                <th th:text="#{view.assigned}">Assigned</th>
+                                <th th:text="#{view.endpoint}">Endpoint</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -40,7 +40,7 @@
                     <th:block th:insert="${content}"/>
                     <div th:if="${!attachs.isEmpty()}">
                         <hr>
-                        <h5 th:text="#{view.attachments}"></h5>
+                        <h5 th:text="#{view.attachments}">Attachments</h5>
                         <h6 th:each="att : ${attachs}">
                             <a download th:href="@{'/api/attachments/download/' + ${att.id}}">[[${att.name}]]</a> (<a
                                 target="_blank" th:href="@{'/api/attachments/download/' + ${att.id}}">open</a>)
@@ -49,7 +49,7 @@
                     <div th:if="${urlEdit!=null}">
                         <hr>
                         <div class="mb-3">
-                            <a class="btn btn-primary" th:href="${urlEdit + codeTo.id}" th:text="#{view.edit}"></a>
+                            <a class="btn btn-primary" th:href="${urlEdit + codeTo.id}" th:text="#{view.edit}">Edit</a>
                         </div>
                     </div>
                 </div>
@@ -76,14 +76,14 @@
                         <div class="form-check" th:hidden="${codeTo.isNew()}">
                             <input class="form-check-input" id="enabled" th:checked="${codeTo.enabled}"
                                    th:onclick="enable(this, [[${urlEnable}]])" type="checkbox">
-                            <label class="form-check-label w-25" for="enabled" th:text="#{edit.enabled}"></label>
+                            <label class="form-check-label w-25" for="enabled" th:text="#{edit.enabled}">Enabled</label>
                         </div>
                         <hr>
                         <th:block th:insert="${content}"/>
                         <attachments th:hidden="${codeTo.isNew()}">
                             <hr>
                             <div class="col-auto me-auto" id="alert"></div>
-                            <h5 class="fw-bold text-secondary ms-1" th:text="#{edit.attachments}"></h5>
+                            <h5 class="fw-bold text-secondary ms-1" th:text="#{edit.attachments}">Attachments</h5>
                             <div class="scroll-area table-responsive text-nowrap">
                                 <table class="table table-striped">
                                     <thead>
@@ -106,13 +106,13 @@
                                 </table>
                             </div>
                             <input id="att-upload" name="file" type="file">
-                            <button class="btn btn-primary" disabled id="upload-btn" type="button" th:text="#{edit.uploadAttachment}"></button>
+                            <button class="btn btn-primary" disabled id="upload-btn" type="button" th:text="#{edit.uploadAttachment}">+ Upload attachment</button>
                             <hr>
                         </attachments>
                         <br>
                         <div class="mb-3">
-                            <a class="btn btn-secondary" th:href="|/ui/${objectName}s/*{id}|" th:if="*{id != null}" th:text="#{edit.cancel}"></a>
-                            <button class="btn btn-primary" type="submit" th:text="#{edit.save}"></button>
+                            <a class="btn btn-secondary" th:href="|/ui/${objectName}s/*{id}|" th:if="*{id != null}" th:text="#{edit.cancel}">Cancel</a>
+                            <button class="btn btn-primary" type="submit" th:text="#{edit.save}">Save</button>
                         </div>
                     </form>
                 </div>

@@ -69,7 +69,7 @@
 
 6. ***Задача***: Сделать рефакторинг метода com.javarush.jira.bugtracking.attachment.FileUtil#upload чтоб он использовал современный подход для работы с файловой системмой.
     - ***Выполнено***:
-        - Выполнен рефакторинг метода FileUtil#upload (используется MultipartFile).
+        - Выполнен рефакторинг метода FileUtil#upload (используется MultipartFile, Path, Files).
 
 ---
 

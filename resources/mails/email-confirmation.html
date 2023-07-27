@@ -2,12 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <!--TODO task 11 add localization-->
 <head>
-    <title th:text="#{mail.title}">JiraRush - подтверждение почты</title>
+    <title th:text="#{mail.title}">JiraRush - Email Confirmation</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
 </head>
 <body>
 <p th:text="'#{mail.greeting}, ' + ${user.firstName} + '.'"/>
-<p th:text="#{mail.confirmMail}">Чтобы завершить настройку учетной записи и начать пользоваться JiraRush, подтвердите, что вы правильно указали вашу электронную почту.</p>
-<a th:href="${confirmationUrl}" th:text="#{mail.confirm.mail.button}">Подтвердить почту</a>
+<p th:text="#{mail.confirmMail}">To finish setting up your account and start using JiraRush, please confirm that you entered your email correctly.</p>
+<a th:href="${confirmationUrl}" th:text="#{mail.confirm.mail.button}">Confirm email</a>
 </body>
 </html>

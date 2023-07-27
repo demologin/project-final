@@ -2,4 +2,3 @@ spring.cache.type: none
 spring:
   init:
     mode: always
-
