@@ -1,8 +1,14 @@
 spring.cache.type: none
+
 spring:
   init:
     mode: always
+
   datasource:
-    url: jdbc:postgresql://localhost:5433/jira-test
-    username: jira
-    password: JiraRush
+      url: ${CONTAINER.URL}
+      username: ${CONTAINER.USERNAME}
+      password: ${CONTAINER.PASSWORD}
+
+  liquibase:
+    change-log: classpath:db/changelog.sql
+

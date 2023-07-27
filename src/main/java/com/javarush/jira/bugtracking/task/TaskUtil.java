@@ -15,6 +15,10 @@ import static com.javarush.jira.ref.ReferenceService.getRefs;
 
 public class TaskUtil {
 
+    public static final String IN_PROGRESS = "in_progress";
+    public static final String READY_FOR_REVIEW = "ready_for_review";
+    public static final String DONE = "done";
+
     static Map<String, RefTo> getPossibleStatusRefs(String currentStatus) {
         Set<String> possibleStatuses = getPossibleStatuses(currentStatus);
         return getRefs(TASK_STATUS).entrySet().stream()
