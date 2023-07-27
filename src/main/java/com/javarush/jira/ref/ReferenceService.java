@@ -57,7 +57,8 @@ public class ReferenceService {
         List<RefTo> references = mapper.toToList(repository.findAllByOrderByIdAsc());
         refSelect = references.stream()
                 .collect(Collectors.groupingBy(RefTo::getRefType,
-                        Collectors.collectingAndThen(Collectors.toMap(RefTo::getCode, Function.identity(), (ref1, ref2) -> ref1, LinkedHashMap::new), Collections::unmodifiableMap)));
+                        Collectors.collectingAndThen(Collectors.toMap(RefTo::getCode, Function.identity(),
+                                (ref1, ref2) -> ref1, LinkedHashMap::new), Collections::unmodifiableMap)));
 
     }
 
