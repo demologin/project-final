@@ -2,6 +2,7 @@ package com.javarush.jira.login.internal.sociallogin.handler;
 
 import org.springframework.stereotype.Component;
 
+//TODO Task 2: Removed the ability to authenticate using VK and Yandex
 @Component("github")
 public class GitHubOAuth2UserDataHandler implements OAuth2UserDataHandler {
     @Override

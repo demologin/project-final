@@ -19,13 +19,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
+import static com.javarush.jira.bugtracking.task.TaskUtil.*;
 import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
 import static com.javarush.jira.bugtracking.task.TaskUtil.makeActivity;
 import static com.javarush.jira.ref.ReferenceService.getRefTo;
+import static java.util.Objects.nonNull;
 
 @Service
 @RequiredArgsConstructor
@@ -86,6 +90,14 @@ public class TaskService {
         }
     }
 
+    //TODO Task 7: adding tags to a task in Service
+    @Transactional
+    public TaskToFull addTags(Long taskId, Set<String> tags) {
+        Task task = handler.getRepository().getExisted(taskId);
+        task.getTags().addAll(tags);
+        return fullMapper.toTo(handler.getRepository().save(task));
+    }
+
     public TaskToFull get(long id) {
         Task task = Util.checkExist(id, handler.getRepository().findFullById(id));
         TaskToFull taskToFull = fullMapper.toTo(task);
@@ -116,6 +128,38 @@ public class TaskService {
         newTask.setSprintId(parent.getSprintId());
         newTask.setProjectId(parent.getProjectId());
         return extMapper.toTo(newTask);
+    }
+
+    //TODO Task 8: Added calculation of the time how long the task was in work
+    public Duration getTaskWasInProgressTime(Task task) {
+        return getDuration(task, IN_PROGRESS, READY_FOR_REVIEW);
+
+    }
+
+    //TODO Task 8: Added calculation of the time how long the task was in testing
+    public Duration getTaskWasInTestingTime(Task task) {
+        return getDuration(task, READY_FOR_REVIEW, DONE);
+
+    }
+
+    private Duration getDuration(Task task, String startStatusCode, String endStatusCode) {
+        List<Activity> activitiesByTaskId =
+                activityHandler.getRepository()
+                        .findAllByTaskIdOrderByUpdatedDesc(task.id());
+
+        LocalDateTime startTime = null;
+        LocalDateTime endTime = null;
+
+        for (Activity activity : activitiesByTaskId) {
+            if (activity.getStatusCode().equalsIgnoreCase(startStatusCode)) {
+                startTime = activity.getUpdated();
+            } else if (activity.getStatusCode().equalsIgnoreCase(endStatusCode)) {
+                endTime = activity.getUpdated();
+            }
+        }
+
+        return nonNull(startTime) && nonNull(endTime) ?
+                Duration.between(startTime, endTime) : Duration.ZERO;
     }
 
     public void assign(long id, String userType, long userId) {

@@ -7,15 +7,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 
+//TODO Task 6: Method com.javarush.jira.bugtracking.attachment.FileUtil#upload refactored to use a modern file system approach
 @UtilityClass
 public class FileUtil {
     private static final String ATTACHMENT_PATH = "./attachments/%s/";
@@ -25,15 +21,23 @@ public class FileUtil {
             throw new IllegalRequestDataException("Select a file to upload.");
         }
 
-        File dir = new File(directoryPath);
-        if (dir.exists() || dir.mkdirs()) {
-            File file = new File(directoryPath + fileName);
-            try (OutputStream outStream = new FileOutputStream(file)) {
-                outStream.write(multipartFile.getBytes());
-            } catch (IOException ex) {
-                throw new IllegalRequestDataException("Failed to upload file" + multipartFile.getOriginalFilename());
+        Path directory = Paths.get(directoryPath);
+
+        if (!Files.isDirectory(directory)) {
+            try {
+                Files.createDirectories(directory);
+            } catch (IOException e) {
+                throw new IllegalRequestDataException("Failed to create directory" + multipartFile.getOriginalFilename());
             }
         }
+
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            Path path = Paths.get(directoryPath + fileName);
+            Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new IllegalRequestDataException("Failed to upload file" + multipartFile.getOriginalFilename());
+        }
+
     }
 
     public static Resource download(String fileLink) {
