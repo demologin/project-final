@@ -1,0 +1,42 @@
+#TODO Task 10 - docker compose
+version: '3'
+
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: jira
+      POSTGRES_USER: jira
+      POSTGRES_PASSWORD: JiraRush
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: always
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile-application
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+      - nginx
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/jira
+      DB_NAME: jira
+      DB_USERNAME: jira
+      DB_PASSWORD: JiraRush
+    restart: always
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    ports:
+      - 80:80
+    restart: always
+
+volumes:
+  postgres-data:
