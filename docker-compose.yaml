@@ -1,0 +1,38 @@
+# todo 10 Написать docker-compose файл для запуска контейнера сервера вместе с БД и nginx.
+
+version: "3.9"
+
+services:
+
+  jirarush-nginx:
+    image: nginx
+    container_name: jirarush-nginx
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./resources/static:/opt/jirarush/resources/static:ro
+      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - jirarush-app
+    restart: on-failure
+
+  jirarush-app:
+    container_name: jirarush-app
+    build:
+      context: .
+    expose:
+      - "8080"
+    env_file:
+      - .app-env
+    depends_on:
+      - jirarush-db
+    restart: on-failure
+
+  jirarush-db:
+    image: postgres
+    container_name: jirarush-db
+    env_file:
+      - .db-env
+    restart: on-failure
+    ports:
+      - "5432:5432"

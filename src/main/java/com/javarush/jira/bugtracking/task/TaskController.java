@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import static com.javarush.jira.common.BaseHandler.createdResponse;
 
@@ -45,6 +46,16 @@ public class TaskController {
     public TaskToFull get(@PathVariable long id) {
         log.info("get task by id={}", id);
         return taskService.get(id);
+    }
+
+    //    todo 7 Добавить новый функционал: добавления тегов к задаче
+    // В зависимости от задачи написать вместо void возвращаемый тип...
+    @PostMapping("/tag/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createTaskTag(@PathVariable("id") long taskId, @RequestBody Set<String> tags)
+    {
+        log.info("create task tags for task with id={}", taskId);
+        taskService.createTaskTag(taskId, tags);
     }
 
     @GetMapping("/by-sprint")
