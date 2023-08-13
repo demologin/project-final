@@ -1,0 +1,36 @@
+#TODO task 10 add docker-compose.yaml, run all services in containers
+version: '3.9'
+services:
+
+  app:
+    container_name: "jira-service"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jira-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - nginx
+    environment:
+      - DATASOURCE_URL=jdbc:postgresql://db:5432/jira
+      - DATASOURCE_USERNAME=jira
+      - DATASOURCE_PASSWORD=JiraRush
+    restart: always
+  db:
+    container_name: jira_db
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: jira
+      POSTGRES_PASSWORD: JiraRush
+      POSTGRES_DB: jira
+    ports:
+      - "5432:5432"
+  nginx:
+    image: nginx:latest
+    container_name: nginx_app
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/conf.d/nginx.conf
+    ports:
+      - "80:80"

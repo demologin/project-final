@@ -104,6 +104,14 @@ public class TaskUIController {
         return "redirect:/ui/tasks/" + taskId;
     }
 
+    //TODO task 7 new feature "add tags" using taskId
+    @PostMapping("/{id}/tags")
+    public String addTaskTag(@PathVariable("id") Long taskId, @RequestBody String[] tags) {
+        Set<String> setTags = Set.of(tags);
+        service.addTagsToTask(taskId, setTags);
+        return "redirect:/ui/tasks/" + taskId;
+    }
+
     private void addTaskInfo(Model model, TaskToFull taskTo) {
         List<ActivityTo> comments = getComments(taskTo.getActivityTos());
         taskTo.getActivityTos().removeAll(comments);

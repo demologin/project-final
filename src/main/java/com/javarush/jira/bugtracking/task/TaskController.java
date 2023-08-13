@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import static com.javarush.jira.common.BaseHandler.createdResponse;
 
@@ -39,6 +40,16 @@ public class TaskController {
     private final Handlers.TaskHandler handler;
     private final Handlers.ActivityHandler activityHandler;
     private final UserBelongRepository userBelongRepository;
+
+
+    //TODO task 7 new feature "add tags" using taskId (swagger-ui)
+    @PostMapping("/{id}/tags")
+    public String addTaskTag(@PathVariable("id") Long taskId, @RequestBody String[] tags) {
+        Set<String> setTags = Set.of(tags);
+        taskService.addTagsToTask(taskId, setTags);
+        return "redirect:/ui/tasks/" + taskId;
+    }
+
 
 
     @GetMapping("/{id}")

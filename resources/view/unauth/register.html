@@ -7,10 +7,10 @@
             <div class="col-12 col-md-8 col-xl-5">
                 <div class="card shadow-2-strong" style="border-radius: 1rem;">
                     <div class="card-body p-3 p-md-5 text-center">
-                        <h3 class="mb-3">Registration</h3>
+                        <h3 class="mb-3" th:text="#{registration.header}"></h3>
                         <form action="/ui/register" method="post" th:object="${userTo}">
                             <div class="form-outline mb-4">
-                                <input placeholder="First name" required
+                                <input th:placeholder="#{registration.name.first}" required
                                        th:class="${#fields.hasErrors('firstName')} ? 'form-control is-invalid' : 'form-control'"
                                        th:field="*{firstName}" type="text"/>
                                 <span class="help-block" th:if="${#fields.hasErrors('firstName')}">
@@ -21,7 +21,7 @@
 								</span>
                             </div>
                             <div class="form-outline mb-4">
-                                <input placeholder="Last name" th:class="${#fields.hasErrors('lastName')} ? 'form-control is-invalid' : 'form-control'"
+                                <input th:placeholder="#{registration.name.last}" th:class="${#fields.hasErrors('lastName')} ? 'form-control is-invalid' : 'form-control'"
                                        th:field="*{lastName}"
                                        type="text"/>
                                 <span class="help-block" th:if="${#fields.hasErrors('lastName')}">
@@ -32,7 +32,7 @@
 								</span>
                             </div>
                             <div class="form-outline mb-4">
-                                <input placeholder="E-mail" required
+                                <input th:placeholder="#{registration.email}" required
                                        th:class="${#fields.hasErrors('email')} ? 'form-control is-invalid' : 'form-control'"
                                        th:field="*{email}" type="text"/>
                                 <span class="help-block" th:if="${#fields.hasErrors('email')}">
@@ -43,7 +43,7 @@
 								</span>
                             </div>
                             <div class="form-outline mb-4">
-                                <input placeholder="Password" required
+                                <input th:placeholder="#{registration.password}" required
                                        th:class="${#fields.hasErrors('password')} ? 'form-control is-invalid' : 'form-control'"
                                        th:field="*{password}" type="password"/>
                                 <span class="help-block" th:if="${#fields.hasErrors('password')}">
@@ -55,7 +55,7 @@
                             </div>
                             <div class="row">
                                 <div class="d-grid gap-2">
-                                    <button class="btn btn-success btn-lg" type="submit">Create account</button>
+                                    <button class="btn btn-success btn-lg" type="submit" th:text="#{registration.create.account}">Create account</button>
                                 </div>
                             </div>
                         </form>
@@ -64,26 +64,17 @@
                                 <hr>
                             </div>
                             <div class="col-2">
-                                OR
+                                <p th:text="#{registration.or}"></p>
                             </div>
                             <div class="col-5">
                                 <hr>
                             </div>
                         </div>
-                        <p class="mt-3 mb-4">
-                            Fast registration through social networks
+                        <p class="mt-3 mb-4" th:text="#{registration.register.socials}">
                         </p>
                         <a class="btn btn-secondary btn-lg me-2" href="/oauth2/authorization/google"
                            type="button">
                             <i class="fa-brands fa-google"></i>
-                        </a>
-                        <a class="btn btn-primary btn-lg me-2" href="/oauth2/authorization/vk" style="padding-left: 17px; padding-right: 17px;"
-                           type="button">
-                            <i class="fa-brands fa-vk"></i>
-                        </a>
-                        <a class="btn btn-danger btn-lg me-2" href="/oauth2/authorization/yandex" style="padding-left: 21px; padding-right: 21px;"
-                           type="button">
-                            <i class="fa-brands fa-yandex"></i>
                         </a>
                         <a class="btn btn-dark btn-lg me-2" href="/oauth2/authorization/github" type="button">
                             <i class="fa-brands fa-github"></i>
@@ -92,7 +83,8 @@
                             <i class="fa-brands fa-gitlab"></i>
                         </a>
                         <p class="mt-3 mb-2 mb-md-0" style="font-size:0.8em">
-                            Already have an account? <a href="/view/login">Sign in</a>
+                            <span th:text="#{registration.already_have_account}"></span>
+                            <a href="/view/login" th:text="#{registration.sign_in}"></a>
                         </p>
                     </div>
                 </div>
