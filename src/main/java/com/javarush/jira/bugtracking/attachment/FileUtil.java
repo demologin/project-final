@@ -7,10 +7,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,19 +17,22 @@ import java.nio.file.Paths;
 public class FileUtil {
     private static final String ATTACHMENT_PATH = "./attachments/%s/";
 
+//    TODO - Сделать рефакторинг метода com.javarush.jira.bugtracking.attachment.FileUtil#upload чтоб он использовал современный подход для работы с файловой системмой.
+
     public static void upload(MultipartFile multipartFile, String directoryPath, String fileName) {
         if (multipartFile.isEmpty()) {
             throw new IllegalRequestDataException("Select a file to upload.");
         }
+        try {
+            Path destDir = Paths.get(directoryPath);
 
-        File dir = new File(directoryPath);
-        if (dir.exists() || dir.mkdirs()) {
-            File file = new File(directoryPath + fileName);
-            try (OutputStream outStream = new FileOutputStream(file)) {
-                outStream.write(multipartFile.getBytes());
-            } catch (IOException ex) {
-                throw new IllegalRequestDataException("Failed to upload file" + multipartFile.getOriginalFilename());
-            }
+            Path destFile =  Files.createDirectories(destDir)
+                    .resolve(fileName);
+
+            Files.copy(multipartFile.getInputStream(), destFile);
+
+        } catch (IOException ex) {
+            throw new IllegalRequestDataException("Failed to upload file" + multipartFile.getOriginalFilename());
         }
     }
 
