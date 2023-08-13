@@ -1,0 +1,58 @@
+#TODO task 10 - docker-compose
+
+version: "3.9"
+
+services:
+  db:
+    container_name: jira-postgres-db
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  app:
+    container_name: jira-app
+    image: jira
+    build: .
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILE:-default}
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+      - frontend
+    depends_on:
+      - db
+
+  nginx:
+    container_name: jira-nginx
+    image: nginx:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - nginx_config_jira:/etc/nginx/conf.d
+      - ./config/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./resources:/opt/jirarush/resources:ro
+    networks:
+      - frontend
+    depends_on:
+      - app
+
+networks:
+  backend:
+  frontend:
+
+volumes:
+  nginx_config_jira:
+  postgresql_data:

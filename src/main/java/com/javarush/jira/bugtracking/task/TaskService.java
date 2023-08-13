@@ -19,8 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
@@ -39,6 +41,8 @@ public class TaskService {
     private final SprintRepository sprintRepository;
     private final TaskExtMapper extMapper;
     private final UserBelongRepository userBelongRepository;
+    private final TaskRepository taskRepository;
+    private final ActivityRepository activityRepository;
 
     @Transactional
     public void changeStatus(long taskId, String statusCode) {
@@ -140,4 +144,34 @@ public class TaskService {
             throw new DataConflictException(String.format(assign ? CANNOT_ASSIGN : CANNOT_UN_ASSIGN, userType, task.getStatusCode()));
         }
     }
+
+    // TODO task 7 - add new functionality: adding tags to the task (REST API implementation on the service)
+    @Transactional
+    public void addTagsToTask(Long taskId, String[] tags) {
+        Task existedTask = taskRepository.getExisted(taskId);
+        existedTask.getTags().addAll(List.of(tags));
+        taskRepository.save(existedTask);
+    }
+
+    // TODO task 8 - counting the time how much the task was in work and testing
+    public Duration calculateTimeInProgress(Task task) {
+        Optional<LocalDateTime> startedTime = activityRepository.getStatusChangeTime(task.getId(), "in_progress");
+        Optional<LocalDateTime> reviewTime = activityRepository.getStatusChangeTime(task.getId(), "ready_for_review");
+        if (startedTime.isPresent() && reviewTime.isPresent()) {
+            return Duration.between(startedTime.get(), reviewTime.get());
+        } else {
+            throw new IllegalStateException("Task " + task.getId() + " does not have required status change records.");
+        }
+    }
+    // TODO task 8 - counting the time how much the task was in work and testing
+    public Duration calculateTimeInTesting(Task task) {
+        Optional<LocalDateTime> reviewTime = activityRepository.getStatusChangeTime(task.getId(), "ready_for_review");
+        Optional<LocalDateTime> doneTime = activityRepository.getStatusChangeTime(task.getId(), "done");
+        if (reviewTime.isPresent() && doneTime.isPresent()) {
+            return Duration.between(reviewTime.get(), doneTime.get());
+        } else {
+            throw new IllegalStateException("Task " + task.getId() + " does not have required status change records.");
+        }
+    }
+
 }

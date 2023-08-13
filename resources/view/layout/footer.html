@@ -1,79 +1,79 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<!--TODO task 11 add localization-->
 <div th:fragment="footer">
     <footer class="text-center text-lg-start text-white footer">
         <section>
             <div class="container text-center text-md-start">
                 <div class="row ms-0 ms-md-5">
                     <div class="col-md-4 col-xl-2 mb-4 mt-4">
-                        <h6 class="fw-bold mt-2 mt-md-0 mb-4">
+                        <h6 class="fw-bold mt-2 mt-md-0 mb-4" th:text="#{learn}">
                             LEARN
                         </h6>
                         <p>
-                            <a class="footer-href" href="#">Programming Courses</a>
+                            <a class="footer-href" href="#" th:text="#{programming.courses}">Programming Courses</a>
                         </p>
                         <p>
-                            <a class="footer-href" href="#">Java Course</a>
+                            <a class="footer-href" href="#" th:text="#{java.course}">Java Course</a>
                         </p>
                         <p>
-                            <a class="footer-href" href="#">Help with Tasks</a>
+                            <a class="footer-href" href="#" th:text="#{help.tasks}">Help with Tasks</a>
                         </p>
                         <p>
-                            <a class="footer-href" href="#">Pricing</a>
+                            <a class="footer-href" href="#" th:text="#{pricing}">Pricing</a>
                         </p>
                         <p>
-                            <a class="footer-href" href="#">Game Projects</a>
+                            <a class="footer-href" href="#" th:text="#{game.projects}">Game Projects</a>
                         </p>
                     </div>
                     <div class="col-md-4 col-xl-2 mb-4 mt-0 mt-md-4">
-                        <h6 class="fw-bold mb-4">
+                        <h6 class="fw-bold mb-4" th:text="#{community}">
                             COMMUNITY
                         </h6>
                         <p>
-                            <a class="footer-href" href="#">Users</a>
+                            <a class="footer-href" href="#" th:text="#{users}">Users</a>
                         </p>
                         <p>
-                            <a class="footer-href" href="#">Articles</a>
+                            <a class="footer-href" href="#" th:text="#{articles}">Articles</a>
                         </p>
                         <p>
-                            <a class="footer-href" href="#">Forum</a>
+                            <a class="footer-href" href="#" th:text="#{forum}">Forum</a>
                         </p>
                         <p>
-                            <a class="footer-href" href="#">Chat</a>
+                            <a class="footer-href" href="#" th:text="#{chat}">Chat</a>
                         </p>
                         <p>
-                            <a class="footer-href" href="#">Success Stories</a>
+                            <a class="footer-href" href="#" th:text="#{success.stories}">Success Stories</a>
                         </p>
                     </div>
                     <div class="col-md-4 col-xl-2 mb-4 mt-0 mt-md-4">
-                        <h6 class="fw-bold mb-4">COMPANY</h6>
+                        <h6 class="fw-bold mb-4" th:text="#{company}">COMPANY</h6>
                         <p>
-                            <a class="footer-href" href="#">About us</a>
-                        <p>
-                        <p>
-                            <a class="footer-href" href="#">Contacts</a>
+                            <a class="footer-href" href="#" th:text="#{about.us}">About us</a>
                         <p>
                         <p>
-                            <a class="footer-href" href="#">Reviews</a>
+                            <a class="footer-href" href="#" th:text="#{contacts}">Contacts</a>
                         <p>
                         <p>
-                            <a class="footer-href" href="#">FAQ</a>
+                            <a class="footer-href" href="#" th:text="#{reviews}">Reviews</a>
                         <p>
                         <p>
-                            <a class="footer-href" href="#">Support</a>
+                            <a class="footer-href" href="#" th:text="#{faq}">FAQ</a>
+                        <p>
+                        <p>
+                            <a class="footer-href" href="#" th:text="#{support}">Support</a>
                         <p>
                     </div>
 
                     <div class="col-xl-5 mb-4 mt-0 mt-md-4">
                         <img alt="JavaRush" class="mb-3" src="/static/images/logo/jr.svg">
-                        <p>
+                        <p th:text="#{javarush.desc}">
                             JavaRush is an online course for learning Java programming from scratch.
                             This course is a perfect way to master Java for beginners.
                             It contains 1200+ of tasks with instant verification and an essential scope of Java
                             fundamentals theory.
                         </p>
-                        <h6>FOLLOW US</h6>
+                        <h6 th:text="#{follow.us}">FOLLOW US</h6>
                         <div>
                             <a class="btn btn-sm btn-outline-light me-2" href="#" type="button">
                                 <i class="fab fa-facebook-f pe-1"></i>
@@ -98,9 +98,10 @@
                 </div>
             </div>
         </section>
-        <div class="text-center pb-4">
+        <div class="text-center pb-4" th:text="#{programmers.made}">
             Programmers Are Made, Not Born © 2023 JavaRush
         </div>
     </footer>
 </div>
 </html>
+

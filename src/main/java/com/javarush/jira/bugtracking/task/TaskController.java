@@ -100,6 +100,14 @@ public class TaskController {
         taskService.changeStatus(id, statusCode);
     }
 
+    // TODO task 7 - add new functionality: adding tags to the task (REST API implementation on the service)
+    @PatchMapping("/{id}/add-tags")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addTags(@PathVariable long id, @NotBlank @RequestParam String[] tags) {
+        log.info("change task(id={}), added tags {}", id, tags);
+        taskService.addTagsToTask(id, tags);
+    }
+
     @PatchMapping("/{id}/change-sprint")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void changeTaskSprint(@PathVariable long id, @Nullable @RequestParam Long sprintId) {
