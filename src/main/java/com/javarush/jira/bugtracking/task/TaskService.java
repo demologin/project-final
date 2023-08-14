@@ -14,13 +14,16 @@ import com.javarush.jira.common.error.NotFoundException;
 import com.javarush.jira.common.util.Util;
 import com.javarush.jira.login.AuthUser;
 import com.javarush.jira.ref.RefType;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
@@ -29,6 +32,7 @@ import static com.javarush.jira.ref.ReferenceService.getRefTo;
 
 @Service
 @RequiredArgsConstructor
+@Validated
 public class TaskService {
     static final String CANNOT_ASSIGN = "Cannot assign as %s to task with status=%s";
     static final String CANNOT_UN_ASSIGN = "Cannot unassign as %s from task with status=%s";
@@ -56,6 +60,12 @@ public class TaskService {
         }
     }
 
+    @Transactional
+    public void addTag(long taskId, Set<String> tags) {
+        handler.get(taskId).setTags(tags);
+    }
+
+    // TODO Task 7 - method for add tag in task
     @Transactional
     public void changeSprint(long taskId, Long sprintId) {
         Task task = handler.getRepository().getExisted(taskId);

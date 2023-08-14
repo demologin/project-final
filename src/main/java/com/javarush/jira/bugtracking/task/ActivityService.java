@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.javarush.jira.bugtracking.task.TaskUtil.getLatestValue;
@@ -72,5 +74,37 @@ public class ActivityService {
                 task.setTypeCode(latestType);
             }
         }
+    }
+    // TODO Task 8 - added 2 methods to calculate elapsed time
+    public Duration timeSpentOnTask(Task task) {
+        List<Activity> activities = task.getActivities();
+        for (Activity activity : activities) {
+            LocalDateTime in_progress = null;
+            LocalDateTime ready_for_review = null;
+            assert activity.getStatusCode() != null;
+            switch (activity.getStatusCode()) {
+                case "in_progress" -> in_progress = activity.getUpdated();
+                case "ready_for_review" -> ready_for_review = activity.getUpdated();
+            }
+            assert in_progress != null;
+            return Duration.between(in_progress, ready_for_review);
+        }
+        return Duration.ZERO;
+    }
+
+    public Duration timeSpentOnTest(Task task) {
+        List<Activity> activities = task.getActivities();
+        for (Activity activity : activities) {
+            LocalDateTime ready_for_review = null;
+            LocalDateTime done = null;
+            assert activity.getStatusCode() != null;
+            switch (activity.getStatusCode()) {
+                case "ready_for_review" -> ready_for_review = activity.getUpdated();
+                case "done" -> done = activity.getUpdated();
+            }
+            assert ready_for_review != null;
+            return Duration.between(ready_for_review, done);
+        }
+        return Duration.ZERO;
     }
 }

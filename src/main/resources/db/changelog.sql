@@ -264,6 +264,12 @@ ALTER TABLE TASK
 ALTER TABLE TASK
     DROP COLUMN UPDATED;
 
+
+--changeset ekorin:remove_vk
+
+DELETE FROM REFERENCE WHERE CODE = 'vk';
+DELETE FROM CONTACT WHERE CODE = 'vk';
+
 --changeset ishlyakhtenkov:change_task_status_reference
 
 delete
