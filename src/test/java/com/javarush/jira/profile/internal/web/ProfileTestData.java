@@ -5,14 +5,20 @@ import com.javarush.jira.profile.ContactTo;
 import com.javarush.jira.profile.ProfileTo;
 import com.javarush.jira.profile.internal.model.Contact;
 import com.javarush.jira.profile.internal.model.Profile;
-
 import java.util.Collections;
 import java.util.Set;
 
 public class ProfileTestData {
+
+    public static MatcherFactory.Matcher<ProfileTo> PROFILE_MATCHER_TO =
+            MatcherFactory.usingIgnoringFieldsComparator(ProfileTo.class, "id");
     public static MatcherFactory.Matcher<Profile> PROFILE_MATCHER =
             MatcherFactory.usingIgnoringFieldsComparator(Profile.class, "user");
 
+    public static ProfileTo ADMIN_PROFILE_TO = new ProfileTo(null,
+        Set.of("three_days_before_deadline", "two_days_before_deadline", "one_day_before_deadline"),
+        Set.of(new ContactTo("github", "adminGitHub"),
+            new ContactTo("tg", "adminTg")));
     public static ProfileTo USER_PROFILE_TO = new ProfileTo(null,
             Set.of("assigned", "overdue", "deadline"),
             Set.of(new ContactTo("skype", "userSkype"),
@@ -44,7 +50,6 @@ public class ProfileTestData {
                         new ContactTo("website", "new.com"),
                         new ContactTo("github", "newGitHub"),
                         new ContactTo("tg", "newTg"),
-                        new ContactTo("vk", "newVk"),
                         new ContactTo("linkedin", "newLinkedin")));
     }
 
@@ -57,7 +62,6 @@ public class ProfileTestData {
                 new Contact(id, "website", "new.com"),
                 new Contact(id, "github", "newGitHub"),
                 new Contact(id, "tg", "newTg"),
-                new Contact(id, "vk", "newVk"),
                 new Contact(id, "linkedin", "newLinkedin")));
         return profile;
     }

@@ -1,10 +1,13 @@
 package com.javarush.jira.bugtracking.task;
 
 import com.javarush.jira.bugtracking.Handlers;
+import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import com.javarush.jira.bugtracking.UserBelong;
 import com.javarush.jira.bugtracking.UserBelongRepository;
 import com.javarush.jira.bugtracking.sprint.Sprint;
 import com.javarush.jira.bugtracking.sprint.SprintRepository;
+import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
+import static com.javarush.jira.bugtracking.task.TaskUtil.makeActivity;
 import com.javarush.jira.bugtracking.task.mapper.TaskExtMapper;
 import com.javarush.jira.bugtracking.task.mapper.TaskFullMapper;
 import com.javarush.jira.bugtracking.task.to.TaskToExt;
@@ -14,18 +17,18 @@ import com.javarush.jira.common.error.NotFoundException;
 import com.javarush.jira.common.util.Util;
 import com.javarush.jira.login.AuthUser;
 import com.javarush.jira.ref.RefType;
+import static com.javarush.jira.ref.ReferenceService.getRefTo;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static com.javarush.jira.bugtracking.ObjectType.TASK;
-import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
-import static com.javarush.jira.bugtracking.task.TaskUtil.makeActivity;
-import static com.javarush.jira.ref.ReferenceService.getRefTo;
 
 @Service
 @RequiredArgsConstructor
@@ -139,5 +142,37 @@ public class TaskService {
         if (!userType.equals(possibleUserType)) {
             throw new DataConflictException(String.format(assign ? CANNOT_ASSIGN : CANNOT_UN_ASSIGN, userType, task.getStatusCode()));
         }
+    }
+
+    @Transactional
+    public void addTagsToTask(Long taskId, Set<String> tags) {
+        TaskRepository taskRepository = handler.getRepository();
+        Task task = taskRepository.getExisted(taskId);
+        task.getTags().addAll(tags);
+    }
+
+    public Optional<Duration> getTaskWorkingTime(Long taskId) {
+        return getRawTaskDuration(taskId, "in_progress", "ready_for_review");
+    }
+
+    public Optional<Duration> getTaskTestingTime(Long taskId) {
+        return getRawTaskDuration(taskId, "ready_for_review", "done");
+    }
+
+    private Optional<Duration> getRawTaskDuration(Long taskId, String first, String second) {
+        TaskRepository taskRepository = handler.getRepository();
+        Task task = taskRepository.getExisted(taskId);
+        List<Instant> list = task.getActivities().stream()
+            .filter(a -> Optional.ofNullable(a.getStatusCode()).isPresent())
+            .filter(a -> Optional.ofNullable(a.getUpdated()).isPresent())
+            .filter(a -> a.getStatusCode().equals(first)
+                || a.getStatusCode().equals(second))
+            .limit(2)
+            .map(Activity::getUpdated)
+            .map(a -> a.toInstant(ZoneOffset.UTC))
+            .sorted()
+            .toList();
+        if(list.size() != 2) return Optional.empty();
+        return Optional.of(Duration.between(list.get(0), list.get(1)));
     }
 }
