@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import static com.javarush.jira.common.BaseHandler.createdResponse;
 
@@ -68,6 +69,29 @@ public class TaskController {
         });
         return sortedTasks;
     }
+
+
+    @PutMapping("/{id}/tags")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateTags(@PathVariable long id, @RequestBody Set<String> tags) {
+        log.info("update tags for task {} with {}", id, tags);
+        taskService.updateTags(id, tags);
+    }
+
+    @PatchMapping("/{id}/tags")
+    public void addTags(@PathVariable long id, @RequestBody Set<String> tags) {
+        log.info("add tags for task {} with {}", id, tags);
+        taskService.addTags(id, tags);
+    }
+
+
+    @DeleteMapping("/{id}/tags")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeTags(@PathVariable long id, @RequestBody Set<String> tags) {
+        log.info("remove tags for task {} with {}", id, tags);
+        taskService.removeTags(id, tags);
+    }
+
 
     @GetMapping("/by-project")
     public List<TaskTo> getAllByProject(@RequestParam long projectId) {

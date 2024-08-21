@@ -21,6 +21,7 @@ import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
@@ -39,6 +40,7 @@ public class TaskService {
     private final SprintRepository sprintRepository;
     private final TaskExtMapper extMapper;
     private final UserBelongRepository userBelongRepository;
+    private final TaskRepository taskRepository;
 
     @Transactional
     public void changeStatus(long taskId, String statusCode) {
@@ -55,6 +57,25 @@ public class TaskService {
             }
         }
     }
+
+    public void updateTags(long id, Set<String> tags) {
+        Task task = fullMapper.toEntity(get(id));
+        task.setTags(tags);
+        taskRepository.save(task);
+    }
+
+    public void addTags(long id, Set<String> tags) {
+        Task task = fullMapper.toEntity(get(id));
+        task.getTags().addAll(tags);
+        taskRepository.save(task);
+    }
+
+    public void removeTags(long id, Set<String> tags) {
+        Task task = fullMapper.toEntity(get(id));
+        task.getTags().removeAll(tags);
+        taskRepository.save(task);
+    }
+
 
     @Transactional
     public void changeSprint(long taskId, Long sprintId) {

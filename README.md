@@ -30,5 +30,6 @@
 
 1. Удалить социальные сети: vk, yandex
 2. Testcontainers
-3. 
+3. Cделать рефакторинг метода com.javarush.jira.bugtracking.attachment.FileUtil#upload
+4. Вынести чувствительную информацию в отдельный проперти файл
 ...
