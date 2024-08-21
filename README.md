@@ -27,4 +27,8 @@
 - https://habr.com/ru/articles/259055/
 
 Список выполненных задач:
+
+1. Удалить социальные сети: vk, yandex
+2. Testcontainers
+3. 
 ...
