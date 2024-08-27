@@ -4,8 +4,9 @@ app:
 
 spring:
   datasource:
-    username: ${DATABASE_USERNAME:jira}
-    password: ${DATABASE_PASSWORD:JiraRush}
+    url: ${DEV_DATABASE_URL:jdbc:postgresql://localhost:5432/jira}
+    username: ${DEV_DATABASE_USERNAME:jira}
+    password: ${DEV_DATABASE_PASSWORD:JiraRush}
   security:
     oauth2:
       client:
