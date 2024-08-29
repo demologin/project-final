@@ -1,5 +1,5 @@
 app:
-  host-url: http://localhost
+  host-url: http://localhost:${PROD_HOST_PORT:8080}
 spring:
   datasource:
     url: ${PROD_DATASOURCE_URL}
