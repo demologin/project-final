@@ -56,7 +56,8 @@ spring:
             scope:
               - email
           google:
-            client-id: 329113642700-f8if6pu68j2repq3ef6umd5jgiliup60.apps.googleusercontent.com
+#            client-id: 329113642700-f8if6pu68j2repq3ef6umd5jgiliup60.apps.googleusercontent.com
+
             client-secret: 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
             scope:
               - email
