@@ -1,6 +1,7 @@
 package com.javarush.jira.ref.internal.web;
 
 import com.javarush.jira.AbstractControllerTest;
+import com.javarush.jira.EnableTestContainers;
 import com.javarush.jira.ref.RefTo;
 import com.javarush.jira.ref.RefType;
 import com.javarush.jira.ref.ReferenceService;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
+@EnableTestContainers
 public class ReferenceControllerTest extends AbstractControllerTest {
     private static final String REST_URL = ReferenceController.REST_URL + "/";
 

@@ -1,6 +1,7 @@
 package com.javarush.jira.login.internal.web;
 
 import com.javarush.jira.AbstractControllerTest;
+import com.javarush.jira.EnableTestContainers;
 import com.javarush.jira.login.UserTo;
 import com.javarush.jira.login.internal.verification.ConfirmData;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@EnableTestContainers
 class RegisterControllerTest extends AbstractControllerTest {
 
     @Test
