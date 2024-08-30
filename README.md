@@ -34,3 +34,5 @@
 Переменные окружения тут: resources/properties.env
 - Переделать тесты так, чтоб во время тестов использовались TestContainers
 - Написать тесты для всех публичных методов контроллера ProfileRestController
+- Сделать рефакторинг метода com.javarush.jira.bugtracking.attachment.FileUtil#upload,
+чтобы он использовал современный подход для работы с файловой системой.
