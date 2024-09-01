@@ -21,6 +21,8 @@ import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
@@ -39,6 +41,7 @@ public class TaskService {
     private final SprintRepository sprintRepository;
     private final TaskExtMapper extMapper;
     private final UserBelongRepository userBelongRepository;
+    private final TaskRepository taskRepository;
 
     @Transactional
     public void changeStatus(long taskId, String statusCode) {
@@ -84,6 +87,28 @@ public class TaskService {
             handler.updateFromTo(taskTo, id);
             activityHandler.create(makeActivity(id, taskTo));
         }
+    }
+
+    @Transactional
+    public void addTags(Set<String> tags, long id) {
+        Task task = taskRepository.getExisted(id);
+        task.getTags().addAll(tags);
+        taskRepository.save(task);
+    }
+
+    @Transactional
+    public void replaceTags(Set<String> tags, long id) {
+        Task task = taskRepository.getExisted(id);
+        task.setTags(tags);
+        taskRepository.save(task);
+    }
+
+    @Transactional
+    public void deleteTags(long id) {
+        Optional<Task> optionalTask = taskRepository.findFullById(id);
+        Task task = optionalTask.orElseThrow();
+        task.getTags().clear();
+        taskRepository.save(task);
     }
 
     public TaskToFull get(long id) {
@@ -139,5 +164,10 @@ public class TaskService {
         if (!userType.equals(possibleUserType)) {
             throw new DataConflictException(String.format(assign ? CANNOT_ASSIGN : CANNOT_UN_ASSIGN, userType, task.getStatusCode()));
         }
+    }
+
+    public Set<String> getTags(long id) {
+        Task task = taskRepository.getTaskWithTagsById(id);
+        return task.getTags();
     }
 }
