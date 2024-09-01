@@ -4,10 +4,16 @@
 
 <div th:fragment="header">
     <header class="fixed-top d-none d-md-block header-nav">
+
         <nav class="navbar navbar-expand-lg navbar-dark" id="header">
             <div class="container-fluid">
                 <div class="collapse navbar-collapse mt-2 mb-2 px-5">
+                    <span th:fragment="menu">
+                        <a href=".?lang=en">EN</a>
+                        <a href=".?lang=ru">RU</a>
+                    </span>
                     <ul class="navbar-nav m-auto">
+
                         <form class="d-flex" role="search">
                             <input aria-label="Search" class="form-control" id="header-search" placeholder="Search"
                                    type="search">
