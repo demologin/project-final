@@ -29,18 +29,12 @@ public class FileUtil {
         try {
            dir = Files.createDirectories(Paths.get(directoryPath));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalRequestDataException("Failed to create upload path" + multipartFile.getOriginalFilename());
         }
         if (Files.exists(dir)) {
-            Path file = null;
-            try {
-                file = Files.createFile(Paths.get(directoryPath + fileName));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            try (OutputStream outStream = new FileOutputStream(file.toFile())) {
+            try (OutputStream outStream = Files.newOutputStream(Files.createFile(Paths.get(directoryPath + fileName)))) {
                 outStream.write(multipartFile.getBytes());
-            } catch (IOException ex) {
+            } catch (IOException e) {
                 throw new IllegalRequestDataException("Failed to upload file" + multipartFile.getOriginalFilename());
             }
         }
