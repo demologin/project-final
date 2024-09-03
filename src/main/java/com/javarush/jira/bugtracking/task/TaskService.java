@@ -174,23 +174,22 @@ public class TaskService {
     }
 
     private long calculateTimeBetweenStatuses(List<Activity> activities, String startStatus, String endStatus) {
-        LocalDateTime startTime = null;
-        LocalDateTime endTime = null;
-        for (Activity activity : activities) {
-            if (activity.getStatusCode() == null) {
-                continue;
-            }
-            if (activity.getStatusCode().equals(startStatus) && startTime == null) {
-                startTime = activity.getUpdated();
-            } else if (activity.getStatusCode().equals(endStatus) && endTime == null) {
-                endTime = activity.getUpdated();
-            }
-
-            if (startTime != null && endTime != null) {
-                break;
-            }
-        }
-        return (startTime != null && endTime != null) ? Duration.between(startTime, endTime).toSeconds() : 0;
+        return activities.stream()
+                .filter(activity -> activity.getStatusCode() != null)
+                .filter(activity -> activity.getStatusCode().equals(startStatus) || activity.getStatusCode().equals(endStatus))
+                .takeWhile(activity -> startStatus == null || endStatus == null)
+                .reduce((first, second) -> new Activity() {
+                    {
+                        setUpdated(first.getStatusCode().equals(startStatus) ? first.getUpdated() : second.getUpdated());
+                        setStatusCode(first.getStatusCode().equals(startStatus) ? second.getStatusCode() : first.getStatusCode());
+                    }
+                })
+                .map(activity -> {
+                    LocalDateTime startTime = activity.getStatusCode().equals(startStatus) ? activity.getUpdated() : null;
+                    LocalDateTime endTime = activity.getStatusCode().equals(endStatus) ? activity.getUpdated() : null;
+                    return (startTime != null && endTime != null) ? Duration.between(startTime, endTime).toSeconds() : 0;
+                })
+                .orElse(0L);
     }
 
 }
