@@ -174,22 +174,20 @@ public class TaskService {
     }
 
     private long calculateTimeBetweenStatuses(List<Activity> activities, String startStatus, String endStatus) {
-        LocalDateTime startTime = null;
-        LocalDateTime endTime = null;
-        for (Activity activity : activities) {
-            if (activity.getStatusCode() == null) {
-                continue;
-            }
-            if (activity.getStatusCode().equals(startStatus) && startTime == null) {
-                startTime = activity.getUpdated();
-            } else if (activity.getStatusCode().equals(endStatus) && endTime == null) {
-                endTime = activity.getUpdated();
-            }
+        LocalDateTime startTime = activities.stream()
+                .filter(activity -> activity.getStatusCode() != null)
+                .filter(activity -> startStatus.equals(activity.getStatusCode()))
+                .map(Activity::getUpdated)
+                .findFirst()
+                .orElse(null);
 
-            if (startTime != null && endTime != null) {
-                break;
-            }
-        }
+        LocalDateTime endTime = activities.stream()
+                .filter(activity -> activity.getStatusCode() != null)
+                .filter(activity -> endStatus.equals(activity.getStatusCode()))
+                .map(Activity::getUpdated)
+                .findFirst()
+                .orElse(null);
+
         return (startTime != null && endTime != null) ? Duration.between(startTime, endTime).toSeconds() : 0;
     }
 
