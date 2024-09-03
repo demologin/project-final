@@ -329,8 +329,3 @@ values ('todo', 'ToDo', 3, 'in_progress,canceled|'),
 
 drop index UK_USER_BELONG;
 create unique index UK_USER_BELONG on USER_BELONG (OBJECT_ID, OBJECT_TYPE, USER_ID, USER_TYPE_CODE) where ENDPOINT is null;
-
---changeset alimovapd:add_columns_in_activity
-alter table ACTIVITY ADD IN_PROGRESS timestamp NULL;
-alter table ACTIVITY ADD READY_FOR_REVIEW timestamp NULL;
-alter table ACTIVITY ADD DONE timestamp NULL;

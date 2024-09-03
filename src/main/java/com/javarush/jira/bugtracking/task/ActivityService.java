@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.javarush.jira.bugtracking.task.TaskUtil.getLatestValue;
@@ -18,6 +20,9 @@ public class ActivityService {
     private final TaskRepository taskRepository;
 
     private final Handlers.ActivityHandler handler;
+    private final String START_TASK = "in_progress";
+    private final String START_TEST = "ready_for_review";
+    private final String DONE_TASK = "done";
 
     private static void checkBelong(HasAuthorId activity) {
         if (activity.getAuthorId() != AuthUser.authId()) {
@@ -51,6 +56,32 @@ public class ActivityService {
         checkBelong(activity);
         handler.delete(activity.id());
         updateTaskIfRequired(activity.getTaskId(), activity.getStatusCode(), activity.getTypeCode());
+    }
+
+    @Transactional(readOnly = true)
+    public Duration getTimeWorkTaskById(long id) {
+        Task task = taskRepository.getExisted(id);
+        return getTimeTaskDuration(task, START_TASK, START_TEST);
+    }
+
+    @Transactional(readOnly = true)
+    public Duration getTimeTestTaskById(long id) {
+        Task task = taskRepository.getExisted(id);
+        return getTimeTaskDuration(task, START_TEST, DONE_TASK);
+    }
+
+    private Duration getTimeTaskDuration(Task task, String startStatus, String endStatus) {
+        List<Activity> activityList = handler.getRepository().findByTaskIdOrderByUpdatedAsc(task.id());
+        LocalDateTime startTime = null;
+        for (Activity activity : activityList) {
+            if (startStatus.equals(activity.getStatusCode())) {
+                startTime = activity.getUpdated();
+            }
+            if (endStatus.equals(activity.getStatusCode()) && startTime != null) {
+                return Duration.between(startTime, activity.getUpdated());
+            }
+        }
+        return null;
     }
 
     private void updateTaskIfRequired(long taskId, String activityStatus, String activityType) {
