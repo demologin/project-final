@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -161,4 +162,35 @@ public class TaskService {
             throw new DataConflictException(String.format(assign ? CANNOT_ASSIGN : CANNOT_UN_ASSIGN, userType, task.getStatusCode()));
         }
     }
+
+    public long getTimeInDevelopment(long id) {
+        List<Activity> activities = activityHandler.getRepository().findAllByTaskIdOrderByUpdatedDesc(id);
+        return calculateTimeBetweenStatuses(activities, "in_progress", "ready_for_review");
+    }
+
+    public long getTimeInTesting(long id) {
+        List<Activity> activities = activityHandler.getRepository().findAllByTaskIdOrderByUpdatedDesc(id);
+        return calculateTimeBetweenStatuses(activities, "ready_for_review", "done");
+    }
+
+    private long calculateTimeBetweenStatuses(List<Activity> activities, String startStatus, String endStatus) {
+        LocalDateTime startTime = null;
+        LocalDateTime endTime = null;
+        for (Activity activity : activities) {
+            if (activity.getStatusCode() == null) {
+                continue;
+            }
+            if (activity.getStatusCode().equals(startStatus) && startTime == null) {
+                startTime = activity.getUpdated();
+            } else if (activity.getStatusCode().equals(endStatus) && endTime == null) {
+                endTime = activity.getUpdated();
+            }
+
+            if (startTime != null && endTime != null) {
+                break;
+            }
+        }
+        return (startTime != null && endTime != null) ? Duration.between(startTime, endTime).toSeconds() : 0;
+    }
+
 }

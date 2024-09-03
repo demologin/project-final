@@ -180,4 +180,15 @@ public class TaskController {
             this(taskTo, new LinkedList<>());
         }
     }
+
+
+    @GetMapping("/time/in-progress/{id}")
+    public long getTimeInProgress(@PathVariable long id) {
+        return taskService.getTimeInDevelopment(id);
+    }
+
+    @GetMapping("/time/testing/{id}")
+    public long getTimeInTesting(@PathVariable long id) {
+        return taskService.getTimeInTesting(id);
+    }
 }
