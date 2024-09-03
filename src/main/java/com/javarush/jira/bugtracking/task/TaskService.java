@@ -47,12 +47,25 @@ public class TaskService {
         if (!statusCode.equals(task.getStatusCode())) {
             task.checkAndSetStatusCode(statusCode);
             Activity statusChangedActivity = new Activity(null, taskId, AuthUser.authId());
+            setTrackTime(statusCode, statusChangedActivity);
             statusChangedActivity.setStatusCode(statusCode);
             activityHandler.create(statusChangedActivity);
             String userType = getRefTo(RefType.TASK_STATUS, statusCode).getAux(1);
             if (userType != null) {
                 handler.createUserBelong(taskId, TASK, AuthUser.authId(), userType);
             }
+        }
+    }
+
+    private void setTrackTime(String statusCode, Activity statusChangedActivity) {
+        if (TaskStatusTrack.IN_PROGRESS.getName().equals(statusCode)) {
+            statusChangedActivity.setInProgress(LocalDateTime.now());
+        }
+        if (TaskStatusTrack.READY_FOR_REVIEW.getName().equals(statusCode)) {
+            statusChangedActivity.setReadyForReview(LocalDateTime.now());
+        }
+        if (TaskStatusTrack.DONE.getName().equals(statusCode)) {
+            statusChangedActivity.setDone(LocalDateTime.now());
         }
     }
 
@@ -82,7 +95,9 @@ public class TaskService {
     public void update(TaskToExt taskTo, long id) {
         if (!taskTo.equals(get(taskTo.id()))) {
             handler.updateFromTo(taskTo, id);
-            activityHandler.create(makeActivity(id, taskTo));
+            Activity activity = makeActivity(id, taskTo);
+            setTrackTime(taskTo.getStatusCode(), activity);
+            activityHandler.create(activity);
         }
     }
 
