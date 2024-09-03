@@ -21,6 +21,7 @@ import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
@@ -39,6 +40,7 @@ public class TaskService {
     private final SprintRepository sprintRepository;
     private final TaskExtMapper extMapper;
     private final UserBelongRepository userBelongRepository;
+    private final TaskRepository taskRepository;
 
     @Transactional
     public void changeStatus(long taskId, String statusCode) {
@@ -130,6 +132,27 @@ public class TaskService {
                 .orElseThrow(() -> new NotFoundException(String
                         .format("Not found assignment with userType=%s for task {%d} for user {%d}", userType, id, userId)));
         assignment.setEndpoint(LocalDateTime.now());
+    }
+
+    @Transactional
+    public void addTags(long id, Set<String> tags) {
+        Task task = handler.getRepository().getExisted(id);
+        task.getTags().addAll(tags);
+        taskRepository.save(task);
+    }
+
+    @Transactional
+    public void updateTags(long id, Set<String> tags) {
+        Task task = handler.getRepository().getExisted(id);
+        task.setTags(tags);
+        taskRepository.save(task);
+    }
+
+    @Transactional
+    public void removeTags(long id, Set<String> tags) {
+        Task task = handler.getRepository().getExisted(id);
+        task.getTags().removeAll(tags);
+        taskRepository.save(task);
     }
 
     private void checkAssignmentActionPossible(long id, String userType, boolean assign) {
