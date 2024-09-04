@@ -1,6 +1,6 @@
 #  https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 app:
-  host-url: http://localhost:8080
+  host-url: ${APP_HOST_URL}
   test-mail: jira4jr@gmail.com
   templates-update-cache: 5s
   mail-sending-props:
@@ -31,7 +31,7 @@ spring:
         jdbc.batch_size: 20
         auto_quote_keyword: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/jira
+    url: ${SPRING_DATASOURCE_URL}
 
   liquibase:
     changeLog: "classpath:db/changelog.sql"

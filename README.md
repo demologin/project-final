@@ -27,4 +27,12 @@
 - https://habr.com/ru/articles/259055/
 
 Список выполненных задач:
-...
+1-7, 9,10
+
+Для запуска задач 9, 10 выполнить следующие команды, используя jdk 17
+
+``` 
+mvn clean install -P prod
+docker compose up
+```
+После перейти по адресу http://localhost:8080
