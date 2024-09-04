@@ -1,12 +1,21 @@
 package com.javarush.jira.common.internal.config;
 
+import com.javarush.jira.common.jwt.config.JwtAuthenticationConfigurer;
+import com.javarush.jira.common.jwt.filter.RequestJwtTokensFilter;
+import com.javarush.jira.common.jwt.serializer.AccessTokenJwsStringSerializer;
+import com.javarush.jira.common.jwt.serializer.RefreshTokenJweStringSerializer;
 import com.javarush.jira.login.AuthUser;
 import com.javarush.jira.login.Role;
 import com.javarush.jira.login.internal.UserRepository;
 import com.javarush.jira.login.internal.sociallogin.CustomOAuth2UserService;
 import com.javarush.jira.login.internal.sociallogin.CustomTokenResponseConverter;
+import com.nimbusds.jose.KeyLengthException;
+import com.nimbusds.jose.crypto.DirectEncrypter;
+import com.nimbusds.jose.crypto.MACSigner;
+import com.nimbusds.jose.jwk.OctetSequenceKey;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -24,9 +33,13 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCo
 import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler;
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.ParseException;
 import java.util.Arrays;
+import java.util.Objects;
 
 @Configuration
 @EnableWebSecurity
@@ -55,7 +68,8 @@ public class SecurityConfig {
 
     @Bean
     @Order(1)
-    public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain apiFilterChain(HttpSecurity http, JwtAuthenticationConfigurer jwtAuthenticationConfigurer) throws Exception {
+        http.apply(jwtAuthenticationConfigurer);
         http.securityMatcher("/api/**").authorizeHttpRequests()
                 .requestMatchers("/api/admin/**").hasRole(Role.ADMIN.name())
                 .requestMatchers("/api/mngr/**").hasAnyRole(Role.ADMIN.name(), Role.MANAGER.name())
@@ -63,8 +77,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/**").authenticated()
                 .and().httpBasic()
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER) // support sessions Cookie for UI ajax
-                .and().csrf().disable();
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER); // support sessions Cookie for UI ajax
         return http.build();
     }
 
@@ -111,4 +124,21 @@ public class SecurityConfig {
         accessTokenResponseClient.setRestOperations(restTemplate);
         return accessTokenResponseClient;
     }
+
+    @Bean
+    public SecurityContextRepository securityContextRepository() {
+        return new RequestAttributeSecurityContextRepository();
+    }
+
+    @Bean
+    public JwtAuthenticationConfigurer jwtAuthenticationConfigurer(
+            @Value("${jwt.access-token-key}") String accessTokenKey,
+            @Value("${jwt.refresh-token-key}") String refreshTokenKey
+    ) throws ParseException, KeyLengthException {
+        return JwtAuthenticationConfigurer.builder()
+                .accessTokenStringSerializer(new AccessTokenJwsStringSerializer(new MACSigner(OctetSequenceKey.parse(accessTokenKey))))
+                .refreshTokenStringSerializer(new RefreshTokenJweStringSerializer(new DirectEncrypter(OctetSequenceKey.parse(refreshTokenKey))))
+                .build();
+    }
+
 }

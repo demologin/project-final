@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import lombok.experimental.UtilityClass;
 
 import java.io.IOException;
+import java.io.Writer;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +40,14 @@ public class JsonUtil {
         try {
             return mapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
+            throw new IllegalStateException("Invalid write to JSON:\n'" + obj + "'", e);
+        }
+    }
+
+    public static <T> void writeValue(Writer writer, T obj) {
+        try {
+            mapper.writeValue(writer, obj);
+        } catch (IOException e) {
             throw new IllegalStateException("Invalid write to JSON:\n'" + obj + "'", e);
         }
     }
