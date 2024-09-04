@@ -7,12 +7,14 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 @RequiredArgsConstructor
 @Setter
 @Slf4j
+@Component
 public class RefreshTokenJweStringSerializer implements Serializer<Token, String> {
 
     private final JWEEncrypter jweEncrypter;

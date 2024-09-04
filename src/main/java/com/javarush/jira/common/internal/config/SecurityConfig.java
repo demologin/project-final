@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -33,6 +34,7 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCo
 import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler;
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.client.RestTemplate;
@@ -128,17 +130,6 @@ public class SecurityConfig {
     @Bean
     public SecurityContextRepository securityContextRepository() {
         return new RequestAttributeSecurityContextRepository();
-    }
-
-    @Bean
-    public JwtAuthenticationConfigurer jwtAuthenticationConfigurer(
-            @Value("${jwt.access-token-key}") String accessTokenKey,
-            @Value("${jwt.refresh-token-key}") String refreshTokenKey
-    ) throws ParseException, KeyLengthException {
-        return JwtAuthenticationConfigurer.builder()
-                .accessTokenStringSerializer(new AccessTokenJwsStringSerializer(new MACSigner(OctetSequenceKey.parse(accessTokenKey))))
-                .refreshTokenStringSerializer(new RefreshTokenJweStringSerializer(new DirectEncrypter(OctetSequenceKey.parse(refreshTokenKey))))
-                .build();
     }
 
 }
