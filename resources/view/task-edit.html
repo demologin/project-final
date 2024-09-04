@@ -47,6 +47,17 @@
         <div th:replace="~{::inputField(labelText='Estimate', fieldName='estimate', inputType='number')}"></div>
         <hr>
 
+        <!--Task work range-->
+        <task-work-range th:if="${!task.isNew()}">
+            <div th:replace="~{/task :: task-work-range}"></div>
+        </task-work-range>
+
+        <!--Task test range-->
+        <task-test-range th:if="${!task.isNew()}">
+            <div th:replace="~{/task :: task-test-range}"></div>
+        </task-test-range>
+
+
         <!--Comments-->
         <div class="row d-flex align-items-center mb-2" th:if="${!task.isNew()}">
             <div class="col">

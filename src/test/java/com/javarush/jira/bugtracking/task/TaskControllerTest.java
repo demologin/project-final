@@ -45,6 +45,9 @@ class TaskControllerTest extends AbstractControllerTest {
     private static final String TASK_TAGS_REPLACE = "/replace-tags";
     private static final String TASK_TAGS_DELETE = "/delete-tags";
 
+    private static final String TASK_WORK_RANGE = "/work-range";
+    private static final String TASK_TEST_RANGE = "/test-range";
+
     @Autowired
     private TaskRepository taskRepository;
     @Autowired
@@ -652,5 +655,23 @@ class TaskControllerTest extends AbstractControllerTest {
 
         Task taskAfterUpdate = taskRepository.getTaskWithTagsById(TASK1_ID);
         assertTrue(taskAfterUpdate.getTags().isEmpty());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getTaskWorkRange() throws Exception {
+        perform(MockMvcRequestBuilders.get(TASKS_REST_URL_SLASH + TASK1_ID + TASK_WORK_RANGE)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getTaskTestRange() throws Exception {
+        perform(MockMvcRequestBuilders.get(TASKS_REST_URL_SLASH + TASK1_ID + TASK_TEST_RANGE)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }

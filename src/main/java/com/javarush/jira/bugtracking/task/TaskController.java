@@ -45,6 +45,22 @@ public class TaskController {
         return taskService.get(id);
     }
 
+    @GetMapping("/{id}/work-range")
+    public RangeTo getTaskWorkRange(@PathVariable long id) {
+        log.info("get task with Work Range by id={}", id);
+        TaskToFull taskTo = taskService.get(id);
+        taskService.getTaskWithLastWorkAndTestRange(taskTo);
+        return taskTo.getWorkRange();
+    }
+
+    @GetMapping("/{id}/test-range")
+    public RangeTo getTaskTestRange(@PathVariable long id) {
+        log.info("get task with Test Range by id={}", id);
+        TaskToFull taskTo = taskService.get(id);
+        taskService.getTaskWithLastWorkAndTestRange(taskTo);
+        return taskTo.getTestRange();
+    }
+
     @GetMapping("/by-sprint")
     public List<TaskTo> getAllBySprint(@RequestParam long sprintId) {
         log.info("get all for sprint {}", sprintId);

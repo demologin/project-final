@@ -38,6 +38,7 @@ public class TaskUIController {
     public String get(@PathVariable long id, @RequestParam(required = false) boolean fragment, Model model) {
         log.info("get {}", id);
         TaskToFull taskTo = service.get(id);
+        taskTo = getRangeForWorkOrTest(taskTo);
         addTaskInfo(model, taskTo);
         model.addAttribute("fragment", fragment);
         model.addAttribute("belongs", taskHandler.getAllBelongs(id));
@@ -48,6 +49,7 @@ public class TaskUIController {
     public String showEditForm(@PathVariable long id, Model model) {
         log.info("show edit form for task {}", id);
         TaskToFull taskTo = service.get(id);
+        taskTo = getRangeForWorkOrTest(taskTo);
         addTaskInfo(model, taskTo);
         addRefs(model, taskTo.getStatusCode());
         return "task-edit";
@@ -144,5 +146,9 @@ public class TaskUIController {
         return activityTos.stream()
                 .filter(activity -> activity.getComment() != null)
                 .toList();
+    }
+
+    private TaskToFull getRangeForWorkOrTest(TaskToFull taskTo){
+        return service.getTaskWithLastWorkAndTestRange(taskTo);
     }
 }

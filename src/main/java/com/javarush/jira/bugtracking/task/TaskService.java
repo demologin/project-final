@@ -7,6 +7,7 @@ import com.javarush.jira.bugtracking.sprint.Sprint;
 import com.javarush.jira.bugtracking.sprint.SprintRepository;
 import com.javarush.jira.bugtracking.task.mapper.TaskExtMapper;
 import com.javarush.jira.bugtracking.task.mapper.TaskFullMapper;
+import com.javarush.jira.bugtracking.task.to.RangeTo;
 import com.javarush.jira.bugtracking.task.to.TaskToExt;
 import com.javarush.jira.bugtracking.task.to.TaskToFull;
 import com.javarush.jira.common.error.DataConflictException;
@@ -15,11 +16,15 @@ import com.javarush.jira.common.util.Util;
 import com.javarush.jira.login.AuthUser;
 import com.javarush.jira.ref.RefType;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -28,12 +33,18 @@ import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
 import static com.javarush.jira.bugtracking.task.TaskUtil.makeActivity;
 import static com.javarush.jira.ref.ReferenceService.getRefTo;
+import static java.util.Objects.isNull;
 
 @Service
 @RequiredArgsConstructor
 public class TaskService {
     static final String CANNOT_ASSIGN = "Cannot assign as %s to task with status=%s";
     static final String CANNOT_UN_ASSIGN = "Cannot unassign as %s from task with status=%s";
+
+    public static final String STATUS_CODE_IN_PROGRESS = "in_progress";
+    public static final String STATUS_CODE_READY_FOR_REVIEW = "ready_for_review";
+    public static final String STATUS_CODE_DONE = "done";
+    private static final Logger log = LoggerFactory.getLogger(TaskService.class);
 
     private final Handlers.TaskExtHandler handler;
     private final Handlers.ActivityHandler activityHandler;
@@ -111,6 +122,7 @@ public class TaskService {
         taskRepository.save(task);
     }
 
+
     public TaskToFull get(long id) {
         Task task = Util.checkExist(id, handler.getRepository().findFullById(id));
         TaskToFull taskToFull = fullMapper.toTo(task);
@@ -169,5 +181,49 @@ public class TaskService {
     public Set<String> getTags(long id) {
         Task task = taskRepository.getTaskWithTagsById(id);
         return task.getTags();
+    }
+    @Transactional
+    public TaskToFull getTaskWithLastWorkAndTestRange(TaskToFull taskTo) {
+        getTaskWithLastRange(taskTo, STATUS_CODE_IN_PROGRESS, STATUS_CODE_READY_FOR_REVIEW);
+        getTaskWithLastRange(taskTo, STATUS_CODE_READY_FOR_REVIEW, STATUS_CODE_DONE);
+        return taskTo;
+    }
+
+    private void getTaskWithLastRange(TaskToFull taskTo, String statusCodeStartRange, String statusCodeEndRange) {
+        ActivityRepository activityRepository = activityHandler.getRepository();
+        Optional<Activity> optionalStartRangePoint =
+                activityRepository.findAllByTaskIdAndStatusCodeOrderByUpdatedDesc(
+                        taskTo.getId(), statusCodeStartRange).findFirst();
+        Optional<Activity> optionalEndRangePoint =
+                activityRepository.findAllByTaskIdAndStatusCodeOrderByUpdatedDesc(
+                        taskTo.getId(), statusCodeEndRange).findFirst();
+
+        if (optionalStartRangePoint.isEmpty() || optionalEndRangePoint.isEmpty()) {
+            return;
+        }
+
+        LocalDateTime startRangePoint = optionalStartRangePoint.get().getUpdated();
+        LocalDateTime endRangePoint = optionalEndRangePoint.get().getUpdated();
+
+        if (isNull(startRangePoint) || isNull(endRangePoint)) {
+            return;
+        }
+
+        if (endRangePoint.isBefore(startRangePoint)) {
+            return;
+        }
+
+        Period taskWorkDate = Period.between(startRangePoint.toLocalDate(), endRangePoint.toLocalDate());
+        Duration taskWorkTime = Duration.between(startRangePoint.toLocalTime(), endRangePoint.toLocalTime());
+
+        RangeTo taskWorkRange = new RangeTo(taskWorkDate, taskWorkTime);
+        if(statusCodeStartRange.equals(STATUS_CODE_IN_PROGRESS) && statusCodeEndRange.equals(STATUS_CODE_READY_FOR_REVIEW)){
+            taskTo.setWorkRange(taskWorkRange);
+        } else if(statusCodeStartRange.equals(STATUS_CODE_READY_FOR_REVIEW) && statusCodeEndRange.equals(STATUS_CODE_DONE)){
+            taskTo.setTestRange(taskWorkRange);
+        } else {
+            log.error("Illegal statusCode arguments: {}, {}", statusCodeStartRange, statusCodeEndRange);
+            throw new IllegalArgumentException("Illegal statusCode arguments: %s, %s".formatted(statusCodeStartRange, statusCodeEndRange));
+        }
     }
 }
