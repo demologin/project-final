@@ -323,5 +323,8 @@ values (6, 1, '2023-05-15 09:05:10', null, 'Data', null, 3, 'epic', 'in_progress
        (6, 1, '2023-05-15 14:05:10', null, 'Data', null, 4, null, null, null), ---task 118----
        (11, 118, '2023-05-16 10:05:10', null, 'UI tab of tasks', null, 4, 'task', 'in_progress', 'normal'),
        (5, 118, '2023-05-16 11:10:10', null, 'UI tab of tasks', null, null, null, null, 'high'),
-       (11, 118, '2023-05-16 12:30:10', null, 'UI tab of tasks', null, 2, null, null, null);
+       (11, 118, '2023-05-16 12:30:10', null, 'UI tab of tasks', null, 2, null, null, null),
+       (5, 2, '2024-05-15 12:25:10', null, 'Time task', null, null, null, 'in_progress', 'normal'),
+       (5, 2, '2024-05-17 09:25:10', null, 'Time task', null, null, null, 'ready_for_review', 'normal'),
+       (5, 2, '2024-05-23 19:47:07', null, 'Time task', null, null, null, 'done', 'normal');
 
