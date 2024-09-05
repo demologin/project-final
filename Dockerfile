@@ -1,14 +1,5 @@
-#FROM maven:3.8.5-openjdk-17
-#ARG JAR_FILE=target/*.jar
-#WORKDIR /opt/app
-#COPY resources /resources
-#COPY ${JAR_FILE} app.jar
-#ENTRYPOINT ["java","-jar","app.jar"]
-FROM maven:3.8.5-openjdk-17 AS build
-COPY src /app/src
-COPY pom.xml /app
+FROM openjdk:17.0.2-jdk-slim-buster
+ARG JAR_FILE=target/*.jar
 COPY resources /resources
-RUN mvn -f /app/pom.xml clean package -Pprod
-RUN rm -rf /app/src
-EXPOSE 8080
-ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar","/app/target/jira-1.0.jar"]
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java", "-jar","app.jar"]
