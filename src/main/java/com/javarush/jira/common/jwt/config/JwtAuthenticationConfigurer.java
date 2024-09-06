@@ -1,11 +1,7 @@
 package com.javarush.jira.common.jwt.config;
 
 import com.javarush.jira.common.jwt.converter.JwtAuthenticationConverter;
-import com.javarush.jira.common.jwt.deserializer.AccessTokenJwsStringDeserializer;
-import com.javarush.jira.common.jwt.deserializer.RefreshTokenJweStringDeserializer;
 import com.javarush.jira.common.jwt.filter.RequestJwtTokensFilter;
-import com.javarush.jira.common.jwt.serializer.AccessTokenJwsStringSerializer;
-import com.javarush.jira.common.jwt.serializer.RefreshTokenJweStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Setter;
@@ -25,11 +21,6 @@ import org.springframework.stereotype.Component;
 @Builder
 @Component
 public class JwtAuthenticationConfigurer extends AbstractHttpConfigurer<JwtAuthenticationConfigurer, HttpSecurity> {
-    private AccessTokenJwsStringSerializer accessTokenStringSerializer;
-    private RefreshTokenJweStringSerializer refreshTokenStringSerializer;
-
-    private AccessTokenJwsStringDeserializer accessTokenStringDeserializer;
-    private RefreshTokenJweStringDeserializer refreshTokenStringDeserializer;
 
     private RequestJwtTokensFilter filter;
     private JwtAuthenticationConverter converter;

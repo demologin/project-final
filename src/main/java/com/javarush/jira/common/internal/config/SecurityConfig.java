@@ -1,7 +1,6 @@
 package com.javarush.jira.common.internal.config;
 
 import com.javarush.jira.common.jwt.config.JwtAuthenticationConfigurer;
-import com.javarush.jira.common.jwt.service.TokenAuthenticationUserDetailsService;
 import com.javarush.jira.login.AuthUser;
 import com.javarush.jira.login.Role;
 import com.javarush.jira.login.internal.UserRepository;
@@ -42,7 +41,6 @@ public class SecurityConfig {
 
     private final UserRepository userRepository;
     private final CustomOAuth2UserService customOAuth2UserService;
-    private final TokenAuthenticationUserDetailsService detailsService;
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
     @Bean
