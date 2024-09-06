@@ -8,7 +8,10 @@ import com.javarush.jira.login.UserTo;
 
 public class UserTestData {
     public static final MatcherFactory.Matcher<User> USER_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(
-            User.class, "startpoint", "endpoint", "password");
+            User.class,
+            "startpoint",
+            "endpoint",
+            "password");
 
     public static final MatcherFactory.Matcher<UserTo> TO_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(UserTo.class);
 
@@ -22,24 +25,66 @@ public class UserTestData {
     public static final String GUEST_MAIL = "guest@gmail.com";
     public static final String MANAGER_MAIL = "manager@gmail.com";
 
-    public static final User user = new User(USER_ID, USER_MAIL, "password", "userFirstName", "userLastName",
-            "userDisplayName", Role.DEV);
-    public static final User admin = new User(ADMIN_ID, ADMIN_MAIL, "admin", "adminFirstName", "adminLastName",
-            "adminDisplayName", Role.ADMIN, Role.DEV);
-    public static final User guest = new User(GUEST_ID, GUEST_MAIL, "guest", "guestFirstName", "guestLastName",
+    public static final User user = new User(
+            USER_ID,
+            USER_MAIL,
+            "password",
+            "userFirstName",
+            "userLastName",
+            "userDisplayName",
+            Role.DEV);
+
+    public static final User admin = new User(
+            ADMIN_ID,
+            ADMIN_MAIL,
+            "admin",
+            "adminFirstName",
+            "adminLastName",
+            "adminDisplayName",
+            Role.ADMIN,
+            Role.DEV);
+
+    public static final User guest = new User(
+            GUEST_ID,
+            GUEST_MAIL,
+            "guest",
+            "guestFirstName",
+            "guestLastName",
             "guestDisplayName");
-    public static final User manager = new User(MANAGER_ID, MANAGER_MAIL, "manager", "managerFirstName", "managerLastName", "managerDisplayName", Role.MANAGER);
+
+    public static final User manager = new User(
+            MANAGER_ID,
+            MANAGER_MAIL,
+            "manager",
+            "managerFirstName",
+            "managerLastName",
+            "managerDisplayName",
+            Role.MANAGER);
 
     public static User getNew() {
-        return new User(null, "new@gmail.com", "newPassword", "newFirstName", "newLastName", "newDisplayName", Role.DEV);
+        return new User(
+                null,
+                "new@gmail.com",
+                "newPassword",
+                "newFirstName",
+                "newLastName",
+                "newDisplayName",
+                Role.DEV);
     }
 
     public static User getUpdated() {
-        return new User(USER_ID, USER_MAIL, "updatedPassword", "updatedFirstName", "updatedLastName",
-                "updatedDisplayName", Role.DEV, Role.ADMIN);
+        return new User(
+                USER_ID,
+                USER_MAIL,
+                "updatedPassword",
+                "updatedFirstName",
+                "updatedLastName",
+                "updatedDisplayName",
+                Role.DEV,
+                Role.ADMIN);
     }
 
-    public static <T> String jsonWithPassword(T user, String passw) {
-        return JsonUtil.writeAdditionProps(user, "password", passw);
+    public static <T> String jsonWithPassword(T user, String password) {
+        return JsonUtil.writeAdditionProps(user, "password", password);
     }
 }

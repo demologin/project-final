@@ -27,8 +27,10 @@ spring:
         jdbc.batch_size: 20
   datasource:
     url: jdbc:postgresql://localhost:5432/jira
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
+#    username: ${DATABASE_USERNAME:jira}
+    username: jira
+#    password: ${DATABASE_PASSWORD:JiraRush}
+    password: JiraRush
 
   liquibase:
     changeLog: "classpath:db/changelog.sql"
@@ -51,8 +53,10 @@ spring:
       client:
         registration:
           github:
-            client-id: ${GITHUB_CLIENT_ID}
-            client-secret: ${GITHUB_CLIENT_SECRET}
+#            client-id: ${GITHUB_CLIENT_ID}
+            client-id: 3d0d8738e65881fff266
+#            client-secret: ${GITHUB_CLIENT_SECRET}
+            client-secret: 0f97031ce6178b7dfb67a6af587f37e222a16120
             scope:
               - email
           google:
@@ -111,8 +115,8 @@ spring:
             enable: true
           auth: true
     host: smtp.gmail.com
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
+    username: ${MAIL_USERNAME:jira4jr@gmail.com}
+    password: ${MAIL_PASSWORD:zdfzsrqvgimldzyj}
     port: 587
   thymeleaf.check-template-location: false
 
