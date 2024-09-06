@@ -328,8 +328,8 @@ values (6, 1, '2023-05-15 09:05:10', null, 'Data', null, 3, 'epic', 'in_progress
 insert into ACTIVITY (AUTHOR_ID, TASK_ID, UPDATED, STATUS_CODE )
 values (2, 73, '2024-09-04 18:59:43.018480', 'in_progress'),
        (2, 73, '2024-09-04 20:22:10.680585', 'ready_for_review'),
-       (2, 73, '2024-09-05 15:22:10.680585', 'done')
+       (2, 73, '2024-09-05 15:22:10.680585', 'done');
 
 update TASK
 set status_code = 'done'
-where id = 73
+where id = 73;
