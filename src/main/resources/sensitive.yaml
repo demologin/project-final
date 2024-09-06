@@ -2,6 +2,9 @@ app:
   test-mail: ${APP_TEST_MAIL:jira4jr@gmail.com}
 
 
+jwt:
+  access-token-key: '{"kty": "oct","k":"hi7S5RX5ZRZooHAORKGctZ-KtR9FoESgCnH-3BNg5XI"}'
+  refresh-token-key: '{"kty": "oct", "k": "956PBFst1FguLr5irJD-aQ"}'
 spring:
   datasource:
     url: ${DEV_DATABASE_URL:jdbc:postgresql://localhost:5432/jira}
