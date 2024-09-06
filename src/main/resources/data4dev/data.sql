@@ -324,3 +324,12 @@ values (6, 1, '2023-05-15 09:05:10', null, 'Data', null, 3, 'epic', 'in_progress
        (5, 118, '2023-05-16 11:10:10', null, 'UI tab of tasks', null, null, null, null, 'high'),
        (11, 118, '2023-05-16 12:30:10', null, 'UI tab of tasks', null, 2, null, null, null);
 
+---task 8----
+insert into ACTIVITY (AUTHOR_ID, TASK_ID, UPDATED, STATUS_CODE )
+values (2, 73, '2024-09-04 18:59:43.018480', 'in_progress'),
+       (2, 73, '2024-09-04 20:22:10.680585', 'ready_for_review'),
+       (2, 73, '2024-09-05 15:22:10.680585', 'done')
+
+update TASK
+set status_code = 'done'
+where id = 73

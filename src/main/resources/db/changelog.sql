@@ -328,12 +328,3 @@ values ('todo', 'ToDo', 3, 'in_progress,canceled|'),
 
 drop index UK_USER_BELONG;
 create unique index UK_USER_BELONG on USER_BELONG (OBJECT_ID, OBJECT_TYPE, USER_ID, USER_TYPE_CODE) where ENDPOINT is null;
-
---changeset khasanov:insert_values_into_ACTIVITY
-
-insert into ACTIVITY (AUTHOR_ID, TASK_ID, UPDATED, STATUS_CODE )
-values (2, 73, '2024-09-04 18:59:43.018480', 'in_progress'),
-       (2, 73, '2024-09-04 20:22:10.680585', 'ready_for_review'),
-       (2, 73, '2024-09-05 15:22:10.680585', 'done')
-
-
