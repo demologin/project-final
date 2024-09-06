@@ -1,27 +1,19 @@
 package com.javarush.jira.common.internal.config;
 
 import com.javarush.jira.common.jwt.config.JwtAuthenticationConfigurer;
-import com.javarush.jira.common.jwt.filter.RequestJwtTokensFilter;
-import com.javarush.jira.common.jwt.serializer.AccessTokenJwsStringSerializer;
-import com.javarush.jira.common.jwt.serializer.RefreshTokenJweStringSerializer;
+import com.javarush.jira.common.jwt.service.TokenAuthenticationUserDetailsService;
 import com.javarush.jira.login.AuthUser;
 import com.javarush.jira.login.Role;
 import com.javarush.jira.login.internal.UserRepository;
 import com.javarush.jira.login.internal.sociallogin.CustomOAuth2UserService;
 import com.javarush.jira.login.internal.sociallogin.CustomTokenResponseConverter;
-import com.nimbusds.jose.KeyLengthException;
-import com.nimbusds.jose.crypto.DirectEncrypter;
-import com.nimbusds.jose.crypto.MACSigner;
-import com.nimbusds.jose.jwk.OctetSequenceKey;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.FormHttpMessageConverter;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -34,14 +26,11 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCo
 import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler;
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.client.RestTemplate;
 
-import java.text.ParseException;
 import java.util.Arrays;
-import java.util.Objects;
 
 @Configuration
 @EnableWebSecurity
@@ -53,6 +42,7 @@ public class SecurityConfig {
 
     private final UserRepository userRepository;
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final TokenAuthenticationUserDetailsService detailsService;
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
     @Bean
