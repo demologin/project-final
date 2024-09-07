@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html th:lang="${#locale}" xmlns:th="http://www.thymeleaf.org">
 <!--/*@thymesVar id="sprint" type="com.javarush.jira.bugtracking.sprint.to.SprintToFull"*/-->
 <!--/*@thymesVar id="statuses" type="java.util.Map<String, com.javarush.jira.ref.RefTo>"*/-->
 
@@ -8,7 +8,7 @@
     <appEdit>
         <input hidden id="projectId" th:field="*{projectId}">
         <div class="form-group">
-            <label class="col-form-label" for="statusCode">Status</label>
+            <label th:text="#{sprint.title.status}" class="col-form-label" for="statusCode">Status</label>
             <select class="form-select w-25" id="statusCode" th:field="*{statusCode}">
                 <option th:each="status : ${statuses}"
                         th:selected="${!sprint.isNew() && sprint.statusCode.equals(status.key)}"
