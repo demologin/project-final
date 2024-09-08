@@ -39,6 +39,9 @@ public class TaskService {
     private final SprintRepository sprintRepository;
     private final TaskExtMapper extMapper;
     private final UserBelongRepository userBelongRepository;
+    private final String READY_FOR_REVIEW = "ready_for_review";
+    private final String IN_PROGRESS = "in_progress";
+    private final String DONE = "done";
 
     @Transactional
     public void changeStatus(long taskId, String statusCode) {
@@ -74,6 +77,11 @@ public class TaskService {
     @Transactional
     public Task create(TaskToExt taskTo) {
         Task created = handler.createWithBelong(taskTo, TASK, "task_author");
+
+        Activity createdActivity = makeActivity(created.id(), taskTo);
+        if (taskTo.getStatusCode().equals(IN_PROGRESS)) {
+            createdActivity.setIn_progress(LocalDateTime.now());
+        }
         activityHandler.create(makeActivity(created.id(), taskTo));
         return created;
     }
@@ -82,10 +90,38 @@ public class TaskService {
     public void update(TaskToExt taskTo, long id) {
         if (!taskTo.equals(get(taskTo.id()))) {
             handler.updateFromTo(taskTo, id);
-            activityHandler.create(makeActivity(id, taskTo));
+
+            Activity updatedActivity = makeActivity(id, taskTo);
+            if (taskTo.getStatusCode().equals(IN_PROGRESS)) {
+                updatedActivity.setIn_progress(getStatusInitialDate(id, taskTo.getStatusCode()));
+            }
+            if (taskTo.getStatusCode().equals(READY_FOR_REVIEW)) {
+                updatedActivity.setIn_progress(getStatusInitialDate(id,IN_PROGRESS));
+                updatedActivity.setReady_for_review(getStatusInitialDate(id, taskTo.getStatusCode()));
+            }
+            if (taskTo.getStatusCode().equals(DONE)) {
+                updatedActivity.setIn_progress(getStatusInitialDate(id,IN_PROGRESS));
+                updatedActivity.setIn_progress(getStatusInitialDate(id,READY_FOR_REVIEW));
+                updatedActivity.setReady_for_review(getStatusInitialDate(id, taskTo.getStatusCode()));
+            }
+
+            activityHandler.create(updatedActivity);
         }
     }
-
+    private LocalDateTime getStatusInitialDate(long id, String statusCode) {
+        LocalDateTime lastStatusDate = null;
+        List<Activity> activities = activityHandler.getRepository().findAllByTaskIdOrderAndStatus(id, statusCode);
+        if (!activities.isEmpty() && activities.get(0).getIn_progress() != null && statusCode.equals(IN_PROGRESS)){
+            lastStatusDate = activities.get(0).getIn_progress();
+        }
+        if (!activities.isEmpty() && activities.get(0).getReady_for_review() != null && statusCode.equals(READY_FOR_REVIEW)){
+            lastStatusDate = activities.get(0).getReady_for_review();
+        }
+        if (lastStatusDate == null) {
+            lastStatusDate = LocalDateTime.now();
+        }
+        return lastStatusDate;
+    }
     public TaskToFull get(long id) {
         Task task = Util.checkExist(id, handler.getRepository().findFullById(id));
         TaskToFull taskToFull = fullMapper.toTo(task);

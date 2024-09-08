@@ -8,6 +8,7 @@ import com.javarush.jira.bugtracking.task.to.TaskTo;
 import com.javarush.jira.bugtracking.task.to.TaskToExt;
 import com.javarush.jira.bugtracking.task.to.TaskToFull;
 import com.javarush.jira.bugtracking.tree.ITreeNode;
+import com.javarush.jira.common.util.DurationType;
 import com.javarush.jira.common.util.Util;
 import com.javarush.jira.login.AuthUser;
 import jakarta.annotation.Nullable;
@@ -20,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -132,6 +134,13 @@ public class TaskController {
         log.info("get comments for task with id={}", id);
         return activityHandler.getMapper().toToList(activityHandler.getRepository().findAllComments(id));
     }
+
+    @GetMapping("/duration/{id}&{type}")
+    public long getDuration(@PathVariable long id, @PathVariable String type) {
+        log.info("get duration for task with id={}", id);
+        return activityService.getDuration(id, DurationType.valueOf(type.toUpperCase())).toMinutes();
+    }
+
 
     @PostMapping(value = "/activities", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)

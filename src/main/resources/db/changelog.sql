@@ -328,3 +328,13 @@ values ('todo', 'ToDo', 3, 'in_progress,canceled|'),
 
 drop index UK_USER_BELONG;
 create unique index UK_USER_BELONG on USER_BELONG (OBJECT_ID, OBJECT_TYPE, USER_ID, USER_TYPE_CODE) where ENDPOINT is null;
+
+
+--changeset alpeyev:add_column_to_activity
+
+alter table ACTIVITY
+    add column IN_PROGRESS timestamp;
+alter table ACTIVITY
+    add column READY_FOR_REVIEW timestamp;
+alter table ACTIVITY
+    add column DONE timestamp;
