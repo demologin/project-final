@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.bugtracking.task.TaskController.REST_URL;
@@ -38,6 +39,14 @@ class TaskControllerTest extends AbstractControllerTest {
     private static final String STATUS_CODE = "statusCode";
     private static final String USER_TYPE = "userType";
     private static final String ENABLED = "enabled";
+
+    private static final String TASK_TAGS_GET = "/tags";
+    private static final String TASK_TAGS_ADD = "/add-tags";
+    private static final String TASK_TAGS_REPLACE = "/replace-tags";
+    private static final String TASK_TAGS_DELETE = "/delete-tags";
+
+    private static final String TASK_WORK_RANGE = "/work-range";
+    private static final String TASK_TEST_RANGE = "/test-range";
 
     @Autowired
     private TaskRepository taskRepository;
@@ -589,5 +598,80 @@ class TaskControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.detail", is(String
                         .format("Not found assignment with userType=%s for task {%d} for user {%d}", TASK_DEVELOPER, TASK1_ID, ADMIN_ID))));
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getTagsFromTask() throws Exception {
+        perform(MockMvcRequestBuilders.get(TASKS_REST_URL_SLASH + TASK1_ID + TASK_TAGS_GET))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+
+        Task task = taskRepository.getTaskWithTagsById(TASK1_ID);
+        assertEquals(tags_data, task.getTags());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    @Transactional
+    void addTagsFromTask() throws Exception {
+
+        perform(MockMvcRequestBuilders.put(TASKS_REST_URL_SLASH + TASK1_ID + TASK_TAGS_ADD)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(writeValue(tags_data_for_update)))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+
+        Task taskAfterUpdate = taskRepository.getTaskWithTagsById(TASK1_ID);
+        assertEquals(tags_data_updated, taskAfterUpdate.getTags());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    @Transactional
+    void replaceTagsFromTask() throws Exception {
+
+        perform(MockMvcRequestBuilders.post(TASKS_REST_URL_SLASH + TASK1_ID + TASK_TAGS_REPLACE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(writeValue(tags_data_replaced)))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        Task taskAfterUpdate = taskRepository.getTaskWithTagsById(TASK1_ID);
+        assertEquals(tags_data_replaced, taskAfterUpdate.getTags());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    @Transactional
+    void deleteTagsFromTask() throws Exception {
+        Task taskBeforeUpdate = taskRepository.getTaskWithTagsById(TASK1_ID);
+        assertFalse(taskBeforeUpdate.getTags().isEmpty());
+
+        perform(MockMvcRequestBuilders.delete(TASKS_REST_URL_SLASH + TASK1_ID + TASK_TAGS_DELETE))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+
+        Task taskAfterUpdate = taskRepository.getTaskWithTagsById(TASK1_ID);
+        assertTrue(taskAfterUpdate.getTags().isEmpty());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getTaskWorkRange() throws Exception {
+        perform(MockMvcRequestBuilders.get(TASKS_REST_URL_SLASH + TASK1_ID + TASK_WORK_RANGE)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getTaskTestRange() throws Exception {
+        perform(MockMvcRequestBuilders.get(TASKS_REST_URL_SLASH + TASK1_ID + TASK_TEST_RANGE)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }

@@ -3,10 +3,7 @@ package com.javarush.jira.bugtracking.task;
 import com.javarush.jira.bugtracking.Handlers;
 import com.javarush.jira.bugtracking.UserBelong;
 import com.javarush.jira.bugtracking.UserBelongRepository;
-import com.javarush.jira.bugtracking.task.to.ActivityTo;
-import com.javarush.jira.bugtracking.task.to.TaskTo;
-import com.javarush.jira.bugtracking.task.to.TaskToExt;
-import com.javarush.jira.bugtracking.task.to.TaskToFull;
+import com.javarush.jira.bugtracking.task.to.*;
 import com.javarush.jira.bugtracking.tree.ITreeNode;
 import com.javarush.jira.common.util.Util;
 import com.javarush.jira.login.AuthUser;
@@ -23,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import static com.javarush.jira.common.BaseHandler.createdResponse;
 
@@ -45,6 +43,22 @@ public class TaskController {
     public TaskToFull get(@PathVariable long id) {
         log.info("get task by id={}", id);
         return taskService.get(id);
+    }
+
+    @GetMapping("/{id}/work-range")
+    public RangeTo getTaskWorkRange(@PathVariable long id) {
+        log.info("get task with Work Range by id={}", id);
+        TaskToFull taskTo = taskService.get(id);
+        taskService.getTaskWithLastWorkAndTestRange(taskTo);
+        return taskTo.getWorkRange();
+    }
+
+    @GetMapping("/{id}/test-range")
+    public RangeTo getTaskTestRange(@PathVariable long id) {
+        log.info("get task with Test Range by id={}", id);
+        TaskToFull taskTo = taskService.get(id);
+        taskService.getTaskWithLastWorkAndTestRange(taskTo);
+        return taskTo.getTestRange();
     }
 
     @GetMapping("/by-sprint")
@@ -156,4 +170,29 @@ public class TaskController {
             this(taskTo, new LinkedList<>());
         }
     }
+
+    @GetMapping("/{id}/tags")
+    public Set<String> getTags(@PathVariable long id) {
+        return taskService.getTags(id);
+    }
+
+    @PutMapping(value = "/{id}/add-tags")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addTags(@RequestBody @NotBlank Set<String> tags, @PathVariable long id){
+        taskService.addTags(tags, id);
+    }
+
+    @PostMapping(value = "/{id}/replace-tags")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void replaceTags(@RequestBody @NotBlank Set<String> tags, @PathVariable long id){
+        taskService.replaceTags(tags, id);
+    }
+
+    @DeleteMapping(value = "/{id}/delete-tags")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTags(@PathVariable long id){
+        taskService.deleteTags(id);
+    }
+
+
 }

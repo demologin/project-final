@@ -9,6 +9,7 @@ import com.javarush.jira.bugtracking.task.to.TaskToFull;
 import com.javarush.jira.common.to.CodeTo;
 
 import java.util.List;
+import java.util.Set;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.login.internal.web.UserTestData.ADMIN_ID;
@@ -59,9 +60,15 @@ public class TaskTestData {
     public static final UserBelong userTask2Assignment1 = new UserBelong(2L, TASK, USER_ID, "task_developer");
     public static final UserBelong userTask2Assignment2 = new UserBelong(2L, TASK, USER_ID, "task_tester");
 
+    public static final Set<String> tags_data = Set.of("tag1", "tag2");
+    public static final Set<String> tags_data_for_update = Set.of("tag3", "tag4");
+    public static final Set<String> tags_data_updated = Set.of("tag1", "tag2", "tag3", "tag4");
+    public static final Set<String> tags_data_replaced = Set.of("tag5", "tag6");
+
     static {
         taskToFull1.setActivityTos(activityTosForTask1);
         taskToFull2.setActivityTos(activityTosForTask2);
+        taskToFull1.setTags(tags_data);
     }
 
     public static TaskToExt getNewTaskTo() {

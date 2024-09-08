@@ -5,11 +5,13 @@ import com.javarush.jira.common.util.validation.Code;
 import com.javarush.jira.common.util.validation.Description;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -28,8 +30,10 @@ public class TaskToExt extends TaskTo {
     @Positive
     Integer estimate;
 
+    Set<@Size(min = 2, max = 32) String> tags = Set.of();
+
     public TaskToExt(Long id, String code, String title, String description, String typeCode, String statusCode, String priorityCode,
-                     LocalDateTime updated, Integer estimate, Long parentId, long projectId, Long sprintId) {
+                     @Nullable LocalDateTime updated, @Nullable Integer estimate, Long parentId, long projectId, Long sprintId) {
         super(id, code, title, typeCode, statusCode, parentId, projectId, sprintId);
         this.description = description;
         this.priorityCode = priorityCode;
