@@ -175,4 +175,16 @@ public class TaskController {
         log.info("deleted tags from task {}: {}", id, tags);
         taskService.deleteTags(id, tags);
     }
+
+    @GetMapping("/{id}/devTime")
+    public void getDevelopmentTime(@PathVariable long id) {
+        log.info("get dev time for task with id={}", id);
+        taskService.developmentTime(id);
+    }
+
+    @GetMapping("/{id}/testTime")
+    public void getTestTime(@PathVariable long id) {
+        log.info("get test time for task with id={}", id);
+        taskService.testingTime(id);
+    }
 }
