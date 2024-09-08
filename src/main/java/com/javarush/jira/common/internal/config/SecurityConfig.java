@@ -30,8 +30,6 @@ import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorH
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
-import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -86,12 +84,13 @@ public class SecurityConfig {
                 .requestMatchers("/api/admin/**").hasRole(Role.ADMIN.name())
                 .requestMatchers("/api/mngr/**").hasAnyRole(Role.ADMIN.name(), Role.MANAGER.name())
                 .requestMatchers(HttpMethod.POST, "/api/users").anonymous()
-                .requestMatchers("/api/**").authenticated()
+                .requestMatchers( "/api/**").authenticated()
                 .and().httpBasic()
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .csrf().disable();
 
         return http.build();
     }
@@ -138,11 +137,6 @@ public class SecurityConfig {
         restTemplate.setErrorHandler(new OAuth2ErrorResponseErrorHandler());
         accessTokenResponseClient.setRestOperations(restTemplate);
         return accessTokenResponseClient;
-    }
-
-    @Bean
-    public SecurityContextRepository securityContextRepository() {
-        return new RequestAttributeSecurityContextRepository();
     }
 
 }
