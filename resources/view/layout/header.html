@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
 <!--/*@thymesVar id="authUser" type="com.javarush.jira.login.AuthUser"*/-->
 
 <div th:fragment="header">
@@ -7,9 +7,15 @@
         <nav class="navbar navbar-expand-lg navbar-dark" id="header">
             <div class="container-fluid">
                 <div class="collapse navbar-collapse mt-2 mb-2 px-5">
+                    <span>
+                        <a th:href="@{''(lang=en)}">En</a>
+                        <a th:href="@{''(lang=ru)}">Ru</a>
+                        <a th:href="@{''(lang=de)}">De</a>
+                    </span>
                     <ul class="navbar-nav m-auto">
                         <form class="d-flex" role="search">
-                            <input aria-label="Search" class="form-control" id="header-search" placeholder="Search"
+                            <input aria-label="Search" class="form-control" id="header-search"
+                                   th:placeholder="#{layout.header.search}"
                                    type="search">
                         </form>
                         <li class="nav-item menu-item me-3 ms-4">
@@ -17,13 +23,17 @@
                         </li>
                     </ul>
                     <div th:if="${authUser} == null">
-                        <a class="btn btn-orange" href="/view/login" type="button">Login/Register</a>
+                        <a class="btn btn-orange" href="/view/login" type="button"
+                           th:text="#{layout.header.login-register}">Login/Register</a>
                     </div>
                     <th:block th:if="${authUser} != null">
-                        <a class="btn btn-orange" href="/ui/profile" type="button"><i
-                                class="fa-solid fa-address-card"></i> Profile</a>
+                        <a class="btn btn-orange" href="/ui/profile" type="button"
+                           th:utext="'<i class=&quot;fa-solid fa-address-card&quot;></i> ' + #{layout.header.profile}">
+                            <i class='fa-solid fa-address-card'></i> Profile</a>
                         <form action="/ui/logout" class="mx-2" method="post">
-                            <button class="btn btn-yellow btn-orange" type="submit"><i class="fa-solid fa-sign-out"></i>
+                            <button class="btn btn-yellow btn-orange" type="submit"
+                                    th:utext="'<i class=&quot;fa-solid fa-sign-out&quot;></i> ' + #{layout.header.logout}">
+                            <i class="fa-solid fa-sign-out"></i>
                                 Logout
                             </button>
                         </form>
