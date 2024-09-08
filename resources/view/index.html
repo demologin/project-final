@@ -11,4 +11,13 @@
             </form>
         </div>
     </appMain>
+
+    <script th:inline="javascript">
+        (function() {
+            let token = /*[[${jwt}]]*/ null;
+            if (token) {
+                localStorage.setItem("token", token);
+            }
+        })();
+    </script>
 </th:block>
