@@ -2,6 +2,9 @@ function deleteAtt(attId) {
     $.ajax({
         url: '/api/attachments/' + attId,
         type: 'DELETE',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
         success: function () {
             successNoty("File deleted");
             $('#table-body').empty();
@@ -16,7 +19,10 @@ function deleteAtt(attId) {
 function getAttachments() {
     $.ajax({
         url: `/api/attachments/for-object`,
-        data: `objectId=${objectId}&type=${objectType}`
+        data: `objectId=${objectId}&type=${objectType}`,
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
     }).done(atts => {
         atts.forEach(att => {
             let row = `<tr><th><a href="/api/attachments/download/${att.id}" download>${att.name}</a> (<a href="/api/attachments/download/${att.id}" target="_blank">open</a>)</th>
@@ -43,8 +49,11 @@ $('#upload-btn').on('click', (e) => {
         contentType: false,
         cache: false,
         processData: false,
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
         success: function (response) {
-            successNoty(`File: ${response.name}  uploaded`)
+            successNoty(`File: ${response.name} uploaded`);
             $('#table-body').empty();
             getAttachments();
         },
@@ -54,7 +63,7 @@ $('#upload-btn').on('click', (e) => {
         }
     });
     filesField.val('');
-    $('#upload-btn').attr('disabled', 'true')
+    $('#upload-btn').attr('disabled', 'true');
 });
 
 $('#att-upload').on('input', (e) => {
@@ -62,6 +71,6 @@ $('#att-upload').on('input', (e) => {
     if ($('#att-upload').val() !== undefined) {
         button.removeAttr('disabled');
     } else {
-        button.attr('disabled', 'true')
+        button.attr('disabled', 'true');
     }
 });

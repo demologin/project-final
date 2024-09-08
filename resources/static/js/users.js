@@ -8,16 +8,17 @@ const ctx = {
 
 function enable(chkbox, id) {
     var enabled = chkbox.is(":checked");
-//  https://stackoverflow.com/a/22213543/548473
+
     $.ajax({
-        url: userUrl + '/' + id,
+        url: `${userUrl}/${id}`,
         type: "PATCH",
-        data: "enabled=" + enabled
+        data: `enabled=${enabled}`,
+        headers: { 'Authorization': 'Bearer ' + token }
     }).done(function () {
         chkbox.closest("tr").attr("enabled", enabled);
         successNoty(enabled ? "User enabled" : "User disabled");
     }).fail(function () {
-        $(chkbox).prop("checked", !enabled);
+        chkbox.prop("checked", !enabled);
     });
 }
 
@@ -37,7 +38,7 @@ $(function () {
                 "data": "email",
                 "render": function (data, type, row) {
                     if (type === "display") {
-                        return "<a href='mailto:" + data + "'>" + data + "</a>";
+                        return `<a href='mailto:${data}'>${data}</a>`;
                     }
                     return data;
                 }
@@ -57,9 +58,9 @@ $(function () {
             {
                 "data": "endpoint",
                 "render": function (data, type, row) {
-                    let enabled = data === null
+                    let enabled = data === null;
                     if (type === "display") {
-                        return "<input type='checkbox' " + (enabled ? "checked" : "") + " onclick='enable($(this)," + row.id + ");'/>";
+                        return `<input type='checkbox' ${enabled ? "checked" : ""} onclick='enable($(this), ${row.id});'/>`;
                     }
                     return enabled;
                 }
@@ -82,7 +83,7 @@ $(function () {
             ]
         ],
         "createdRow": function (row, data, dataIndex) {
-            $(row).addClass("data-enabled") // пробовал добавить class="data-enabled" тегу <tr> в users, так не работало
+            $(row).addClass("data-enabled"); // Added class "data-enabled" to <tr> elements
             if (data.endpoint) {
                 $(row).attr("enabled", false);
             }
