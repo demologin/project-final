@@ -17,7 +17,6 @@ $(function () {
         source: {
             url: "/api/tree/projects",
             cache: false,
-            headers: { 'Authorization': 'Bearer ' + token }
         },
         loadChildren: (event, data) => addSubNodesToChildren(event, data),
         lazyLoad: (event, data) => loadChildrenNodes(event, data),
@@ -35,7 +34,7 @@ function loadChildrenNodes(event, data) {
             break;
         }
         case 'SPRINT': {
-            if (data.node.data.id === 0) { // is backlog
+            if (data.node.data.id === 0) { //is backlog
                 ajaxUrl = '/api/tree/projects/' + data.node.parent.data.id + '/backlog/tasks';
             } else {
                 ajaxUrl = '/api/tree/sprints/' + data.node.data.id + '/tasks';
@@ -45,9 +44,8 @@ function loadChildrenNodes(event, data) {
     }
     data.result = {
         url: ajaxUrl,
-        data: { mode: "children", parent: data.node.key },
-        cache: false,
-        headers: { 'Authorization': 'Bearer ' + token }
+        data: {mode: "children", parent: data.node.key},
+        cache: false
     };
 }
 
@@ -83,15 +81,15 @@ function loadEntityInfo(event, data) {
             } else {
                 entityInfo.load(`/ui/sprints/${id}?fragment=true`, showEntityInfoElement);
             }
-            break;
+            break
         }
         case "TASK": {
             entityInfo.load(`/ui/tasks/${id}?fragment=true`, showEntityInfoElement);
-            break;
+            break
         }
         case "PROJECT": {
             entityInfo.load(`/ui/projects/${id}?fragment=true`, showEntityInfoElement);
-            break;
+            break
         }
     }
 }
@@ -140,12 +138,12 @@ function addIcon(data) {
     }
 }
 
-// Make info card stick to header (or navbar if window is small enough) instead of viewport
+//make info card stick to header (or navbar if window is small enough) instead of viewport
 function setInfoCardTopStickyPosition() {
     const headerHeight = document.getElementById('header').clientHeight;
     const navbarHeight = document.getElementById('navbar').clientHeight;
     let targetTop;
-    // On small window sometimes hidden header have non-zero height, filter it by checking navbar height
+    //on small window sometimes hidden header have non-zero height, filter it by checking navbar height
     if (headerHeight === 0 || navbarHeight < 200) {
         targetTop = navbarHeight;
     } else {
@@ -162,7 +160,7 @@ window.addEventListener('resize', function () {
     setInfoCardTopStickyPosition();
 });
 
-// CONTEXT MENU
+//CONTEXT MENU
 
 let selectedNode;
 
@@ -171,11 +169,11 @@ function prepareContextMenu(node) {
     setNodeAndSelect($.ui.fancytree.getNode(node));
     switch (selectedNode.data.nodeType) {
         case 'PROJECT': {
-            prepareProjectContextMenu();
+            prepareProjectContextMenu()
             break;
         }
         case 'SPRINT': {
-            prepareSprintContextMenu();
+            prepareSprintContextMenu()
             break;
         }
         case 'TASK': {
@@ -199,17 +197,17 @@ function unsetNodeAndUnselect() {
     }
 }
 
-// TASK CONTEXT MENU
+//TASK CONTEXT MENU
 
 function prepareTaskContextMenu() {
-    // Subtask sprint change is not allowed
+    //subtask sprint change is not allowed
     if (isManager && selectedNode.parent.data.nodeType !== 'TASK') {
         prepareTaskMoveToItem(selectedNode, getProjectNodeByTask(selectedNode).children);
     }
     const parentId = selectedNode.data.id;
     generateContextMenuItem('create SubTask', () => {
         window.location.href = `/ui/tasks/new?parentId=${parentId}`;
-    });
+    })
 }
 
 function moveTaskNodeToSprintNode(taskNode, sprintNode) {
@@ -230,20 +228,19 @@ function prepareTaskMoveToItem(taskNode, sprintsAndBacklog) {
         moveToSubItemsArray.push({
             text: sprintNode.data.code,
             onClickEvent: () => {
-                // Set id=null instead of 0 if target is backlog
+                //set id=null instead of 0 if target is backlog
                 const id = sprintNode.data.id === 0 ? null : sprintNode.data.id;
                 $.ajax({
                     type: 'PATCH',
                     url: `/api/tasks/${taskId}/change-sprint`,
                     data: {
                         sprintId: id
-                    },
-                    headers: { 'Authorization': 'Bearer ' + token }
+                    }
                 }).done(() => {
                     moveTaskNodeToSprintNode(taskNode, sprintNode);
                 });
             }
-        });
+        })
     }
     generateContextMenuItemWithSubItems('move to', moveToSubItemsArray);
 }
@@ -256,38 +253,38 @@ function getProjectNodeByTask() {
     return currentNode;
 }
 
-// SPRINT CONTEXT MENU
+//SPRINT CONTEXT MENU
 
 function prepareSprintContextMenu() {
     if (isManager) {
         generateContextMenuItem('assign as Manager', () => {
-            // TODO: call API when implemented
-        });
+            //TODO: call API when implemented
+        })
     }
     const sprintId = selectedNode.data.id;
     generateContextMenuItem('create Task', () => {
-        // Backlog
+        //backlog
         if (sprintId === 0) {
             window.location.href = '/ui/tasks/new?projectId=' + selectedNode.parent.data.id;
         } else {
             window.location.href = `/ui/tasks/new?sprintId=${sprintId}`;
         }
-    });
+    })
 }
 
-// PROJECT CONTEXT MENU
+//PROJECT CONTEXT MENU
 
 function prepareProjectContextMenu() {
     if (isManager) {
         generateContextMenuItem('assign as Manager', () => {
-            // TODO: call API when implemented
-        });
+            //TODO: call API when implemented
+        })
         const projectId = selectedNode.data.id;
         generateContextMenuItem('create Sprint', () => {
             window.location.href = `/ui/mngr/sprints/new?projectId=${projectId}`;
-        });
+        })
         generateContextMenuItem('create SubProject', () => {
             window.location.href = `/ui/mngr/projects/new?parentId=${projectId}`;
-        });
+        })
     }
 }

@@ -2,26 +2,28 @@ let form;
 
 function makeEditable(datatableOpts) {
     ctx.datatableApi = $("#datatable").DataTable(
-        $.extend(true, datatableOpts, {
-            "ajax": {
-                "url": ctx.ajaxUrl,
-                "dataSrc": "",
-                "headers": {
-                    'Authorization': 'Bearer ' + token
+        // https://api.jquery.com/jquery.extend/#jQuery-extend-deep-target-object1-objectN
+        $.extend(true, datatableOpts,
+            {
+                "ajax": {
+                    "url": ctx.ajaxUrl,
+                    "dataSrc": ""
+                },
+                "paging": false,
+                "info": true,
+                "language": {
+                    "search": "Search"
                 }
-            },
-            "paging": false,
-            "info": true,
-            "language": {
-                "search": "Search"
             }
-        })
-    );
+        ));
     form = $('#detailsForm');
 
     $(document).ajaxError(function (event, jqXHR) {
         failNoty(jqXHR);
     });
+
+    // solve problem with cache in IE: https://stackoverflow.com/a/4303862/548473
+    $.ajaxSetup({cache: false});
 }
 
 function add() {
@@ -33,18 +35,11 @@ function add() {
 function updateRow(id) {
     form.find(":input").val("");
     $("#modalTitle").html('Edit ' + ctx.pageName);
-    $.ajax({
-        url: ctx.ajaxUrl + '/' + id,
-        type: 'GET',
-        headers: {
-            'Authorization': 'Bearer ' + token
-        },
-        success: function (data) {
-            $.each(data, function (key, value) {
-                form.find("input[name='" + key + "']").val(value);
-            });
-            $('#editRow').modal('show');
-        }
+    $.get(ctx.ajaxUrl + '/' + id, function (data) {
+        $.each(data, function (key, value) {
+            form.find("input[name='" + key + "']").val(value);
+        });
+        $('#editRow').modal('show');
     });
 }
 
@@ -52,10 +47,7 @@ function deleteRow(id) {
     if (confirm("Are you sure?")) {
         $.ajax({
             url: ctx.ajaxUrl + '/' + id,
-            type: "DELETE",
-            headers: {
-                'Authorization': 'Bearer ' + token
-            }
+            type: "DELETE"
         }).done(function () {
             updateTable();
             successNoty("Record deleted");
@@ -64,29 +56,19 @@ function deleteRow(id) {
 }
 
 function updateTable() {
-    $.ajax({
-        url: ctx.ajaxUrl,
-        type: 'GET',
-        headers: {
-            'Authorization': 'Bearer ' + token
-        },
-        success: function (data) {
-            ctx.datatableApi.clear().rows.add(data).draw();
-        }
-    });
+    $.get(ctx.ajaxUrl, el => {
+        ctx.datatableApi.clear().rows.add(el).draw();
+    })
 }
 
 function save() {
     $.ajax({
         type: "POST",
         url: ctx.ajaxUrl + '/form',
-        data: form.serialize(),
-        headers: {
-            'Authorization': 'Bearer ' + token
-        }
+        data: form.serialize()
     }).done(function () {
         $("#editRow").modal('hide');
-        updateTable();
+        updateTable()
         successNoty("Record saved");
     });
 }
@@ -131,5 +113,5 @@ function failNoty(jqXHR) {
         type: "error",
         layout: "bottomRight"
     });
-    failedNote.show();
+    failedNote.show()
 }

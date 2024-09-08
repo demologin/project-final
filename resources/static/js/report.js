@@ -8,7 +8,6 @@ const taskTotalRow = $('#task-total-row');
 let sprintList = [];
 const oneDayMillis = 1000 * 60 * 60 * 24;
 
-
 $(window).on('load', () => init());
 
 function init() {
@@ -43,8 +42,7 @@ function getFinishedSprints(projectId) {
     clearSprintSelector();
     $.ajax({
         url: '/api/sprints/by-project-and-status',
-        data: { projectId: projectId, statusCode: 'finished' },
-        headers: { 'Authorization': 'Bearer ' + token }
+        data: {projectId: projectId, statusCode: 'finished'}
     }).done(sprints => {
         if (sprints.length === 0) {
             disableSprintSelector();
@@ -115,12 +113,11 @@ function daysBetween(start, end) {
 
 function getTaskSummaries(sprintId) {
     $.ajax({
-        url: `/api/reports/${sprintId}`,
-        headers: { 'Authorization': 'Bearer ' + token }
+        url: `/api/reports/${sprintId}`
     }).done(taskSummaries => {
         taskSummaries.forEach(taskSummary => {
             taskStatusRow.append($('<th></th>').html(taskSummary.status));
             taskTotalRow.append($('<td></td>').html(taskSummary.total));
-        });
+        })
     });
 }
