@@ -10,5 +10,15 @@
                 <button th:text="#{button.logout}" class="btn btn-primary btn-lg mt-3" type="submit">Logout</button>
             </form>
         </div>
+        <th:block th:if="${jwt}">
+            <script th:inline="javascript">
+                (function() {
+                    let token = /*[[${jwt}]]*/ null;
+                    if (token) {
+                        localStorage.setItem("token", token);
+                    }
+                })();
+            </script>
+        </th:block>
     </appMain>
 </th:block>
