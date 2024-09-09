@@ -28,6 +28,7 @@ spring:
         jdbc.batch_size: 20
 
   liquibase:
+    clear-checksums: true
     changeLog: "classpath:db/changelog.sql"
 
   # Jackson Fields Serialization
