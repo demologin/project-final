@@ -21,6 +21,8 @@ import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
@@ -72,6 +74,12 @@ public class TaskService {
     }
 
     @Transactional
+    public void changeTags(long taskId, Set<String> tags) {
+        Task task = handler.getRepository().getExisted(taskId);
+        task.getTags().addAll(Objects.requireNonNullElse(tags, Set.of()));
+    }
+
+    @Transactional
     public Task create(TaskToExt taskTo) {
         Task created = handler.createWithBelong(taskTo, TASK, "task_author");
         activityHandler.create(makeActivity(created.id(), taskTo));
@@ -86,6 +94,7 @@ public class TaskService {
         }
     }
 
+    @Transactional
     public TaskToFull get(long id) {
         Task task = Util.checkExist(id, handler.getRepository().findFullById(id));
         TaskToFull taskToFull = fullMapper.toTo(task);

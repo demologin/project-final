@@ -8,6 +8,13 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
+import static java.util.Objects.*;
+
 @Getter
 public class TaskTo extends TitleTo implements HasCode, HasIdAndParentId {
     @Code
@@ -19,13 +26,16 @@ public class TaskTo extends TitleTo implements HasCode, HasIdAndParentId {
     @Setter
     @Code
     private String statusCode;
+    private final Set<String> tags = new HashSet<>();
 
-    public TaskTo(Long id, String code, String title, String typeCode, String statusCode, Long parentId, Long projectId, Long sprintId) {
+    public TaskTo(Long id, String code, String title, String typeCode, String statusCode,
+                  Long parentId, Long projectId, Long sprintId, Set<String> tags) {
         super(id, code, title);
         this.typeCode = typeCode;
         this.statusCode = statusCode;
         this.parentId = parentId;
         this.projectId = projectId;
         this.sprintId = sprintId;
+        this.tags.addAll(requireNonNullElse(tags, Set.of()));
     }
 }

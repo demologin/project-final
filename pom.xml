@@ -89,6 +89,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
         </dependency>
@@ -194,6 +200,20 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+
+        <profile>
+            <id>test-h2</id>
+            <properties>
+                <spring.profiles.active>test-h2</spring.profiles.active>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>test-postgres</id>
+            <properties>
+                <spring.profiles.active>test-postgres</spring.profiles.active>
+            </properties>
         </profile>
     </profiles>
 </project>
