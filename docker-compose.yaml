@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: app_container
+    image: jira:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - dc-prop.env
+    depends_on:
+      - db
+      - nginx
+    restart: always
+
+
+  db:
+    container_name: db_container
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: jira
+      POSTGRES_PASSWORD: JiraRush
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    restart: always
+
+
+  nginx:
+    container_name: nginx_container
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf
+    restart: always
