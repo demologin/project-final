@@ -8,6 +8,8 @@ const taskTotalRow = $('#task-total-row');
 let sprintList = [];
 const oneDayMillis = 1000 * 60 * 60 * 24;
 
+$.ajaxSetup({headers: {"Authorization": "Bearer " + localStorage.getItem("token")}});
+
 $(window).on('load', () => init());
 
 function init() {

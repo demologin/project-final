@@ -1,5 +1,6 @@
 package com.javarush.jira.common.internal.config;
 
+import com.javarush.jira.common.jwt.filter.JwtAuthenticationFilter;
 import com.javarush.jira.login.AuthUser;
 import com.javarush.jira.login.Role;
 import com.javarush.jira.login.internal.UserRepository;
@@ -12,6 +13,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -24,6 +29,7 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCo
 import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler;
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -40,6 +46,8 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
+
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PASSWORD_ENCODER;
@@ -54,17 +62,36 @@ public class SecurityConfig {
     }
 
     @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsService());
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        return authenticationProvider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+
+    @Bean
     @Order(1)
-    public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain apiFilterChain(HttpSecurity http,
+                                              AuthenticationProvider authenticationProvider,
+                                              JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         http.securityMatcher("/api/**").authorizeHttpRequests()
                 .requestMatchers("/api/admin/**").hasRole(Role.ADMIN.name())
                 .requestMatchers("/api/mngr/**").hasAnyRole(Role.ADMIN.name(), Role.MANAGER.name())
                 .requestMatchers(HttpMethod.POST, "/api/users").anonymous()
-                .requestMatchers("/api/**").authenticated()
+                .requestMatchers( "/api/**").authenticated()
                 .and().httpBasic()
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER) // support sessions Cookie for UI ajax
-                .and().csrf().disable();
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().authenticationProvider(authenticationProvider)
+                .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .csrf().disable();
+
         return http.build();
     }
 
@@ -79,10 +106,10 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
                 .and().formLogin().permitAll()
                 .loginPage("/view/login")
-                .defaultSuccessUrl("/", true)
+                .defaultSuccessUrl("/jwt/token", true)
                 .and().oauth2Login()
                 .loginPage("/view/login")
-                .defaultSuccessUrl("/", true)
+                .defaultSuccessUrl("/jwt/token", true)
                 .tokenEndpoint()
                 .accessTokenResponseClient(accessTokenResponseClient())
                 .and()
@@ -111,4 +138,5 @@ public class SecurityConfig {
         accessTokenResponseClient.setRestOperations(restTemplate);
         return accessTokenResponseClient;
     }
+
 }

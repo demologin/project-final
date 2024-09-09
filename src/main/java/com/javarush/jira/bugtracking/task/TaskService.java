@@ -19,8 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
@@ -39,6 +41,7 @@ public class TaskService {
     private final SprintRepository sprintRepository;
     private final TaskExtMapper extMapper;
     private final UserBelongRepository userBelongRepository;
+    private final TaskRepository taskRepository;
 
     @Transactional
     public void changeStatus(long taskId, String statusCode) {
@@ -55,6 +58,25 @@ public class TaskService {
             }
         }
     }
+
+    public void updateTags(long id, Set<String> tags) {
+        Task task = fullMapper.toEntity(get(id));
+        task.setTags(tags);
+        taskRepository.save(task);
+    }
+
+    public void addTags(long id, Set<String> tags) {
+        Task task = fullMapper.toEntity(get(id));
+        task.getTags().addAll(tags);
+        taskRepository.save(task);
+    }
+
+    public void removeTags(long id, Set<String> tags) {
+        Task task = fullMapper.toEntity(get(id));
+        task.getTags().removeAll(tags);
+        taskRepository.save(task);
+    }
+
 
     @Transactional
     public void changeSprint(long taskId, Long sprintId) {
@@ -140,4 +162,33 @@ public class TaskService {
             throw new DataConflictException(String.format(assign ? CANNOT_ASSIGN : CANNOT_UN_ASSIGN, userType, task.getStatusCode()));
         }
     }
+
+    public long getTimeInDevelopment(long id) {
+        List<Activity> activities = activityHandler.getRepository().findAllByTaskIdOrderByUpdatedDesc(id);
+        return calculateTimeBetweenStatuses(activities, "in_progress", "ready_for_review");
+    }
+
+    public long getTimeInTesting(long id) {
+        List<Activity> activities = activityHandler.getRepository().findAllByTaskIdOrderByUpdatedDesc(id);
+        return calculateTimeBetweenStatuses(activities, "ready_for_review", "done");
+    }
+
+    private long calculateTimeBetweenStatuses(List<Activity> activities, String startStatus, String endStatus) {
+        LocalDateTime startTime = activities.stream()
+                .filter(activity -> activity.getStatusCode() != null)
+                .filter(activity -> startStatus.equals(activity.getStatusCode()))
+                .map(Activity::getUpdated)
+                .findFirst()
+                .orElse(null);
+
+        LocalDateTime endTime = activities.stream()
+                .filter(activity -> activity.getStatusCode() != null)
+                .filter(activity -> endStatus.equals(activity.getStatusCode()))
+                .map(Activity::getUpdated)
+                .findFirst()
+                .orElse(null);
+
+        return (startTime != null && endTime != null) ? Duration.between(startTime, endTime).toSeconds() : 0;
+    }
+
 }
