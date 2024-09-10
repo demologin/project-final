@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="ru" th:with="activeMenuItem='Reports'" xmlns:th="http://www.thymeleaf.org">
-
+<!--<html lang="ru" th:with="activeMenuItem='Reports'" xmlns:th="http://www.thymeleaf.org">-->
+<html th:lang="${#locale}" lang="ru" th:with="activeMenuItem='Reports'" xmlns:th="http://www.thymeleaf.org">
 <th:block
         th:replace="~{layout/main::page(title='JiraRush: mini bugtracking system',appMain=~{::appMain}, activeMenuItem='reports')}">
     <appMain>
