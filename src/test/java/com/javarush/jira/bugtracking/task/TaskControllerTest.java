@@ -5,7 +5,9 @@ import com.javarush.jira.bugtracking.UserBelongRepository;
 import com.javarush.jira.bugtracking.task.to.ActivityTo;
 import com.javarush.jira.bugtracking.task.to.TaskToExt;
 import com.javarush.jira.bugtracking.task.to.TaskToFull;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
@@ -24,7 +26,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TaskControllerTest extends AbstractControllerTest {
     private static final String TASKS_REST_URL_SLASH = REST_URL + "/";
     private static final String TASKS_BY_PROJECT_REST_URL = REST_URL + "/by-project";
@@ -383,7 +385,7 @@ class TaskControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
-
+    //@Disabled
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createTaskWhenProjectNotExists() throws Exception {
