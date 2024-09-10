@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import static com.javarush.jira.common.BaseHandler.createdResponse;
 
@@ -39,7 +40,6 @@ public class TaskController {
     private final Handlers.TaskHandler handler;
     private final Handlers.ActivityHandler activityHandler;
     private final UserBelongRepository userBelongRepository;
-
 
     @GetMapping("/{id}")
     public TaskToFull get(@PathVariable long id) {
@@ -151,9 +151,40 @@ public class TaskController {
         activityService.delete(id);
     }
 
+    @PatchMapping("/{id}/tags")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addTags(@PathVariable long id, @RequestParam Set<String> tags) {
+        log.info("add tags {} for task with id={}", tags, id);
+        taskService.addTags(id, tags);
+    }
+
+    @PutMapping("/{id}/tags")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateTags(@PathVariable long id, @RequestParam Set<String> tags) {
+        log.info("update tags {} for task with id={}", tags, id);
+        taskService.updateTags(id, tags);
+    }
+
+    @DeleteMapping("/{id}/tags")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeTags(@PathVariable long id, @RequestParam Set<String> tags) {
+        log.info("remove tags {} for task with id={}", tags, id);
+        taskService.removeTags(id, tags);
+    }
+
     private record TaskTreeNode(TaskTo taskTo, List<TaskTreeNode> subNodes) implements ITreeNode<TaskTo, TaskTreeNode> {
         public TaskTreeNode(TaskTo taskTo) {
             this(taskTo, new LinkedList<>());
         }
+    }
+
+    @GetMapping("/time/execution/{id}")
+    public long getTaskExecutionTime(@PathVariable long id) {
+        return taskService.getTaskExecutionTime(id);
+    }
+
+    @GetMapping("/time/testing/{id}")
+    public long getTaskTestingTime(@PathVariable long id) {
+        return taskService.getTaskTestingTime(id);
     }
 }
