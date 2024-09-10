@@ -325,3 +325,7 @@ values (6, 1, '2023-05-15 09:05:10', null, 'Data', null, 3, 'epic', 'in_progress
        (5, 118, '2023-05-16 11:10:10', null, 'UI tab of tasks', null, null, null, null, 'high'),
        (11, 118, '2023-05-16 12:30:10', null, 'UI tab of tasks', null, 2, null, null, null);
 
+insert into ACTIVITY ( ID, AUTHOR_ID, TASK_ID, UPDATED, STATUS_CODE )
+values (nextval('activity_id_seq'), 1,1, '2023-05-17 12:05:10', 'in_progress'),
+       (nextval('activity_id_seq'), 1,1, '2023-05-16 10:05:10', 'ready_for_review'),
+       (nextval('activity_id_seq'), 1,1, '2023-05-15 02:05:10', 'done');
