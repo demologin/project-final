@@ -19,8 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
@@ -86,6 +88,59 @@ public class TaskService {
         }
     }
 
+    public void addTags(long taskId, Set<String> tag) {
+        Task task = handler.getRepository().getExisted(taskId);
+        task.getTags().addAll(tag);
+        handler.getRepository().save(task);
+    }
+
+    public void updateTag(long taskId, Set<String> tag) {
+        Task task = handler.getRepository().getExisted(taskId);
+        task.setTags(tag);
+        handler.getRepository().save(task);
+    }
+
+    public long developmentTime(long taskId) {
+        List<Activity> activities = handler.getRepository().getExisted(taskId).getActivities();
+        LocalDateTime startTime = null;
+        LocalDateTime endTime = null;
+
+        for (Activity activity : activities) {
+            if (activity.getStatusCode() == null)
+                continue;
+
+            if (activity.getStatusCode().equals("in_progress")) {
+                startTime = activity.getUpdated();
+            } else if (activity.getStatusCode().equals("ready_for_review")) {
+                endTime = activity.getUpdated();
+            }
+        }
+        return (startTime != null && endTime != null) ? Duration.between(startTime, endTime).toMinutes() : 0;
+    }
+
+    public long testingTime(long taskId) {
+        List<Activity> activities = handler.getRepository().getExisted(taskId).getActivities();
+        LocalDateTime startTime = null;
+        LocalDateTime endTime = null;
+
+        for (Activity activity : activities) {
+            if (activity.getStatusCode() == null)
+                continue;
+
+            if (activity.getStatusCode().equals("ready_for_review")) {
+                startTime = activity.getUpdated();
+            } else if (activity.getStatusCode().equals("done")) {
+                endTime = activity.getUpdated();
+            }
+        }
+        return (startTime != null && endTime != null) ? Duration.between(startTime, endTime).toMinutes() : 0;
+    }
+
+    public void deleteTags(long taskId, Set<String> tag) {
+        Task task = handler.getRepository().getExisted(taskId);
+        task.getTags().removeAll(tag);
+    }
+
     public TaskToFull get(long id) {
         Task task = Util.checkExist(id, handler.getRepository().findFullById(id));
         TaskToFull taskToFull = fullMapper.toTo(task);
@@ -140,4 +195,5 @@ public class TaskService {
             throw new DataConflictException(String.format(assign ? CANNOT_ASSIGN : CANNOT_UN_ASSIGN, userType, task.getStatusCode()));
         }
     }
+
 }
