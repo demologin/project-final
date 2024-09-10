@@ -177,4 +177,14 @@ public class TaskController {
             this(taskTo, new LinkedList<>());
         }
     }
+
+    @GetMapping("/time/execution/{id}")
+    public long getTaskExecutionTime(@PathVariable long id) {
+        return taskService.getTaskExecutionTime(id);
+    }
+
+    @GetMapping("/time/testing/{id}")
+    public long getTaskTestingTime(@PathVariable long id) {
+        return taskService.getTaskTestingTime(id);
+    }
 }
