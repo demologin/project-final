@@ -28,9 +28,9 @@ public class FileUtil {
         File dir = new File(directoryPath);
         if (dir.exists() || dir.mkdirs()) {
             File file = new File(directoryPath + fileName);
-            try (OutputStream outStream = new FileOutputStream(file)) {
-                outStream.write(multipartFile.getBytes());
-            } catch (IOException ex) {
+            try {
+                multipartFile.transferTo(file);
+            } catch (IOException e) {
                 throw new IllegalRequestDataException("Failed to upload file" + multipartFile.getOriginalFilename());
             }
         }
