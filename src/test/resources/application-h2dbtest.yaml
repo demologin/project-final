@@ -1,0 +1,14 @@
+spring.cache.type: none
+spring:
+  init:
+    mode: always
+  datasource:
+    url: ${DATASOURCE_URL:"jdbc:h2:mem:jira-test;DB_CLOSE_DELAY=-1"}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+#  jpa:
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.H2Dialect
+  liquibase:
+    change-log: chlog/changelog-h2dbtest.sql
