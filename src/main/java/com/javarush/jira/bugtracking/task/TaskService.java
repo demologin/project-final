@@ -19,8 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
@@ -162,5 +164,35 @@ public class TaskService {
         if (!userType.equals(possibleUserType)) {
             throw new DataConflictException(String.format(assign ? CANNOT_ASSIGN : CANNOT_UN_ASSIGN, userType, task.getStatusCode()));
         }
+    }
+
+    public long getTaskExecutionTime(long id) {
+        List<Activity> activities = activityHandler.getRepository().findAllByTaskIdOrderByUpdatedDesc(id);
+        return calculateTimeBetweenStatuses(activities, "in_progress", "ready_for_review");
+    }
+
+    public long getTaskTestingTime(long id) {
+        List<Activity> activities = activityHandler.getRepository().findAllByTaskIdOrderByUpdatedDesc(id);
+        return calculateTimeBetweenStatuses(activities, "ready_for_review", "done");
+    }
+
+    private long calculateTimeBetweenStatuses(List<Activity> activities, String startStatus, String endStatus) {
+        LocalDateTime startTime = activities.stream()
+                .filter(activity -> activity.getStatusCode() != null)
+                .filter(activity -> startStatus.equals(activity.getStatusCode()))
+                .map(Activity::getUpdated)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
+
+        LocalDateTime endTime = activities.stream()
+                .filter(activity -> activity.getStatusCode() != null)
+                .filter(activity -> endStatus.equals(activity.getStatusCode()))
+                .map(Activity::getUpdated)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
+
+        return (startTime != null && endTime != null) ? Duration.between(startTime, endTime).toSeconds() : 0;
     }
 }
