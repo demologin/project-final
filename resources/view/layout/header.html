@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
 <html th:lang="${#locale}" lang="en" xmlns:th="http://www.thymeleaf.org">
 <!--/*@thymesVar id="authUser" type="com.javarush.jira.login.AuthUser"*/-->
 
@@ -14,12 +13,10 @@
                                    type="search">
                         </form>
                         <li class="nav-item menu-item me-3 ms-4">
-<!--                            <a class="btn btn-yellow" href="/doc" target="_blank" type="button">Swagger API</a>-->
                             <a th:text="#{swagger.api}" class="btn btn-yellow" href="/doc" target="_blank" type="button">Swagger API</a>
                         </li>
                     </ul>
                     <div th:if="${authUser} == null">
-<!--                        <a class="btn btn-orange" href="/view/login" type="button">Login/Register</a>-->
                         <a th:text="#{login.register}" class="btn btn-orange" href="/view/login" type="button">Login/Register</a>
                     </div>
                     <th:block th:if="${authUser} != null">

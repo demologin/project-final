@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!--<html lang="ru" xmlns:th="http://www.thymeleaf.org">-->
 <html th:lang="${#locale}" lang="ru" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/main::page(title='Users',appMain=~{::appMain}, activeMenuItem='users')}">
     <appMain>
@@ -51,7 +50,8 @@
 
                             <div class="form-group">
                                 <label class="col-form-label" for="displayName">Display name</label>
-                                <input class="form-control" id="displayName" name="displayName" placeholder="Display name"
+                                <input class="form-control" id="displayName" name="displayName"
+                                       placeholder="Display name"
                                        type="text">
                             </div>
 

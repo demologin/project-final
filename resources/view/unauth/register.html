@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!--<html lang="ru" xmlns:th="http://www.thymeleaf.org">-->
 <html th:lang="${#locale}" lang="ru" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/main::page(title='Register',appMain=~{::appMain})}">
     <appMain>
@@ -21,7 +20,8 @@
 								</span>
                             </div>
                             <div class="form-outline mb-4">
-                                <input placeholder="Last name" th:class="${#fields.hasErrors('lastName')} ? 'form-control is-invalid' : 'form-control'"
+                                <input placeholder="Last name"
+                                       th:class="${#fields.hasErrors('lastName')} ? 'form-control is-invalid' : 'form-control'"
                                        th:field="*{lastName}"
                                        type="text"/>
                                 <span class="help-block" th:if="${#fields.hasErrors('lastName')}">

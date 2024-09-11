@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
 <html th:lang="${#locale}" lang="en" xmlns:th="http://www.thymeleaf.org">
 <!--/*@thymesVar id="authUser" type="com.javarush.jira.login.AuthUser"*/-->
 
@@ -40,32 +39,27 @@
             <ul class="navbar-nav mb-2 mb-lg-0" th:if="${authUser != null}">
                 <li class="nav-item mt-3 mt-lg-0 mb-0 mb-lg-3" id="tree">
                     <a class="nav-link sidebar-nav-link" href="/view/tree">
-<!--                        <span class="ms-4"><i class="fa-solid fa-folder-tree fa-fw me-2"></i>Tree</span>-->
                         <span th:text="#{tree}" class="ms-4"><i class="fa-solid fa-folder-tree fa-fw me-2"></i>Tree</span>
                     </a>
                 </li>
                 <li class="nav-item mt-3 mt-lg-0 mb-0 mb-lg-3" id="dashboard">
                     <a class="nav-link sidebar-nav-link" href="/ui/dashboard">
-<!--                        <span class="ms-4"><i class="fa-solid fa-rectangle-list fa-fw me-2"></i>Dashboard</span>-->
                         <span th:text="#{dashboard}" class="ms-4"><i class="fa-solid fa-rectangle-list fa-fw me-2"></i>Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item mt-3 mt-lg-0 mb-0 mb-lg-3" id="reports">
                     <a class="nav-link sidebar-nav-link" href="/ui/reports">
-<!--                        <span class="ms-4"><i class="fa-solid fa-chart-simple fa-fw me-2"></i>Reports</span>-->
                         <span th:text="#{reports}" class="ms-4"><i class="fa-solid fa-chart-simple fa-fw me-2"></i>Reports</span>
                     </a>
                 </li>
                 <th:block th:if="${authUser.isAdmin()}">
                     <li class="nav-item mt-3 mt-lg-0 mb-0 mb-lg-3" id="users">
                         <a class="nav-link sidebar-nav-link" href="/view/admin/users">
-<!--                            <span class="ms-4"><i class="fa-solid fa-users fa-fw me-2"></i>Users</span>-->
                             <span th:text="#{users}" class="ms-4"><i class="fa-solid fa-users fa-fw me-2"></i>Users</span>
                         </a>
                     </li>
                     <li class="nav-item mt-3 mt-lg-0 mb-0 mb-lg-3" id="references">
                         <a class="nav-link sidebar-nav-link" href="/ui/admin/references">
-<!--                            <span class="ms-4"><i class="fa-solid fa-book-bookmark fa-fw me-2"></i>References</span>-->
                             <span th:text="#{references}" class="ms-4"><i class="fa-solid fa-book-bookmark fa-fw me-2"></i>References</span>
                         </a>
                     </li>
