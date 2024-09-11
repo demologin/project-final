@@ -31,13 +31,16 @@
 1. Удалить социальные сети: vk, yandex. 
     Удалено два класса в пакете src/main/java/com/javarush/jira/login/internal/sociallogin. 
     Удалены ссылка в ресурсных файлах html login и rgister.
-    Удалены записи в файлах data.sql и changelog.sql
+    Удалены записи в файлах data.sql и changelog.xml
     Удалены регистрационные данные для полключения к сетям vk и yandex в файле application.yaml
 2. Вынести чувствительную информацию в отдельный проперти файл: 
 3. Добавлена локализация начальной страницы на русском и английском языках
 4. Добавлена реализация посчета времени сколько задача находилась в статусах в
    работе и тестирование.
    добавлена функция REST API для вывода данной информации в секундах.
+   example:  api/tasks/duration/{task_id}&{durationType}
+   (durationType=in_work || durationType=in_test)
+5. 
 5. Выполнен рефакторин метода
    com.javarush.jira.bugtracking.attachment.FileUtil#upload в соотвествии с заданием.
 6. Переделаны тесты для использования H2DB, исправлены сценарии sql в

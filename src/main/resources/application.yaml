@@ -1,7 +1,7 @@
 #  https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 app:
   host-url: ${APP_HOST_URL:http://localhost}:${APP_PORT:-8080} # http://localhost:8080
-  test-mail: ${SPRING_MAIL_USERNAME}
+  test-mail: ${MAIL_USERNAME}
   templates-update-cache: 5s
   mail-sending-props:
     core-pool-size: 8
@@ -31,7 +31,7 @@ spring:
     password: ${DATASOURCE_PASSWORD}$
 
   liquibase:
-    changeLog: "classpath:db/changelog.sql"
+    changeLog: "classpath:db/changelog.xml"
 
   # Jackson Fields Serialization
   jackson:
@@ -51,29 +51,29 @@ spring:
       client:
         registration:
           github:
-            client-id: ${GITHUB_CLIENT-ID}
-            client-secret: ${ITHUB_CLIENT-SECRET}
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
             scope:
               - email
           google:
-            client-id: ${GOOGLE_CLIENT-ID}
-            client-secret: ${GOOGLE_CLIENT-SECRET}
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
             scope:
               - email
               - profile
           gitlab:
-            client-id: ${GITLAB_CLIENT-ID}
-            client-secret: ${GITLAB_CLIENT-SECRET}
-            client-name: ${GITLAB_CLIENT-NAME}
-            redirect-uri: ${GITLAB_REDIRECT-URI}
-            authorization-grant-type: ${GITLAB_AUTHORIZATION-GRANT-TYPE}
+            client-id: ${GITLAB_CLIENT_ID}
+            client-secret: ${GITLAB_CLIENT_SECRET}
+            client-name: ${GITLAB_CLIENT_NAME}
+            redirect-uri: ${GITLAB_REDIRECT_URI}
+            authorization-grant-type: ${GITLAB_AUTHORIZATION_GRANT_TYPE}
             scope: read_user
         provider:
           gitlab:
-            authorization-uri: ${GITLAB_AUTHORIZATION-URI}
-            token-uri: ${GITLAB_TOKEN-URI}
-            user-info-uri: ${GITLAB_USER-INFO-URI}
-            user-name-attribute: ${GITLAB_USER-NAME-ATTRIBUTE}
+            authorization-uri: ${GITLAB_AUTHORIZATION_URI}
+            token-uri: ${GITLAB_TOKEN_URI}
+            user-info-uri: ${GITLAB_USER_INFO_URI}
+            user-name-attribute: ${GITLAB_USER_NAME_ATTRIBUTE}
 
   sql:
     init:
