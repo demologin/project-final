@@ -27,7 +27,7 @@ public interface TaskRepository extends BaseRepository<Task> {
     Optional<Task> findFullById(long id);
 
     @Query("SELECT t FROM Task t  LEFT JOIN FETCH t.sprint WHERE t.tags IN :tags ORDER BY t.startpoint ASC")
-    List<Task> findFullByTags(long id, Set<String> tags);
+    List<Task> findFullByTags(Set<String> tags);
 
     @Query("SELECT t FROM Task t  LEFT JOIN FETCH t.tags WHERE t.projectId =:projectId AND t.tags IN :tags ORDER BY t.startpoint DESC")
     List<Task> findProjectTaskByTags(long projectId, List<String> tags);
