@@ -3,11 +3,13 @@ package com.javarush.jira.bugtracking.task;
 import com.javarush.jira.bugtracking.Handlers;
 import com.javarush.jira.bugtracking.task.to.ActivityTo;
 import com.javarush.jira.common.error.DataConflictException;
+import com.javarush.jira.common.util.DurationType;
 import com.javarush.jira.login.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.util.List;
 
 import static com.javarush.jira.bugtracking.task.TaskUtil.getLatestValue;
@@ -72,5 +74,24 @@ public class ActivityService {
                 task.setTypeCode(latestType);
             }
         }
+    }
+    public Duration getTimeOfTaskInWork(long taskId) {
+        return getDuration(taskId, DurationType.IN_WORK);
+    }
+    public Duration getTimeOfTaskInTesting(long taskId) {
+        return getDuration(taskId,DurationType.IN_TEST);
+    }
+
+    public Duration getDuration(long taskId, DurationType durationType) {
+        Duration DurationOfTask = Duration.ZERO;
+        List<Activity> activities = handler.getRepository().findAllByTaskIdOrderByUpdatedDesc(taskId);
+        Activity lastActivity = activities.get(0);
+        if (durationType==DurationType.IN_TEST && lastActivity.getDone() != null) {
+            DurationOfTask = Duration.between(lastActivity.getReady_for_review(), lastActivity.getDone());
+        }
+        if (durationType==DurationType.IN_WORK && lastActivity.getReady_for_review() != null) {
+            DurationOfTask = Duration.between(lastActivity.getIn_progress(), lastActivity.getReady_for_review());
+        }
+        return DurationOfTask;
     }
 }

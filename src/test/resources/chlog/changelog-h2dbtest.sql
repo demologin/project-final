@@ -35,7 +35,7 @@ SEQUENCE IF EXISTS USERS_ID_SEQ;
 
 create table PROJECT
 (
-    ID bigserial primary key,
+    ID bigint auto_increment primary key,
     CODE        varchar(32)   not null
         constraint UK_PROJECT_CODE unique,
     TITLE       varchar(1024) not null,
@@ -49,7 +49,7 @@ create table PROJECT
 
 create table MAIL_CASE
 (
-    ID bigserial primary key,
+    ID bigint auto_increment primary key,
     EMAIL     varchar(255) not null,
     NAME      varchar(255) not null,
     DATE_TIME timestamp    not null,
@@ -59,7 +59,7 @@ create table MAIL_CASE
 
 create table SPRINT
 (
-    ID bigserial primary key,
+    ID bigint auto_increment primary key,
     STATUS_CODE varchar(32)   not null,
     STARTPOINT  timestamp,
     ENDPOINT    timestamp,
@@ -70,7 +70,7 @@ create table SPRINT
 
 create table REFERENCE
 (
-    ID bigserial primary key,
+    ID         bigint auto_increment primary key,
     CODE       varchar(32)   not null,
     REF_TYPE   smallint      not null,
     ENDPOINT   timestamp,
@@ -82,7 +82,7 @@ create table REFERENCE
 
 create table USERS
 (
-    ID bigserial primary key,
+    ID bigint auto_increment primary key,
     DISPLAY_NAME varchar(32)  not null
         constraint UK_USERS_DISPLAY_NAME unique,
     EMAIL        varchar(128) not null
@@ -96,7 +96,7 @@ create table USERS
 
 create table PROFILE
 (
-    ID                 bigint primary key,
+    ID                 bigint auto_increment primary key,
     LAST_LOGIN         timestamp,
     LAST_FAILED_LOGIN  timestamp,
     MAIL_NOTIFICATIONS bigint,
@@ -105,16 +105,16 @@ create table PROFILE
 
 create table CONTACT
 (
-    ID    bigint       not null,
+    ID    bigint  auto_increment not null,
     CODE  varchar(32)  not null,
-    VALUE varchar(256) not null,
+    "VALUE" varchar(254) not null,
     primary key (ID, CODE),
     constraint FK_CONTACT_PROFILE foreign key (ID) references PROFILE (ID) on delete cascade
 );
 
 create table TASK
 (
-    ID bigserial primary key,
+    ID bigint auto_increment primary key,
     TITLE         varchar(1024) not null,
     DESCRIPTION   varchar(4096) not null,
     TYPE_CODE     varchar(32)   not null,
@@ -134,7 +134,7 @@ create table TASK
 
 create table ACTIVITY
 (
-    ID bigserial primary key,
+    ID bigint auto_increment primary key,
     AUTHOR_ID     bigint not null,
     TASK_ID       bigint not null,
     UPDATED       timestamp,
@@ -152,7 +152,7 @@ create table ACTIVITY
 
 create table TASK_TAG
 (
-    TASK_ID bigint      not null,
+    TASK_ID bigint auto_increment not null,
     TAG     varchar(32) not null,
     constraint UK_TASK_TAG unique (TASK_ID, TAG),
     constraint FK_TASK_TAG foreign key (TASK_ID) references TASK (ID) on delete cascade
@@ -160,7 +160,7 @@ create table TASK_TAG
 
 create table USER_BELONG
 (
-    ID bigserial primary key,
+    ID bigint auto_increment primary key,
     OBJECT_ID      bigint      not null,
     OBJECT_TYPE    smallint    not null,
     USER_ID        bigint      not null,
@@ -169,12 +169,12 @@ create table USER_BELONG
     ENDPOINT       timestamp,
     constraint FK_USER_BELONG foreign key (USER_ID) references USERS (ID)
 );
-create unique index UK_USER_BELONG on USER_BELONG (OBJECT_ID, OBJECT_TYPE, USER_ID, USER_TYPE_CODE);
+--create unique index UK_USER_BELONG on USER_BELONG (OBJECT_ID, OBJECT_TYPE, USER_ID, USER_TYPE_CODE);
 create index IX_USER_BELONG_USER_ID on USER_BELONG (USER_ID);
 
 create table ATTACHMENT
 (
-    ID bigserial primary key,
+    ID bigint auto_increment primary key,
     NAME        varchar(128)  not null,
     FILE_LINK   varchar(2048) not null,
     OBJECT_ID   bigint        not null,
@@ -186,7 +186,7 @@ create table ATTACHMENT
 
 create table USER_ROLE
 (
-    USER_ID bigint   not null,
+    USER_ID bigint auto_increment not null,
     ROLE    smallint not null,
     constraint UK_USER_ROLE unique (USER_ID, ROLE),
     constraint FK_USER_ROLE foreign key (USER_ID) references USERS (ID) on delete cascade
@@ -218,7 +218,6 @@ values ('task', 'Task', 2),
        ('mobile', 'Mobile', 0),
        ('phone', 'Phone', 0),
        ('website', 'Website', 0),
-       ('vk', 'VK', 0),
        ('linkedin', 'LinkedIn', 0),
        ('github', 'GitHub', 0),
 -- PRIORITY
@@ -248,9 +247,10 @@ values ('assigned', 'Assigned', 6, '1'),
 
 --changeset gkislin:change_backtracking_tables
 
-alter table SPRINT rename COLUMN TITLE to CODE;
 alter table SPRINT
-    alter column CODE type varchar (32);
+    alter COLUMN TITLE rename to CODE;
+alter table SPRINT
+    alter COLUMN CODE varchar (32);
 alter table SPRINT
     alter column CODE set not null;
 create unique index UK_SPRINT_PROJECT_CODE on SPRINT (PROJECT_ID, CODE);
@@ -282,15 +282,18 @@ values ('todo', 'ToDo', 3, 'in_progress,canceled'),
 --changeset gkislin:users_add_on_delete_cascade
 
 alter table ACTIVITY
-    drop constraint FK_ACTIVITY_USERS,
+    drop constraint FK_ACTIVITY_USERS;
+alter table ACTIVITY
     add constraint FK_ACTIVITY_USERS foreign key (AUTHOR_ID) references USERS (ID) on delete cascade;
 
 alter table USER_BELONG
-    drop constraint FK_USER_BELONG,
+    drop constraint FK_USER_BELONG;
+alter table USER_BELONG
     add constraint FK_USER_BELONG foreign key (USER_ID) references USERS (ID) on delete cascade;
 
 alter table ATTACHMENT
-    drop constraint FK_ATTACHMENT,
+    drop constraint FK_ATTACHMENT;
+alter table ATTACHMENT
     add constraint FK_ATTACHMENT foreign key (USER_ID) references USERS (ID) on delete cascade;
 
 --changeset valeriyemelyanov:change_user_type_reference
@@ -327,5 +330,15 @@ values ('todo', 'ToDo', 3, 'in_progress,canceled|'),
 
 --changeset ishlyakhtenkov:change_UK_USER_BELONG
 
-drop index UK_USER_BELONG;
-create unique index UK_USER_BELONG on USER_BELONG (OBJECT_ID, OBJECT_TYPE, USER_ID, USER_TYPE_CODE) where ENDPOINT is null;
+--drop index UK_USER_BELONG;
+--create unique index UK_USER_BELONG on USER_BELONG (OBJECT_ID, OBJECT_TYPE, USER_ID, USER_TYPE_CODE) where ENDPOINT is null;
+
+
+--changeset alpeyev:add_column_to_activity
+
+alter table ACTIVITY
+    add column IN_PROGRESS timestamp;
+alter table ACTIVITY
+    add column READY_FOR_REVIEW timestamp;
+alter table ACTIVITY
+    add column DONE timestamp;

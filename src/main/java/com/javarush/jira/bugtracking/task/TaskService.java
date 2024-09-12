@@ -20,7 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
@@ -39,6 +42,10 @@ public class TaskService {
     private final SprintRepository sprintRepository;
     private final TaskExtMapper extMapper;
     private final UserBelongRepository userBelongRepository;
+    private final String READY_FOR_REVIEW = "ready_for_review";
+    private final String IN_PROGRESS = "in_progress";
+    private final String DONE = "done";
+    private final TaskRepository taskRepository;
 
     @Transactional
     public void changeStatus(long taskId, String statusCode) {
@@ -74,6 +81,11 @@ public class TaskService {
     @Transactional
     public Task create(TaskToExt taskTo) {
         Task created = handler.createWithBelong(taskTo, TASK, "task_author");
+
+        Activity createdActivity = makeActivity(created.id(), taskTo);
+        if (taskTo.getStatusCode().equals(IN_PROGRESS)) {
+            createdActivity.setIn_progress(LocalDateTime.now());
+        }
         activityHandler.create(makeActivity(created.id(), taskTo));
         return created;
     }
@@ -82,10 +94,38 @@ public class TaskService {
     public void update(TaskToExt taskTo, long id) {
         if (!taskTo.equals(get(taskTo.id()))) {
             handler.updateFromTo(taskTo, id);
-            activityHandler.create(makeActivity(id, taskTo));
+
+            Activity updatedActivity = makeActivity(id, taskTo);
+            if (taskTo.getStatusCode().equals(IN_PROGRESS)) {
+                updatedActivity.setIn_progress(getStatusInitialDate(id, taskTo.getStatusCode()));
+            }
+            if (taskTo.getStatusCode().equals(READY_FOR_REVIEW)) {
+                updatedActivity.setIn_progress(getStatusInitialDate(id,IN_PROGRESS));
+                updatedActivity.setReady_for_review(getStatusInitialDate(id, taskTo.getStatusCode()));
+            }
+            if (taskTo.getStatusCode().equals(DONE)) {
+                updatedActivity.setIn_progress(getStatusInitialDate(id,IN_PROGRESS));
+                updatedActivity.setIn_progress(getStatusInitialDate(id,READY_FOR_REVIEW));
+                updatedActivity.setReady_for_review(getStatusInitialDate(id, taskTo.getStatusCode()));
+            }
+
+            activityHandler.create(updatedActivity);
         }
     }
-
+    private LocalDateTime getStatusInitialDate(long id, String statusCode) {
+        LocalDateTime lastStatusDate = null;
+        List<Activity> activities = activityHandler.getRepository().findAllByTaskIdOrderAndStatus(id, statusCode);
+        if (!activities.isEmpty() && activities.get(0).getIn_progress() != null && statusCode.equals(IN_PROGRESS)){
+            lastStatusDate = activities.get(0).getIn_progress();
+        }
+        if (!activities.isEmpty() && activities.get(0).getReady_for_review() != null && statusCode.equals(READY_FOR_REVIEW)){
+            lastStatusDate = activities.get(0).getReady_for_review();
+        }
+        if (lastStatusDate == null) {
+            lastStatusDate = LocalDateTime.now();
+        }
+        return lastStatusDate;
+    }
     public TaskToFull get(long id) {
         Task task = Util.checkExist(id, handler.getRepository().findFullById(id));
         TaskToFull taskToFull = fullMapper.toTo(task);
@@ -138,6 +178,33 @@ public class TaskService {
         String possibleUserType = getRefTo(RefType.TASK_STATUS, task.getStatusCode()).getAux(1);
         if (!userType.equals(possibleUserType)) {
             throw new DataConflictException(String.format(assign ? CANNOT_ASSIGN : CANNOT_UN_ASSIGN, userType, task.getStatusCode()));
+        }
+    }
+    public Set<String> getTags(long id) {
+        Task task = handler.getRepository().getExisted(id);
+        return task.getTags();
+    }
+    public void changeTag(long id, String oldtag, String newtag) {
+        Optional<Task> taskById = handler.getRepository().findFullById(id);
+        if (taskById.isPresent()) {
+            Task task = taskById.get();
+            task.getTags().remove(oldtag);
+            task.getTags().add(newtag);
+            taskRepository.save(task);
+        }
+    }
+    public void removeTag(long id, String tag) {
+        Optional<Task> taskById = handler.getRepository().findFullById(id);
+        if (taskById.isPresent()) {
+            taskById.get().getTags().remove(tag);
+            taskRepository.save(taskById.get());
+        }
+    }
+    public void addTag(long id, String tag) {
+        Optional<Task> taskById = handler.getRepository().findFullById(id);
+        if (taskById.isPresent()) {
+            taskById.get().getTags().add(tag);
+            taskRepository.save(taskById.get());
         }
     }
 }

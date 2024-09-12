@@ -73,6 +73,18 @@ public class Activity extends BaseEntity implements HasAuthorId {
     @Column(name = "estimate")
     private Integer estimate;
 
+    @Nullable
+    @Column(name = "in_progress")
+    private LocalDateTime in_progress;
+
+    @Nullable
+    @Column(name = "ready_for_review")
+    private LocalDateTime ready_for_review;
+
+    @Nullable
+    @Column(name = "done")
+    private LocalDateTime done;
+
     Activity(Long id, Long taskId, Long authorId) {
         super(id);
         this.taskId = taskId;
