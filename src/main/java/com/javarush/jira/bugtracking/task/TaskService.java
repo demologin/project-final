@@ -20,7 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
@@ -42,6 +45,7 @@ public class TaskService {
     private final String READY_FOR_REVIEW = "ready_for_review";
     private final String IN_PROGRESS = "in_progress";
     private final String DONE = "done";
+    private final TaskRepository taskRepository;
 
     @Transactional
     public void changeStatus(long taskId, String statusCode) {
@@ -174,6 +178,33 @@ public class TaskService {
         String possibleUserType = getRefTo(RefType.TASK_STATUS, task.getStatusCode()).getAux(1);
         if (!userType.equals(possibleUserType)) {
             throw new DataConflictException(String.format(assign ? CANNOT_ASSIGN : CANNOT_UN_ASSIGN, userType, task.getStatusCode()));
+        }
+    }
+    public Set<String> getTags(long id) {
+        Task task = handler.getRepository().getExisted(id);
+        return task.getTags();
+    }
+    public void changeTag(long id, String oldtag, String newtag) {
+        Optional<Task> taskById = handler.getRepository().findFullById(id);
+        if (taskById.isPresent()) {
+            Task task = taskById.get();
+            task.getTags().remove(oldtag);
+            task.getTags().add(newtag);
+            taskRepository.save(task);
+        }
+    }
+    public void removeTag(long id, String tag) {
+        Optional<Task> taskById = handler.getRepository().findFullById(id);
+        if (taskById.isPresent()) {
+            taskById.get().getTags().remove(tag);
+            taskRepository.save(taskById.get());
+        }
+    }
+    public void addTag(long id, String tag) {
+        Optional<Task> taskById = handler.getRepository().findFullById(id);
+        if (taskById.isPresent()) {
+            taskById.get().getTags().add(tag);
+            taskRepository.save(taskById.get());
         }
     }
 }

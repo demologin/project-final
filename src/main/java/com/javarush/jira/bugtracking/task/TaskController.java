@@ -25,6 +25,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import static com.javarush.jira.common.BaseHandler.createdResponse;
 
@@ -164,5 +165,25 @@ public class TaskController {
         public TaskTreeNode(TaskTo taskTo) {
             this(taskTo, new LinkedList<>());
         }
+    }
+    @GetMapping("tags/{id}")
+    public Set<String> getTags(@PathVariable long id) {
+        return taskService.getTags(id);
+    }
+    @PostMapping("tags/{id}/change")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void changeTags(@PathVariable long id, @RequestBody @NotBlank String oldtag,
+                           @RequestBody @NotBlank String newtag) {
+        taskService.changeTag(id, oldtag, newtag );
+    }
+    @PutMapping("tags/{id}/add")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addTags(@PathVariable long id, @RequestBody @NotBlank String tag) {
+        taskService.addTag(id, tag);
+    }
+    @DeleteMapping("tags/{id}/remove")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeTag(@PathVariable long id, @RequestBody @NotBlank String tag) {
+        taskService.removeTag(id, tag);
     }
 }
