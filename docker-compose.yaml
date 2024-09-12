@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  jira-rush:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jira-rush
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://jira-db:5432/jira
+      SPRING_DATASOURCE_USERNAME: ${DATABASE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DATABASE_PASSWORD}
+    depends_on:
+      jira-db:
+        condition: service_healthy
+
+  jira-db:
+    image: postgres:latest
+    container_name: jira-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: jira
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "${DATABASE_USERNAME}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/conf.d/nginx.conf
+    depends_on:
+      - jira-rush
+
