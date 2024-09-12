@@ -2,8 +2,11 @@ spring.cache.type: none
 spring:
   init:
     mode: always
+  test:
+    database:
+      replace: none
   datasource:
-    url: ${DATASOURCE_URL:"jdbc:h2:mem:jira-test;DB_CLOSE_DELAY=-1"}
+    url: ${DATASOURCE_URL:-"jdbc:h2:mem:jira-test;DB_CLOSE_DELAY=-1;NON_KEYWORDS=VALUE"}
     username: ${DATASOURCE_USERNAME}
     password: ${DATASOURCE_PASSWORD}
 #  jpa:
