@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
-
+<html th:lang="${#locale}" lang="ru" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/main::page(title='References',appMain=~{::appMain}, activeMenuItem='references')}">
     <appMain>
         <h1>References</h1>
