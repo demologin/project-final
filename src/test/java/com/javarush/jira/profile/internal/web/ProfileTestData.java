@@ -3,6 +3,7 @@ package com.javarush.jira.profile.internal.web;
 import com.javarush.jira.MatcherFactory;
 import com.javarush.jira.profile.ContactTo;
 import com.javarush.jira.profile.ProfileTo;
+import com.javarush.jira.profile.internal.ProfileMapperImpl;
 import com.javarush.jira.profile.internal.model.Contact;
 import com.javarush.jira.profile.internal.model.Profile;
 
@@ -13,6 +14,9 @@ public class ProfileTestData {
     public static MatcherFactory.Matcher<Profile> PROFILE_MATCHER =
             MatcherFactory.usingIgnoringFieldsComparator(Profile.class, "user");
 
+    public static MatcherFactory.Matcher<ProfileTo> PROFILE_MATCHER_TO =
+            MatcherFactory.usingIgnoringFieldsComparator(ProfileTo.class, "id");
+
     public static ProfileTo USER_PROFILE_TO = new ProfileTo(null,
             Set.of("assigned", "overdue", "deadline"),
             Set.of(new ContactTo("skype", "userSkype"),
@@ -22,6 +26,15 @@ public class ProfileTestData {
             Set.of(),
             Set.of());
 
+    public static Set<ContactTo> getContactsTo() {
+        return Set.of(new ContactTo("skype", "newSkype"),
+                new ContactTo("mobile", "+380987654321"),
+                new ContactTo( "website", "new.com"),
+                new ContactTo( "github", "newGitHub"),
+                new ContactTo( "tg", "newTg"),
+                new ContactTo( "vk", "newVk"),
+                new ContactTo( "linkedin", "newLinkedin"));
+    }
     public static ProfileTo getNewTo() {
         return new ProfileTo(null,
                 Set.of("three_days_before_deadline", "two_days_before_deadline", "one_day_before_deadline"),

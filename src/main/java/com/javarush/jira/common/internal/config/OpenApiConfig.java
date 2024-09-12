@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Configuration;
                 contact = @Contact(url = "https://javarush.com/about/contacts", email = "support@javarush.com")
         ),
         servers = {
-                @Server(url = "${app.host-url}")
+                @Server(url = "${app.host-url}:${app.host-port}")
         },
         security = @SecurityRequirement(name = "basicAuth")
 )

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Transactional(readOnly = true)
 public interface TaskRepository extends BaseRepository<Task> {
@@ -19,8 +20,17 @@ public interface TaskRepository extends BaseRepository<Task> {
     @Query("SELECT t FROM Task t WHERE t.projectId =:projectId ORDER BY t.startpoint DESC")
     List<Task> findAllByProjectId(long projectId);
 
-    @Query("SELECT t FROM Task t JOIN FETCH t.project LEFT JOIN FETCH t.sprint LEFT JOIN FETCH t.parent WHERE t.id =:id")
+//    @Query("SELECT t FROM Task t JOIN FETCH t.project LEFT JOIN FETCH t.sprint LEFT JOIN FETCH t.parent WHERE t.id =:id")
+//    Optional<Task> findFullById(long id);
+
+    @Query("SELECT t FROM Task t JOIN FETCH t.project LEFT JOIN FETCH t.sprint LEFT JOIN FETCH t.parent LEFT JOIN FETCH t.tags WHERE t.id =:id")
     Optional<Task> findFullById(long id);
+
+    @Query("SELECT t FROM Task t  LEFT JOIN FETCH t.sprint WHERE t.tags IN :tags ORDER BY t.startpoint ASC")
+    List<Task> findFullByTags(Set<String> tags);
+
+    @Query("SELECT t FROM Task t  LEFT JOIN FETCH t.tags WHERE t.projectId =:projectId AND t.tags IN :tags ORDER BY t.startpoint DESC")
+    List<Task> findProjectTaskByTags(long projectId, List<String> tags);
 
     @Modifying
     @Query(value = """
