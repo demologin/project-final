@@ -5,6 +5,7 @@ import com.javarush.jira.profile.ContactTo;
 import com.javarush.jira.profile.ProfileTo;
 import com.javarush.jira.profile.internal.model.Contact;
 import com.javarush.jira.profile.internal.model.Profile;
+import net.bytebuddy.implementation.bytecode.Throw;
 
 import java.util.Collections;
 import java.util.Set;
@@ -84,5 +85,40 @@ public class ProfileTestData {
         return new ProfileTo(null,
                 Collections.emptySet(),
                 Set.of(new ContactTo("tg", "<script>alert(123)</script>")));
+    }
+
+    public static ProfileTo getProfileToById(int id) {
+        switch (id) {
+            case 1 -> {
+                return USER_PROFILE_TO;
+            }
+            case 2 -> {
+                return GUEST_PROFILE_EMPTY_TO;
+            }
+            case 3 -> {
+                return getNewTo();
+            }
+            case 4 -> {
+                return getUpdatedTo();
+            }
+            case 5 -> {
+                return getInvalidTo();
+            }
+            case 6 -> {
+                return getWithUnknownNotificationTo();
+            }
+            case 7 -> {
+                return getWithUnknownContactTo();
+            }
+            case 8 -> {
+                return getWithContactHtmlUnsafeTo();
+            }
+            case 9 -> {
+                return getProfileToById(1);
+            }
+            default -> {
+                throw new RuntimeException("Not fitted id: " + id);
+            }
+        }
     }
 }
