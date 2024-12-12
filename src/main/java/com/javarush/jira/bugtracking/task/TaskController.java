@@ -48,6 +48,20 @@ public class TaskController {
         return taskService.get(id);
     }
 
+    @GetMapping("/{id}/in-testing")
+    public long getTestingDuration(@PathVariable long id) {
+        log.info("get time task in testing by id={}", id);
+        TaskToExt taskToExt = taskService.get(id);
+        return taskService.getTaskInTestingTime(taskToExt);
+    }
+
+    @GetMapping("/{id}/in-progress")
+    public long getInProgressDuration(@PathVariable long id) {
+        log.info("get time task in progress by id={}", id);
+        TaskToExt taskToExt = taskService.get(id);
+        return taskService.getTaskInProgressTime(taskToExt);
+    }
+
     @GetMapping("/by-sprint")
     public List<TaskTo> getAllBySprint(@RequestParam long sprintId) {
         log.info("get all for sprint {}", sprintId);

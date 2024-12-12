@@ -325,3 +325,8 @@ values (6, 1, '2023-05-15 09:05:10', null, 'Data', null, 3, 'epic', 'in_progress
        (5, 118, '2023-05-16 11:10:10', null, 'UI tab of tasks', null, null, null, null, 'high'),
        (11, 118, '2023-05-16 12:30:10', null, 'UI tab of tasks', null, 2, null, null, null);
 
+insert into ACTIVITY (AUTHOR_ID, TASK_ID, UPDATED, STATUS_CODE )
+values (1, 2, '2023-01-15 09:05:10', 'in_progress'),
+    (1, 2, '2023-04-30 12:25:10', 'ready_for_review'),
+    (1, 2, '2023-05-01 14:05:10', 'done'); ---task 125----
+

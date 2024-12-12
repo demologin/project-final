@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -33,11 +34,16 @@ import static com.javarush.jira.ref.ReferenceService.getRefTo;
 @Service
 @RequiredArgsConstructor
 public class TaskService {
+    static final String IN_PROGRESS = "in_progress";
+    static final String READY_FOR_REVIEW = "ready_for_review";
+    static final String DONE = "done";
+
     static final String CANNOT_ASSIGN = "Cannot assign as %s to task with status=%s";
     static final String CANNOT_UN_ASSIGN = "Cannot unassign as %s from task with status=%s";
 
     private final Handlers.TaskExtHandler handler;
     private final Handlers.ActivityHandler activityHandler;
+    private final ActivityService activityService;
     private final TaskFullMapper fullMapper;
     private final SprintRepository sprintRepository;
     private final TaskExtMapper extMapper;
@@ -184,4 +190,16 @@ public class TaskService {
         Task task = handler.getRepository().getExisted(taskId);
         if(task.removeTag(newTag)) taskRepository.save(task);
     }
+
+    public long getTaskInProgressTime(TaskToExt taskTo) {
+        return activityService
+                .getDurationBetweenStatus(taskTo.getId(), IN_PROGRESS, READY_FOR_REVIEW)
+                .toMinutes();
+    }
+
+    public long getTaskInTestingTime(TaskToExt taskTo) {
+        return activityService.getDurationBetweenStatus(taskTo.getId(), READY_FOR_REVIEW, DONE)
+                .toMinutes();
+    }
+
 }
