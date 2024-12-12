@@ -111,6 +111,7 @@ public class TaskUIController {
         model.addAttribute("comments", comments);
         model.addAttribute("attachs", attachmentHandler.getRepository().getAllForObject(taskTo.id(), ObjectType.TASK));
         model.addAttribute("activities", taskTo.getActivityTos());
+        model.addAttribute("tags", taskTo.getTags());
     }
 
     private void addRefs(Model model, String currentStatus) {

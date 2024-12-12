@@ -5,11 +5,14 @@ import com.javarush.jira.common.util.validation.Code;
 import com.javarush.jira.common.util.validation.Description;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter

@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 public class TaskToFull extends TaskToExt {
@@ -14,14 +16,21 @@ public class TaskToFull extends TaskToExt {
     CodeTo sprint;
     @Setter
     List<ActivityTo> activityTos;
+    @Setter
+    Set<String> tags;
 
     public TaskToFull(Long id, String code, String title, String description, String typeCode, String statusCode, String priorityCode,
-                      LocalDateTime updated, Integer estimate, CodeTo parent, CodeTo project, CodeTo sprint, List<ActivityTo> activityTos) {
+                      LocalDateTime updated, Integer estimate, CodeTo parent, CodeTo project, CodeTo sprint, List<ActivityTo> activityTos, Set<String> tags) {
         super(id, code, title, description, typeCode, statusCode, priorityCode, updated, estimate,
                 parent == null ? null : parent.getId(), project.getId(), sprint == null ? null : sprint.getId());
         this.parent = parent;
         this.project = project;
         this.sprint = sprint;
         this.activityTos = activityTos;
+        this.tags = getTagsOrEmptySet(tags);
+    }
+
+    private static Set<String> getTagsOrEmptySet(Set<String> tags) {
+        return tags == null ? new HashSet<>() : tags;
     }
 }

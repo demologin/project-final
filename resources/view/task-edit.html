@@ -10,6 +10,27 @@
 <th:block
         th:replace="~{layout/bugtrackLayout::edit(${task}, '/ui/tasks', '/api/tasks/' + ${task.id}, ~{::appEdit}, 'task')}">
     <appEdit>
+
+        <div class="form-group">
+            <h5>Tags</h5>
+            <div class="mb-3">
+            <div class="btn-group" role="group" id="tags" th:each="tag : ${tags}">
+                <input class="btn btn-secondary"
+                       th:type="button"
+                       th:value="${tag}"
+                       th:onclick="deleteTag([[${task.id}]], [[${tag}]])">
+            </div>
+            </div>
+            <div class="mb-3">
+                <label for="tag_new">Add new tag</label>
+                <input id="tag_new" name="newTag" type='text'/>
+                <input class="btn btn-primary"
+                       id="add-tag-button"
+                       th:value="add"
+                       th:type="button"
+                       th:onclick="addTag([[${task.id}]])" type="button">
+            </div>
+        </div>
         <input hidden id="parentId" th:field="*{parentId}">
         <input hidden id="projectId" th:field="*{projectId}">
         <input hidden id="sprintId" th:field="*{sprintId}">
@@ -106,6 +127,33 @@
         </div>
     </appEdit>
 </th:block>
+<script>
+    function addTag(id) {
+        let url = "/api/tasks/" + id + "/add-tag";
+        let newTag = $('#tag_new').val();
+        $.ajax({
+            url: url,
+            type: "PATCH",
+            data: "newTag=" + newTag,
+            success: function () {
+                window.location.reload();
+            }
+        });
+    }
+</script>
+<script>
+    function deleteTag(id, newTag) {
+        let url = "/api/tasks/" + id + "/delete-tag";
+        $.ajax({
+            url: url,
+            type: "DELETE",
+            data: "newTag=" + newTag,
+            success: function () {
+                    window.location.reload();
+                }
+        });
+    }
+</script>
 <script>
     const taskId = [[${task.id}]];
     const objectId = [[${task.id}]];

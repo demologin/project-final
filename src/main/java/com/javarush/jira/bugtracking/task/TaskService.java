@@ -14,13 +14,16 @@ import com.javarush.jira.common.error.NotFoundException;
 import com.javarush.jira.common.util.Util;
 import com.javarush.jira.login.AuthUser;
 import com.javarush.jira.ref.RefType;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
@@ -39,6 +42,7 @@ public class TaskService {
     private final SprintRepository sprintRepository;
     private final TaskExtMapper extMapper;
     private final UserBelongRepository userBelongRepository;
+    private final TaskRepository taskRepository;
 
     @Transactional
     public void changeStatus(long taskId, String statusCode) {
@@ -86,6 +90,7 @@ public class TaskService {
         }
     }
 
+    @Transactional
     public TaskToFull get(long id) {
         Task task = Util.checkExist(id, handler.getRepository().findFullById(id));
         TaskToFull taskToFull = fullMapper.toTo(task);
@@ -139,5 +144,44 @@ public class TaskService {
         if (!userType.equals(possibleUserType)) {
             throw new DataConflictException(String.format(assign ? CANNOT_ASSIGN : CANNOT_UN_ASSIGN, userType, task.getStatusCode()));
         }
+    }
+
+    @Transactional
+    public void addTag(long taskId, @NotBlank String newTag) {
+        Assert.notNull(newTag, "newTag must not be null");
+        Task task = handler.getRepository().getExisted(taskId);
+        if (!task.hasTag(newTag)) {
+            task.addTag(newTag);
+            taskRepository.save(task);
+        }
+    }
+
+    @Transactional
+    public void updateTags(long taskId, Set<String> tags) {
+        Task task = handler.getRepository().getExisted(taskId);
+        Set<String> updatedTags = new HashSet<>();
+        if (tags != null && !tags.isEmpty()) {
+            tags.stream().distinct().filter(tag -> !tag.isEmpty()).forEach(updatedTags::add);
+        }
+        task.setTags(updatedTags);
+        taskRepository.save(task);
+    }
+
+    @Transactional
+    public void addTags(long taskId, @NotBlank Set<String> tags) {
+        Task task = handler.getRepository().getExisted(taskId);
+        if (tags != null && !tags.isEmpty()) {
+            tags.stream()
+                    .distinct()
+                    .filter(tag -> !task.hasTag(tag))
+                    .forEach(task::addTag);
+        }
+        taskRepository.save(task);
+    }
+
+    @Transactional
+    public void deleteTag(long taskId, @NotBlank String newTag) {
+        Task task = handler.getRepository().getExisted(taskId);
+        if(task.removeTag(newTag)) taskRepository.save(task);
     }
 }
