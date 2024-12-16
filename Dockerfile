@@ -1,12 +1,9 @@
-FROM openjdk:21-oracle
+FROM openjdk:17.0.2-jdk-slim-buster
 
-ARG JAR_FILE=target/jira-1.0.jar
-ARG ENV_FILE=.env
+ARG JAR_FILE=target/*.jar
 ARG RESOURCES=resources
 ARG ATTACHMENTS=attachments
-WORKDIR /app
 COPY ${JAR_FILE} app.jar
-COPY ${ENV_FILE} .
 COPY ${RESOURCES} /resources
 COPY ${ATTACHMENTS} /attachments
 
