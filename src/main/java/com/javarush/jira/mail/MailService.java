@@ -15,10 +15,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.LocaleResolver;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
@@ -29,7 +31,6 @@ import java.util.concurrent.*;
 @Service
 @RequiredArgsConstructor
 public class MailService {
-    private static final Locale LOCALE_RU = Locale.forLanguageTag("ru");
     private static final String OK = "OK";
 
     private final MailCaseRepository mailCaseRepository;
@@ -79,7 +80,8 @@ public class MailService {
     }
 
     private String getContent(String template, Map<String, Object> params) {
-        Context context = new Context(LOCALE_RU, params);
+        Locale locale = LocaleContextHolder.getLocale();
+        Context context = new Context(locale, params);
         return templateEngine.process(template, context);
     }
 
