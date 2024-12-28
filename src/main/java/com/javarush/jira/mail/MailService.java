@@ -20,7 +20,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.LocaleResolver;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
@@ -127,7 +126,7 @@ public class MailService {
     private void cancelAll(Map<Future<String>, String> resultMap) {
         log.warn("Cancel all un-sent emails");
         resultMap.forEach((future, email) -> {
-            log.warn("Sending to " + email + " failed");
+            log.warn("Sending to {} failed", email);
             future.cancel(true);
         });
     }
@@ -171,10 +170,10 @@ public class MailService {
                 }
             } catch (InterruptedException e) {
                 failedCause = "Task interrupted";
-                log.error("Sending to " + email + " interrupted");
+                log.error("Sending to {} interrupted", email);
             } catch (ExecutionException e) {
                 failed.add(new MailResult(email, e.toString()));
-                log.error("Sending to " + email + " failed with " + e.getMessage());
+                log.error("Sending to {} failed with {}", email, e.getMessage());
             }
             int failedSize = failed.size();
             return ((failedSize < 6 || (double) failedSize / (success + failedSize) < 0.15)) && failedCause == null;

@@ -2,7 +2,6 @@ package com.javarush.jira.bugtracking.task;
 
 import com.javarush.jira.bugtracking.Handlers;
 import com.javarush.jira.bugtracking.ObjectType;
-import com.javarush.jira.bugtracking.attachment.AttachmentRepository;
 import com.javarush.jira.bugtracking.task.to.ActivityTo;
 import com.javarush.jira.bugtracking.task.to.TaskToExt;
 import com.javarush.jira.bugtracking.task.to.TaskToFull;
@@ -29,7 +28,6 @@ public class TaskUIController {
     static final String TASK_URL = "/ui/tasks";
 
     private final TaskService service;
-    private final AttachmentRepository attachmentRepository;
     private final Handlers.ActivityHandler activityHandler;
     private final Handlers.AttachmentHandler attachmentHandler;
     private final Handlers.TaskHandler taskHandler;

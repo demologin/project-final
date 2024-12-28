@@ -2,7 +2,6 @@ package com.javarush.jira.bugtracking.task;
 
 import com.javarush.jira.bugtracking.Handlers;
 import com.javarush.jira.bugtracking.task.to.ActivityTo;
-import com.javarush.jira.bugtracking.task.to.TaskToExt;
 import com.javarush.jira.common.error.DataConflictException;
 import com.javarush.jira.login.AuthUser;
 import lombok.RequiredArgsConstructor;
@@ -85,7 +84,7 @@ public class ActivityService {
         LocalDateTime laterTime = getUpdatedTimeByStatus(activities, laterStatus);
         LocalDateTime earlierTime = getUpdatedTimeByStatus(activities, earlierStatus);
 
-        if (laterTime== null || earlierTime == null) {
+        if (laterTime == null || earlierTime == null) {
             return Duration.ZERO;
         }
         return Duration.between(earlierTime, laterTime);

@@ -139,7 +139,7 @@ public class TaskController {
     @DeleteMapping("/{id}/delete-tag")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTag(@PathVariable long id, @NotBlank @RequestParam String newTag) {
-        log.info("add tag {} to task(id={})", newTag, id);
+        log.info("delete tag {} to task(id={})", newTag, id);
         taskService.deleteTag(id, newTag);
     }
 

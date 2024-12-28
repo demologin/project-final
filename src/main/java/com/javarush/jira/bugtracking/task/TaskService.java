@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -188,7 +187,7 @@ public class TaskService {
     @Transactional
     public void deleteTag(long taskId, @NotBlank String newTag) {
         Task task = handler.getRepository().getExisted(taskId);
-        if(task.removeTag(newTag)) taskRepository.save(task);
+        if (task.removeTag(newTag)) taskRepository.save(task);
     }
 
     public long getTaskInProgressTime(TaskToExt taskTo) {
