@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import static com.javarush.jira.common.BaseHandler.createdResponse;
 
@@ -45,6 +46,20 @@ public class TaskController {
     public TaskToFull get(@PathVariable long id) {
         log.info("get task by id={}", id);
         return taskService.get(id);
+    }
+
+    @GetMapping("/{id}/in-testing")
+    public Long getTestingDuration(@PathVariable long id) {
+        log.info("get time task in testing by id={}", id);
+        TaskToExt taskToExt = taskService.get(id);
+        return taskService.getTaskInTestingTime(taskToExt);
+    }
+
+    @GetMapping("/{id}/in-progress")
+    public Long getInProgressDuration(@PathVariable long id) {
+        log.info("get time task in progress by id={}", id);
+        TaskToExt taskToExt = taskService.get(id);
+        return taskService.getTaskInProgressTime(taskToExt);
     }
 
     @GetMapping("/by-sprint")
@@ -98,6 +113,34 @@ public class TaskController {
     public void changeTaskStatus(@PathVariable long id, @NotBlank @RequestParam String statusCode) {
         log.info("change task(id={}) status to {}", id, statusCode);
         taskService.changeStatus(id, statusCode);
+    }
+
+    @PatchMapping("/{id}/add-tag")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addTag(@PathVariable long id, @NotBlank @RequestParam String newTag) {
+        log.info("add tag {} to task(id={})", newTag, id);
+        taskService.addTag(id, newTag);
+    }
+
+    @PatchMapping("/{id}/update-tags")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateTags(@PathVariable long id, @Nullable @RequestParam Set<String> tags) {
+        log.info("update task(id={}) tags to {}", id, tags);
+        taskService.updateTags(id, tags);
+    }
+
+    @PatchMapping("/{id}/add-tags")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addTags(@PathVariable long id, @NotBlank @RequestParam Set<String> tags) {
+        log.info("add tags {} to task(id={})", tags, id);
+        taskService.addTags(id, tags);
+    }
+
+    @DeleteMapping("/{id}/delete-tag")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTag(@PathVariable long id, @NotBlank @RequestParam String newTag) {
+        log.info("delete tag {} to task(id={})", newTag, id);
+        taskService.deleteTag(id, newTag);
     }
 
     @PatchMapping("/{id}/change-sprint")

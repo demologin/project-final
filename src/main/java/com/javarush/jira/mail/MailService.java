@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -29,7 +30,6 @@ import java.util.concurrent.*;
 @Service
 @RequiredArgsConstructor
 public class MailService {
-    private static final Locale LOCALE_RU = Locale.forLanguageTag("ru");
     private static final String OK = "OK";
 
     private final MailCaseRepository mailCaseRepository;
@@ -79,7 +79,8 @@ public class MailService {
     }
 
     private String getContent(String template, Map<String, Object> params) {
-        Context context = new Context(LOCALE_RU, params);
+        Locale locale = LocaleContextHolder.getLocale();
+        Context context = new Context(locale, params);
         return templateEngine.process(template, context);
     }
 
@@ -125,7 +126,7 @@ public class MailService {
     private void cancelAll(Map<Future<String>, String> resultMap) {
         log.warn("Cancel all un-sent emails");
         resultMap.forEach((future, email) -> {
-            log.warn("Sending to " + email + " failed");
+            log.warn("Sending to {} failed", email);
             future.cancel(true);
         });
     }
@@ -169,10 +170,10 @@ public class MailService {
                 }
             } catch (InterruptedException e) {
                 failedCause = "Task interrupted";
-                log.error("Sending to " + email + " interrupted");
+                log.error("Sending to {} interrupted", email);
             } catch (ExecutionException e) {
                 failed.add(new MailResult(email, e.toString()));
-                log.error("Sending to " + email + " failed with " + e.getMessage());
+                log.error("Sending to {} failed with {}", email, e.getMessage());
             }
             int failedSize = failed.size();
             return ((failedSize < 6 || (double) failedSize / (success + failedSize) < 0.15)) && failedCause == null;

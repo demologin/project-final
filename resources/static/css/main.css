@@ -105,6 +105,11 @@
     background-image: none;
 }
 
+#ver_tags{
+    display: inline-block;
+    margin-right: 10px;
+}
+
 
 /*HEADER*/
 .header-nav {

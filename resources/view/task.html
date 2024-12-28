@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html th:lang="${#locale}" xmlns:th="http://www.thymeleaf.org">
 <!--/*@thymesVar id="task" type="com.javarush.jira.bugtracking.task.to.TaskToFull"*/-->
 <!--/*@thymesVar id="fragment" type="boolean"*/-->
 <!--/*@thymesVar id="comments" type="java.util.List<com.javarush.jira.bugtracking.task.to.ActivityTo>"*/-->
@@ -7,6 +7,16 @@
 
 <th:block th:replace="~{layout/bugtrackLayout::view(${task}, '/ui/tasks/edit/', ~{::task}, ${fragment})}">
     <task>
+        <div class="mb-3">
+            <h5>Tags:
+                <div class="btn-group" role="group" id="tags" th:each="tag : ${tags}">
+                    <input class="btn btn-secondary"
+                           id="ver_tags"
+                           th:type="button"
+                           th:value="${tag}">
+                </div>
+            </h5>
+        </div>
         <h5>Description: [[${task.description} ?: '-']]</h5>
         <h5>Priority: [[${task.priorityCode} ?: '-']]</h5>
         <h5>Status: [[${task.statusCode}]]</h5>

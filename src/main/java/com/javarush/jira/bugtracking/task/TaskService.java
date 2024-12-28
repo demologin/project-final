@@ -14,13 +14,16 @@ import com.javarush.jira.common.error.NotFoundException;
 import com.javarush.jira.common.util.Util;
 import com.javarush.jira.login.AuthUser;
 import com.javarush.jira.ref.RefType;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
@@ -30,15 +33,21 @@ import static com.javarush.jira.ref.ReferenceService.getRefTo;
 @Service
 @RequiredArgsConstructor
 public class TaskService {
+    static final String IN_PROGRESS = "in_progress";
+    static final String READY_FOR_REVIEW = "ready_for_review";
+    static final String DONE = "done";
+
     static final String CANNOT_ASSIGN = "Cannot assign as %s to task with status=%s";
     static final String CANNOT_UN_ASSIGN = "Cannot unassign as %s from task with status=%s";
 
     private final Handlers.TaskExtHandler handler;
     private final Handlers.ActivityHandler activityHandler;
+    private final ActivityService activityService;
     private final TaskFullMapper fullMapper;
     private final SprintRepository sprintRepository;
     private final TaskExtMapper extMapper;
     private final UserBelongRepository userBelongRepository;
+    private final TaskRepository taskRepository;
 
     @Transactional
     public void changeStatus(long taskId, String statusCode) {
@@ -86,6 +95,7 @@ public class TaskService {
         }
     }
 
+    @Transactional
     public TaskToFull get(long id) {
         Task task = Util.checkExist(id, handler.getRepository().findFullById(id));
         TaskToFull taskToFull = fullMapper.toTo(task);
@@ -140,4 +150,55 @@ public class TaskService {
             throw new DataConflictException(String.format(assign ? CANNOT_ASSIGN : CANNOT_UN_ASSIGN, userType, task.getStatusCode()));
         }
     }
+
+    @Transactional
+    public void addTag(long taskId, @NotBlank String newTag) {
+        Assert.notNull(newTag, "newTag must not be null");
+        Task task = handler.getRepository().getExisted(taskId);
+        if (!task.hasTag(newTag)) {
+            task.addTag(newTag);
+            taskRepository.save(task);
+        }
+    }
+
+    @Transactional
+    public void updateTags(long taskId, Set<String> tags) {
+        Task task = handler.getRepository().getExisted(taskId);
+        Set<String> updatedTags = new HashSet<>();
+        if (tags != null && !tags.isEmpty()) {
+            tags.stream().distinct().filter(tag -> !tag.isEmpty()).forEach(updatedTags::add);
+        }
+        task.setTags(updatedTags);
+        taskRepository.save(task);
+    }
+
+    @Transactional
+    public void addTags(long taskId, @NotBlank Set<String> tags) {
+        Task task = handler.getRepository().getExisted(taskId);
+        if (tags != null && !tags.isEmpty()) {
+            tags.stream()
+                    .distinct()
+                    .filter(tag -> !task.hasTag(tag))
+                    .forEach(task::addTag);
+        }
+        taskRepository.save(task);
+    }
+
+    @Transactional
+    public void deleteTag(long taskId, @NotBlank String newTag) {
+        Task task = handler.getRepository().getExisted(taskId);
+        if (task.removeTag(newTag)) taskRepository.save(task);
+    }
+
+    public long getTaskInProgressTime(TaskToExt taskTo) {
+        return activityService
+                .getDurationBetweenStatus(taskTo.getId(), IN_PROGRESS, READY_FOR_REVIEW)
+                .toMinutes();
+    }
+
+    public long getTaskInTestingTime(TaskToExt taskTo) {
+        return activityService.getDurationBetweenStatus(taskTo.getId(), READY_FOR_REVIEW, DONE)
+                .toMinutes();
+    }
+
 }

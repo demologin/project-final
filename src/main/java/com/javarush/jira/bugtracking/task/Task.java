@@ -92,4 +92,16 @@ public class Task extends TitleEntity implements HasCode {
     public String getCode() {
         return typeCode + '-' + id;
     }
+
+    public boolean hasTag(String tag) {
+        return !tags.isEmpty() && tags.contains(tag);
+    }
+
+    public void addTag(String tag) {
+        this.tags.add(tag);
+    }
+
+    public boolean removeTag(String tag) {
+        return this.tags.remove(tag);
+    }
 }

@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.javarush.jira.bugtracking.task.TaskUtil.getLatestValue;
@@ -15,6 +17,7 @@ import static com.javarush.jira.bugtracking.task.TaskUtil.getLatestValue;
 @Service
 @RequiredArgsConstructor
 public class ActivityService {
+
     private final TaskRepository taskRepository;
 
     private final Handlers.ActivityHandler handler;
@@ -72,5 +75,24 @@ public class ActivityService {
                 task.setTypeCode(latestType);
             }
         }
+    }
+
+    public Duration getDurationBetweenStatus(long taskId, String earlierStatus, String laterStatus) {
+        List<Activity> activities = handler.getRepository()
+                .findAllByTaskIdOrderByUpdatedDesc(taskId);
+
+        LocalDateTime laterTime = getUpdatedTimeByStatus(activities, laterStatus);
+        LocalDateTime earlierTime = getUpdatedTimeByStatus(activities, earlierStatus);
+
+        if (laterTime == null || earlierTime == null) {
+            return Duration.ZERO;
+        }
+        return Duration.between(earlierTime, laterTime);
+    }
+
+    private static LocalDateTime getUpdatedTimeByStatus(List<Activity> activities, String ready_for_review) {
+        return activities.stream()
+                .filter(activity -> activity.getStatusCode() != null && activity.getStatusCode().equals(ready_for_review))
+                .findFirst().map(Activity::getUpdated).orElse(null);
     }
 }
